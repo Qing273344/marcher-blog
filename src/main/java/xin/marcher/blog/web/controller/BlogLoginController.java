@@ -7,10 +7,12 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import xin.marcher.blog.biz.consts.RedisKeyConstant;
 import xin.marcher.blog.entity.BlogUser;
 import xin.marcher.blog.from.LoginFrom;
 import xin.marcher.blog.plugin.kaptcha.AbstractCaptcha;
 import xin.marcher.blog.plugin.kaptcha.GifCaptcha;
+import xin.marcher.blog.service.BlogCaptchaService;
 import xin.marcher.blog.service.BlogUserService;
 import xin.marcher.blog.utils.*;
 
@@ -34,6 +36,9 @@ public class BlogLoginController {
     @Autowired
     private BlogUserService blogUserService;
 
+    @Autowired
+    private BlogCaptchaService blogCaptchaService;
+
     /**
      * 获取验证码
      *
@@ -48,8 +53,13 @@ public class BlogLoginController {
 
         try {
             // gif格式动画验证码(宽，高，位数)
-            AbstractCaptcha captcha = new GifCaptcha(150, 35, 6);
-            captcha.out(response.getOutputStream());
+            AbstractCaptcha gifCaptcha = new GifCaptcha(150, 35, 6);
+            String captcha = gifCaptcha.out(response.getOutputStream());
+
+            // 缓存验证码
+            String captchaKey = blogCaptchaService.saveKaptchaToCache(captcha);
+            // 存入cookie中, 验证时从cookie获取key
+            CookieUtil.addCookie(response, RedisKeyConstant.U_LOGIN_KAPTCHA_KEY, captchaKey, CookieUtil.COOKIE_DOMAIN);
         } catch (IOException e) {
             e.printStackTrace();
             log.error("获取验证码异常：{}", e.getMessage());
@@ -63,8 +73,12 @@ public class BlogLoginController {
      */
     @PostMapping("")
     @ResponseBody
-    public Result login(HttpServletResponse response, @RequestBody LoginFrom loginFrom) {
+    public Result login(HttpServletRequest request, HttpServletResponse response, @RequestBody LoginFrom loginFrom) {
 
+        // 验证码校验
+        blogCaptchaService.checkCaptcha(request, loginFrom.getCaptcha());
+
+        // shiro验证用户
         UsernamePasswordToken token = new UsernamePasswordToken(loginFrom.getUsername(), loginFrom.getPassword());
         Subject currentUser = SecurityUtils.getSubject();
         // --> OAuth2Realm.doGetAuthenticationInfo()
@@ -78,7 +92,7 @@ public class BlogLoginController {
 
         // 通过用户id生成token, set-cookie到浏览器, 后续通过cookie获取token做校验
         String jwtToken = jwtUtil.generateToken(blogUser.getUserId());
-        CookieUtil.addCookie(response, "token", jwtToken, "localhost");
+        CookieUtil.addCookie(response, jwtUtil.getToken(), jwtToken, CookieUtil.COOKIE_DOMAIN);
 
         return Result.success();
     }

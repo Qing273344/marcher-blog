@@ -45,12 +45,12 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
 
         //凭证为空
         if (StringUtils.isBlank(token)) {
-            throw new MarcherException(jwtUtil.getHeader() + "不能为空", HttpStatus.UNAUTHORIZED.value());
+            throw new MarcherException(jwtUtil.getToken() + "不能为空", HttpStatus.UNAUTHORIZED.value());
         }
 
         Claims claims = jwtUtil.getClaimByToken(token);
         if (claims == null || jwtUtil.isTokenExpired(claims.getExpiration())) {
-            throw new MarcherException(jwtUtil.getHeader() + "失效，请重新登录", HttpStatus.UNAUTHORIZED.value());
+            throw new MarcherException(jwtUtil.getToken() + "失效，请重新登录", HttpStatus.UNAUTHORIZED.value());
         }
         // 获取用户id
         String userId = claims.getSubject();

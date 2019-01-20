@@ -37,7 +37,7 @@ public class JwtUtil {
     /**
      * 存储 token
      */
-    private String header;
+    private String token;
 
     /**
      * 生成jwt token

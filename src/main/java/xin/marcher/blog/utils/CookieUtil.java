@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class CookieUtil {
 
-    /** cookie超时时间 */
+    public static final String COOKIE_DOMAIN = "localhost";
+
+    /** cookie超时时间(单位:秒) */
     private static final int MAX_AGE = 60 * 60;
 
     /**

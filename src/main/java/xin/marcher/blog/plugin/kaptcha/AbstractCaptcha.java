@@ -63,8 +63,10 @@ public abstract class AbstractCaptcha extends Randoms {
      *
      * @param os
      *         输出流
+     * @return
+     *      验证码字符
      */
-    public abstract void out(OutputStream os);
+    public abstract String out(OutputStream os);
 
     /**
      * 获取随机字符串

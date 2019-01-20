@@ -130,7 +130,7 @@ public class OAuth2Filter extends AuthenticatingFilter {
         }
         Claims claims = jwtUtil.getClaimByToken(token);
         if (EmptyUtil.isEmpty(claims) || jwtUtil.isTokenExpired(claims.getExpiration())) {
-            throw new MarcherException(jwtUtil.getHeader() + "失效, 请重新登录", HttpStatus.SC_UNAUTHORIZED);
+            throw new MarcherException(jwtUtil.getToken() + "失效, 请重新登录", HttpStatus.SC_UNAUTHORIZED);
         }
         return Long.parseLong(claims.getSubject());
     }

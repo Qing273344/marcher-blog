@@ -30,7 +30,8 @@ public class GifCaptcha extends AbstractCaptcha {
     }
 
     @Override
-    public void out(OutputStream os) {
+    public String out(OutputStream os) {
+        String kaptcha;
         try {
             // gif编码类，这个利用了洋人写的编码类，所有类都在附件中
             GifEncoder gifEncoder = new GifEncoder();
@@ -50,6 +51,7 @@ public class GifCaptcha extends AbstractCaptcha {
                 gifEncoder.addFrame(frame);
                 frame.flush();
             }
+            kaptcha = this.text().toLowerCase();
             gifEncoder.finish();
         } finally {
             try {
@@ -58,6 +60,7 @@ public class GifCaptcha extends AbstractCaptcha {
                 e.printStackTrace();
             }
         }
+        return kaptcha;
     }
 
     /**

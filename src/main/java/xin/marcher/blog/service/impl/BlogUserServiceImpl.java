@@ -65,12 +65,12 @@ public class BlogUserServiceImpl extends ServiceImpl<BlogUserDao, BlogUser> impl
 
     @Override
     public void saveUserInfoToCache(BlogUser blogUser) {
-        RedisUtil.setCacheObj(RedisKeyConstant.CACHE_USER_INFO + blogUser.getUserId(), blogUser, redisProperties.getDefaultExpireTime() * 120L);
+        RedisUtil.setCacheObj(RedisKeyConstant.U_INFO_KEY + blogUser.getUserId(), blogUser, redisProperties.getDefaultExpireTime() * 120L);
     }
 
     @Override
     public BlogUser getUserInfoFormCache(String userId) {
-        return RedisUtil.getCacheObj(RedisKeyConstant.CACHE_USER_INFO + userId, BlogUser.class);
+        return RedisUtil.getCacheObj(RedisKeyConstant.U_INFO_KEY + userId, BlogUser.class);
     }
 
 }
