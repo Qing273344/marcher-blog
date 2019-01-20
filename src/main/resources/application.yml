@@ -1,0 +1,13 @@
+server:
+  port: 8879
+
+spring:
+  application:
+    name: marcher-blog
+  # 环境 dev|test|prod
+  profiles:
+    active: dev
+  # jackson时间格式化
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
