@@ -93,3 +93,25 @@ CREATE TABLE `blog_user` (
   `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '逻辑删除(0:正常,1:删除)',
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='博客用户';
+
+
+-- 博客资源 blog_resources
+CREATE TABLE `blog_resource` (
+  `resource_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '资源编号',
+  `name` varchar(64) NOT NULL COMMENT '资源名称',
+  `permission` varchar(128) DEFAULT NULL COMMENT '授权 栗子 user:save',
+  `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
+  `modify_time` bigint(20) DEFAULT NULL COMMENT '修改时间',
+  `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '逻辑删除(0:正常,1:删除)',
+  PRIMARY KEY (`resource_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='博客资源';
+
+-- 用户类型-资源 blog_user_resource
+CREATE TABLE `blog_user_resource` (
+  `user_resource_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `user_type` tinyint(2) NOT NULL COMMENT '用户类型',
+  `resource_id` bigint(20) NOT NULL COMMENT '资源编号',
+  `modify_time` bigint(20) DEFAULT NULL COMMENT '修改时间',
+  `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '逻辑删除(0:正常,1:删除)',
+  PRIMARY KEY (`user_resource_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='用户类型-资源';

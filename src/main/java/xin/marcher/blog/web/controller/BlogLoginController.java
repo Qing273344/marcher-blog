@@ -76,7 +76,7 @@ public class BlogLoginController {
     public Result login(HttpServletRequest request, HttpServletResponse response, @RequestBody LoginFrom loginFrom) {
 
         // 验证码校验
-        blogCaptchaService.checkCaptcha(request, loginFrom.getCaptcha());
+//        blogCaptchaService.checkCaptcha(request, loginFrom.getCaptcha());
 
         // shiro验证用户
         UsernamePasswordToken token = new UsernamePasswordToken(loginFrom.getUsername(), loginFrom.getPassword());

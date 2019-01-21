@@ -21,6 +21,7 @@ import java.io.Serializable;
 public class BlogUser implements Serializable {
 
 	private static final long serialVersionUID = 7628883607894181236L;
+
 	/**
 	 * 用户编号
 	 */

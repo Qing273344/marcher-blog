@@ -1,5 +1,6 @@
 package xin.marcher.blog.web.controller;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -40,6 +41,7 @@ public class BlogUploadController {
 
     @GetMapping("/getRedisData")
     @ResponseBody
+    @RequiresPermissions("lll")
     public Result getRedisData() {
 //        String str = RedisUtil.getCacheStr("123");
 //        return new Result().put("str", str);
