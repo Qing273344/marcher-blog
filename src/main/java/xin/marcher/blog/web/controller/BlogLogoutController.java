@@ -14,13 +14,13 @@ import xin.marcher.blog.utils.Result;
  * @author marcher
  */
 @RestController
-@RequestMapping(value = "/blog/logout")
+@RequestMapping(value = "/blog/passport")
 public class BlogLogoutController {
 
     /**
      * 退出
      */
-    @PostMapping("")
+    @PostMapping("/logout")
     @ResponseBody
     public Result logout() {
         Subject subject = SecurityUtils.getSubject();

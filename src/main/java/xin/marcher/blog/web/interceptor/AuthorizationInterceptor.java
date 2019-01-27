@@ -52,12 +52,6 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
         if (claims == null || jwtUtil.isTokenExpired(claims.getExpiration())) {
             throw new MarcherException(jwtUtil.getToken() + "失效，请重新登录", HttpStatus.UNAUTHORIZED.value());
         }
-        // 获取用户id
-        String userId = claims.getSubject();
-        BlogUser blogUser = blogUserService.getUserInfoFormCache(userId);
-        if (EmptyUtil.isEmpty(blogUser)) {
-            throw new MarcherException("登录失效，请重新登录", HttpStatus.UNAUTHORIZED.value());
-        }
 
         return true;
     }

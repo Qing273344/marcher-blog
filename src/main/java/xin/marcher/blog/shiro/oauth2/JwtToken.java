@@ -7,11 +7,11 @@ import org.apache.shiro.authc.AuthenticationToken;
  *
  * @author marcher
  */
-public class OAuth2Token implements AuthenticationToken {
+public class JwtToken implements AuthenticationToken {
 
     private String token;
 
-    OAuth2Token(String token) {
+    JwtToken(String token) {
         this.token = token;
     }
 

@@ -9,6 +9,7 @@ import xin.marcher.blog.common.exception.MarcherException;
 import xin.marcher.blog.utils.OAuthUtil;
 
 /**
+ * TODO session-cookie 模式时密码校验
  * 密码凭证匹配 (验证密码有效性)
  *
  * @author marcher

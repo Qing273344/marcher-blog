@@ -3,7 +3,6 @@ package xin.marcher.blog.web.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,10 +13,13 @@ import xin.marcher.blog.plugin.kaptcha.AbstractCaptcha;
 import xin.marcher.blog.plugin.kaptcha.GifCaptcha;
 import xin.marcher.blog.service.BlogCaptchaService;
 import xin.marcher.blog.service.BlogUserService;
-import xin.marcher.blog.utils.*;
+import xin.marcher.blog.utils.CookieUtil;
+import xin.marcher.blog.utils.JwtUtil;
+import xin.marcher.blog.utils.Result;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.IOException;
 
 /**
@@ -27,7 +29,7 @@ import java.io.IOException;
  */
 @Slf4j
 @RestController
-@RequestMapping(value = "/blog/login")
+@RequestMapping(value = "/blog/passport")
 public class BlogLoginController {
 
     @Autowired
@@ -71,28 +73,15 @@ public class BlogLoginController {
      *
      * @param loginFrom 登录信息
      */
-    @PostMapping("")
+    @PostMapping("/login")
     @ResponseBody
-    public Result login(HttpServletRequest request, HttpServletResponse response, @RequestBody LoginFrom loginFrom) {
+    public Result login(HttpServletResponse response, @Valid @RequestBody LoginFrom loginFrom) {
 
         // 验证码校验
 //        blogCaptchaService.checkCaptcha(request, loginFrom.getCaptcha());
 
-        // shiro验证用户
-        UsernamePasswordToken token = new UsernamePasswordToken(loginFrom.getUsername(), loginFrom.getPassword());
-        Subject currentUser = SecurityUtils.getSubject();
-        // --> OAuth2Realm.doGetAuthenticationInfo()
-        currentUser.login(token);
-
-        // 获取用户信息
-        BlogUser blogUser = (BlogUser) currentUser.getPrincipals().getPrimaryPrincipal();
-
-        // 登录成功后用户信息存入缓存中
-        blogUserService.saveUserInfoToCache(blogUser);
-
-        // 通过用户id生成token, set-cookie到浏览器, 后续通过cookie获取token做校验
-        String jwtToken = jwtUtil.generateToken(blogUser.getUserId());
-        CookieUtil.addCookie(response, jwtUtil.getToken(), jwtToken, CookieUtil.COOKIE_DOMAIN);
+        // 验证用户输入的账号信息
+        blogUserService.checkLoginInfo(response, loginFrom);
 
         return Result.success();
     }

@@ -8,10 +8,14 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.stereotype.Component;
 import xin.marcher.blog.biz.enums.UserLockedEnum;
 import xin.marcher.blog.entity.BlogUser;
+import xin.marcher.blog.entity.BlogUserResource;
+import xin.marcher.blog.service.BlogUserResourceService;
 import xin.marcher.blog.service.BlogUserService;
 import xin.marcher.blog.utils.EmptyUtil;
+import xin.marcher.blog.utils.JwtUtil;
 
 import javax.annotation.Resource;
+import java.util.Set;
 
 /**
  * 认证
@@ -19,18 +23,34 @@ import javax.annotation.Resource;
  * @author marcher
  */
 @Component
-public class OAuth2Realm extends AuthorizingRealm {
+public class BlogRealm extends AuthorizingRealm {
+
+    @Resource
+    private JwtUtil jwtUtil;
 
     @Resource
     private BlogUserService blogUserService;
+
+    @Resource
+    private BlogUserResourceService blogUserResourceService;
+
+    @Override
+    public boolean supports(AuthenticationToken token) {
+        return token instanceof JwtToken;
+    }
 
     /**
      * 授权(验证权限时调用)
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
+        BlogUser blogUser = (BlogUser) principals.getPrimaryPrincipal();
+
+        // 通过user_type设置对应的权限(博主可访问/粉丝可访问)
+        Set<String> permissionSet = blogUserResourceService.getByUserType(blogUser.getUserType());
+
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-        authorizationInfo.setStringPermissions(null);
+        authorizationInfo.setStringPermissions(permissionSet);
         return authorizationInfo;
     }
 
@@ -39,10 +59,13 @@ public class OAuth2Realm extends AuthorizingRealm {
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-        // 获取用户输入的账号
-        String username = (String) token.getPrincipal();
+        // token
+        String accessToken = (String) token.getPrincipal();
 
-        BlogUser blogUser = blogUserService.getByUsername(username);
+        // 从token中获取userId
+        Long userId = jwtUtil.getUserIdFromToke(accessToken);
+
+        BlogUser blogUser = blogUserService.getById(userId);
         if (EmptyUtil.isEmpty(blogUser)) {
             throw new UnknownAccountException("账号不存在!");
         }
@@ -51,6 +74,6 @@ public class OAuth2Realm extends AuthorizingRealm {
         }
 
         // --> CredentialsMatcher.doCredentialsMatch()
-        return new SimpleAuthenticationInfo(blogUser, blogUser.getPassword(), getName());
+        return new SimpleAuthenticationInfo(blogUser, accessToken, getName());
     }
 }

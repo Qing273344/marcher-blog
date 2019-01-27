@@ -2,6 +2,7 @@ package xin.marcher.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.apache.shiro.authc.LockedAccountException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xin.marcher.blog.biz.consts.Constant;
@@ -14,12 +15,13 @@ import xin.marcher.blog.biz.property.RedisProperties;
 import xin.marcher.blog.dao.BlogUserDao;
 import xin.marcher.blog.entity.BlogUser;
 import xin.marcher.blog.common.exception.*;
+import xin.marcher.blog.from.LoginFrom;
 import xin.marcher.blog.from.RegisterForm;
 import xin.marcher.blog.service.BlogUserService;
-import xin.marcher.blog.utils.DateUtil;
-import xin.marcher.blog.utils.EmptyUtil;
-import xin.marcher.blog.utils.OAuthUtil;
-import xin.marcher.blog.utils.RedisUtil;
+import xin.marcher.blog.utils.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author marcher
@@ -28,7 +30,13 @@ import xin.marcher.blog.utils.RedisUtil;
 public class BlogUserServiceImpl extends ServiceImpl<BlogUserDao, BlogUser> implements BlogUserService {
 
     @Autowired
+    private JwtUtil jwtUtil;
+
+    @Autowired
     private RedisProperties redisProperties;
+
+    @Autowired
+    private BlogUserService blogUserService;
 
     @Override
     public void checkUserNameExist(String username) {
@@ -71,6 +79,30 @@ public class BlogUserServiceImpl extends ServiceImpl<BlogUserDao, BlogUser> impl
     @Override
     public BlogUser getUserInfoFormCache(String userId) {
         return RedisUtil.getCacheObj(RedisKeyConstant.U_INFO_KEY + userId, BlogUser.class);
+    }
+
+    @Override
+    public void checkLoginInfo(HttpServletResponse response, LoginFrom loginFrom) {
+        BlogUser blogUser = getByUsername(loginFrom.getUsername());
+        if (EmptyUtil.isEmpty(blogUser)) {
+            throw new MarcherException("账号或密码错误~");
+        }
+        if (blogUser.getLocked() != null && UserLockedEnum.USER_LOCKED_DISABLE.getCode().equals(blogUser.getLocked())){
+            throw new LockedAccountException("账号已被锁定, 禁止登录!");
+        }
+
+        String inPassword = OAuthUtil.encrypt(loginFrom.getPassword(), blogUser.getCreateTime().toString());
+
+        if (!inPassword.equals(blogUser.getPassword())) {
+            throw new MarcherException("账号或密码错误~");
+        }
+
+        // 登录成功后用户信息存入缓存中
+//        blogUserService.saveUserInfoToCache(blogUser);
+
+        // 通过用户id生成token, set-cookie到浏览器, 后续通过cookie获取token做校验
+        String jwtToken = jwtUtil.generateToken(blogUser.getUserId());
+        CookieUtil.addCookie(response, jwtUtil.getToken(), jwtToken, CookieUtil.COOKIE_DOMAIN);
     }
 
 }

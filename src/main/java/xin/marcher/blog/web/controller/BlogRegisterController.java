@@ -14,7 +14,7 @@ import javax.validation.Valid;
  * @author marcher
  */
 @RestController
-@RequestMapping(value = "/blog/register")
+@RequestMapping(value = "/blog/passport")
 public class BlogRegisterController {
 
     @Autowired
@@ -24,7 +24,7 @@ public class BlogRegisterController {
      * 注册
      * @param registerForm  注册信息
      */
-    @PostMapping("")
+    @PostMapping("/register")
     @ResponseBody
     public Result  register(@Valid @RequestBody RegisterForm registerForm) {
 

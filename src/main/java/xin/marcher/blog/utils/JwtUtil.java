@@ -7,8 +7,10 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.time.DateUtils;
+import org.apache.http.HttpStatus;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
+import xin.marcher.blog.common.exception.MarcherException;
 
 import java.util.Date;
 
@@ -52,7 +54,7 @@ public class JwtUtil {
         Date expireDate = DateUtils.addHours(nowDate, expire);
 
         return Jwts.builder()
-//                .setHeaderParam("type", "JWT")
+                .setHeaderParam("type", "JWT")
                 .setSubject(userId + "")
                 .setIssuedAt(nowDate)
                 .setExpiration(expireDate)
@@ -88,5 +90,23 @@ public class JwtUtil {
      */
     public boolean isTokenExpired(Date expiration) {
         return expiration.before(new Date());
+    }
+
+    /**
+     * 通过token获取userId
+     *
+     * @param token token
+     * @return
+     *      userId
+     */
+    public Long getUserIdFromToke(String token) {
+        if (EmptyUtil.isEmpty(token)) {
+            throw new MarcherException("invalid token", HttpStatus.SC_UNAUTHORIZED);
+        }
+        Claims claims = getClaimByToken(token);
+        if (EmptyUtil.isEmpty(claims) || isTokenExpired(claims.getExpiration())) {
+            throw new MarcherException(getToken() + "失效, 请重新登录", HttpStatus.SC_UNAUTHORIZED);
+        }
+        return Long.parseLong(claims.getSubject());
     }
 }

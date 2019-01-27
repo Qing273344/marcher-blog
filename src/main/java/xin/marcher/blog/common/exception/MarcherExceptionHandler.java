@@ -1,7 +1,9 @@
 package xin.marcher.blog.common.exception;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.HttpStatus;
 import org.apache.shiro.authz.AuthorizationException;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -60,7 +62,7 @@ public class MarcherExceptionHandler {
         StringBuilder errorMessage = new StringBuilder(bindingResult.getFieldErrors().size() * 16);
 
         if (bindingResult.getFieldErrors().size() > 0) {
-            FieldError fieldError = bindingResult.getFieldErrors().get(1);
+            FieldError fieldError = bindingResult.getFieldErrors().get(0);
             errorMessage.append(fieldError.getDefaultMessage());
         }
         return Result.error(errorMessage.toString());
@@ -73,9 +75,18 @@ public class MarcherExceptionHandler {
      * @return
      *      异常提示
      */
+    @ExceptionHandler(AuthorizationException.class)
+    @ResponseBody
     public static Result handleAuthorizationException(AuthorizationException ex) {
         log.error(ex.getMessage(), ex);
-        return Result.error("暂无权限, 请联系管理员授权");
+        return Result.error(HttpStatus.SC_UNAUTHORIZED, "暂无权限, 请联系管理员授权");
+    }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    @ResponseBody
+    public static Result handleUnauthorizedException(UnauthorizedException ex) {
+        log.error(ex.getMessage(), ex);
+        return Result.error(HttpStatus.SC_UNAUTHORIZED, "暂无权限, 请联系管理员授权");
     }
 
     /**

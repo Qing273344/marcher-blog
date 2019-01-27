@@ -36,9 +36,9 @@ public class ShiroConfig {
     }
 
     @Bean
-    public SecurityManager securityManager(@Qualifier("auth2Realm")  OAuth2Realm oAuth2Realm, SessionManager sessionManager) {
+    public SecurityManager securityManager(@Qualifier("blogRealm") BlogRealm blogRealm, SessionManager sessionManager) {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
-        securityManager.setRealm(oAuth2Realm);
+        securityManager.setRealm(blogRealm);
         securityManager.setSessionManager(sessionManager);
 
         return securityManager;
@@ -54,33 +54,18 @@ public class ShiroConfig {
 
         // oauth过滤
         Map<String, Filter> filters = new HashMap<>();
-        filters.put("oauth2", new OAuth2Filter());
+        filters.put("jwt", new JwtFilter());
         shiroFilterFactoryBean.setFilters(filters);
 
         // 拦截器.
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         // 配置不会被拦截的链接 顺序判断
-        filterChainDefinitionMap.put("/login/*", "anon");
+        filterChainDefinitionMap.put("/blog/passport/**", "anon");
         filterChainDefinitionMap.put("/logout", "logout");
-        filterChainDefinitionMap.put("/blog/**", "anon");
-        filterChainDefinitionMap.put("/**", "oauth2");
+
+        filterChainDefinitionMap.put("/**", "jwt");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
-    }
-
-    @Bean(name = "auth2Realm")
-    public OAuth2Realm auth2Realm() {
-        OAuth2Realm oAuth2Realm = new OAuth2Realm();
-        oAuth2Realm.setCredentialsMatcher(credentialsMatcher());
-        return oAuth2Realm;
-    }
-
-    /**
-     * 密码凭证匹配
-     */
-    @Bean
-    public CredentialsMatcher credentialsMatcher() {
-        return new CredentialsMatcher();
     }
 
     @Bean
@@ -98,8 +83,6 @@ public class ShiroConfig {
     /**
      * 开启shiro aop注解支持.
      * 使用代理方式;所以需要开启代码支持;
-     *
-     * @param securityManager
      */
     @Bean
     public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager) {
@@ -108,4 +91,20 @@ public class ShiroConfig {
         return advisor;
     }
 
+
+    // ---------------------------------------------------------------------------------------------------------------- session-cookie模式使用
+//    @Bean(name = "blogRealm")
+//    public BlogRealm blogRealm() {
+//        BlogRealm blogRealm = new BlogRealm();
+//        blogRealm.setCredentialsMatcher(credentialsMatcher());
+//        return blogRealm;
+//    }
+
+    /**
+     * 密码凭证匹配
+     */
+//    @Bean
+//    public CredentialsMatcher credentialsMatcher() {
+//        return new CredentialsMatcher();
+//    }
 }
