@@ -98,7 +98,7 @@ public class BlogUserServiceImpl extends ServiceImpl<BlogUserDao, BlogUser> impl
         }
 
         // 登录成功后用户信息存入缓存中
-//        blogUserService.saveUserInfoToCache(blogUser);
+        blogUserService.saveUserInfoToCache(blogUser);
 
         // 通过用户id生成token, set-cookie到浏览器, 后续通过cookie获取token做校验
         String jwtToken = jwtUtil.generateToken(blogUser.getUserId());

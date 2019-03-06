@@ -1,7 +1,7 @@
 package xin.marcher.blog.common.exception;
 
+import com.baomidou.mybatisplus.extension.api.R;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.HttpStatus;
 import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.validation.BindingResult;
@@ -10,6 +10,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.NoHandlerFoundException;
+import xin.marcher.blog.biz.enums.RspBaseCodeEnum;
 import xin.marcher.blog.utils.Result;
 
 /**
@@ -69,6 +71,19 @@ public class MarcherExceptionHandler {
     }
 
     /**
+     * 404 异常
+     * @param ex    异常
+     * @return
+     *      异常提示
+     */
+    @ExceptionHandler(NoHandlerFoundException.class)
+    @ResponseBody
+    public Result handlerNoFoundException(Exception ex) {
+        log.error(ex.getMessage(), ex);
+        return Result.error(404, "路径不存在，请检查路径是否正确");
+    }
+
+    /**
      * shiro权限异常提示
      *
      * @param ex    异常
@@ -79,14 +94,14 @@ public class MarcherExceptionHandler {
     @ResponseBody
     public static Result handleAuthorizationException(AuthorizationException ex) {
         log.error(ex.getMessage(), ex);
-        return Result.error(HttpStatus.SC_UNAUTHORIZED, "暂无权限, 请联系管理员授权");
+        return Result.error(RspBaseCodeEnum.PERMISSION_NOT);
     }
 
     @ExceptionHandler(UnauthorizedException.class)
     @ResponseBody
     public static Result handleUnauthorizedException(UnauthorizedException ex) {
         log.error(ex.getMessage(), ex);
-        return Result.error(HttpStatus.SC_UNAUTHORIZED, "暂无权限, 请联系管理员授权");
+        return Result.error(RspBaseCodeEnum.PERMISSION_NOT);
     }
 
     /**

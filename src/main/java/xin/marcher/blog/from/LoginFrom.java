@@ -22,6 +22,6 @@ public class LoginFrom {
     @NotBlank(message = "请输入密码")
     private String password;
 
-    @NotBlank(message = "请输入验证码")
+//    @NotBlank(message = "请输入验证码")
     private String captcha;
 }

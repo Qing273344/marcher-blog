@@ -10,6 +10,7 @@ import org.apache.commons.lang.time.DateUtils;
 import org.apache.http.HttpStatus;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
+import xin.marcher.blog.biz.enums.RspBaseCodeEnum;
 import xin.marcher.blog.common.exception.MarcherException;
 
 import java.util.Date;
@@ -46,6 +47,7 @@ public class JwtUtil {
      *
      * @param userId 用户id
      * @return
+     *      token
      */
     public String generateToken(Long userId) {
         Date nowDate = new Date();
@@ -67,7 +69,6 @@ public class JwtUtil {
      * jjwt提供的parser传入秘钥
      *
      * @param token token
-     * @return
      */
     public Claims getClaimByToken(String token) {
         try {
@@ -101,11 +102,11 @@ public class JwtUtil {
      */
     public Long getUserIdFromToke(String token) {
         if (EmptyUtil.isEmpty(token)) {
-            throw new MarcherException("invalid token", HttpStatus.SC_UNAUTHORIZED);
+            throw new MarcherException("invalid token", RspBaseCodeEnum.LOGIN_TOKEN_INVALID.getCode());
         }
         Claims claims = getClaimByToken(token);
         if (EmptyUtil.isEmpty(claims) || isTokenExpired(claims.getExpiration())) {
-            throw new MarcherException(getToken() + "失效, 请重新登录", HttpStatus.SC_UNAUTHORIZED);
+            throw new MarcherException(getToken() + "失效, 请重新登录", RspBaseCodeEnum.LOGIN_TOKEN_INVALID.getCode());
         }
         return Long.parseLong(claims.getSubject());
     }

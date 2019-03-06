@@ -2,17 +2,15 @@ package xin.marcher.blog.web.interceptor;
 
 import io.jsonwebtoken.Claims;
 import org.apache.commons.lang.StringUtils;
+import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
-import xin.marcher.blog.common.exception.*;
-import xin.marcher.blog.entity.BlogUser;
+import xin.marcher.blog.common.exception.MarcherException;
 import xin.marcher.blog.service.BlogUserService;
 import xin.marcher.blog.utils.CookieUtil;
-import xin.marcher.blog.utils.EmptyUtil;
 import xin.marcher.blog.utils.JwtUtil;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,18 +37,18 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
      *  false表示流程中断（如登录检查失败），不会继续调用其他的拦截器或处理器，此时我们需要通过response来产生响应；
      */
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         // 获取用户凭证(cookie中)
         String token = CookieUtil.getCookieValue(request, "token");
 
         //凭证为空
         if (StringUtils.isBlank(token)) {
-            throw new MarcherException(jwtUtil.getToken() + "不能为空", HttpStatus.UNAUTHORIZED.value());
+            throw new MarcherException(jwtUtil.getToken() + "不能为空", HttpStatus.SC_UNAUTHORIZED);
         }
 
         Claims claims = jwtUtil.getClaimByToken(token);
         if (claims == null || jwtUtil.isTokenExpired(claims.getExpiration())) {
-            throw new MarcherException(jwtUtil.getToken() + "失效，请重新登录", HttpStatus.UNAUTHORIZED.value());
+            throw new MarcherException(jwtUtil.getToken() + "失效，请重新登录", HttpStatus.SC_UNAUTHORIZED);
         }
 
         return true;

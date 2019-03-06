@@ -11,10 +11,10 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class CookieUtil {
 
-    public static final String COOKIE_DOMAIN = "localhost";
+    public static final String COOKIE_DOMAIN = "marcher.xin";
 
     /** cookie超时时间(单位:秒) */
-    private static final int MAX_AGE = 60 * 60;
+    private static final int MAX_AGE = 60 * 60 * 8;
 
     /**
      * 添加新Cookie
@@ -38,7 +38,7 @@ public class CookieUtil {
      * @param httpOnly      是否将cookie设置成httpOnly
      * @param maxAge        设置cookie最大生存时间
      * @param path          设置cookie路径
-     * @param secure        是否值允许HTTPS访问
+     * @param secure        是否值允许HTTPS访问(一个带有安全属性的 cookie 只有在请求使用SSL和HTTPS协议的时候才会被发送到服务器)
      */
     public static void addCookie(HttpServletResponse response, String cookieName, String cookieValue, String domain,
                                  boolean httpOnly, int maxAge, String path, boolean secure) {
@@ -64,7 +64,6 @@ public class CookieUtil {
 
     }
 
-
     /**
      * 添加新Cookie
      *
@@ -74,7 +73,7 @@ public class CookieUtil {
      * @param domain        所属域
      */
     public static void addCookie(HttpServletResponse response, String cookieName, String cookieValue, String domain) {
-        addCookie(response, cookieName, cookieValue, domain, true, MAX_AGE, "/", true);
+        addCookie(response, cookieName, cookieValue, domain, true, MAX_AGE, "/", false);
     }
 
     /**
@@ -113,7 +112,7 @@ public class CookieUtil {
      */
     public static String getCookieValue(HttpServletRequest request, String cookieName) {
         Cookie cookie = getCookie(request, cookieName);
-        if (EmptyUtil.isEmpty(cookieName)) {
+        if (EmptyUtil.isEmpty(cookie)) {
             return "";
         }
         return cookie.getValue();

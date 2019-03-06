@@ -6,6 +6,7 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import sun.tools.tree.NullExpression;
 import xin.marcher.blog.biz.consts.RedisKeyConstant;
 import xin.marcher.blog.entity.BlogUser;
 import xin.marcher.blog.from.LoginFrom;
@@ -75,7 +76,7 @@ public class BlogLoginController {
      */
     @PostMapping("/login")
     @ResponseBody
-    public Result login(HttpServletResponse response, @Valid @RequestBody LoginFrom loginFrom) {
+    public Result login(HttpServletResponse response, @Valid @RequestBody LoginFrom loginFrom) throws Exception {
 
         // 验证码校验
 //        blogCaptchaService.checkCaptcha(request, loginFrom.getCaptcha());

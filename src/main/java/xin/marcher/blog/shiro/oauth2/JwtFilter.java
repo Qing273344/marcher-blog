@@ -1,24 +1,19 @@
 package xin.marcher.blog.shiro.oauth2;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.serializer.SerializerFeature;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpStatus;
-import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.springframework.web.bind.annotation.RequestMethod;
 import xin.marcher.blog.utils.CookieUtil;
 import xin.marcher.blog.utils.EmptyUtil;
 import xin.marcher.blog.utils.HttpContextUtil;
-import xin.marcher.blog.utils.Result;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 /**
  * oauth2过滤器
@@ -70,6 +65,25 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
     private String getRequestToken(HttpServletRequest request) {
         // 从cookie中获取token
         return CookieUtil.getCookieValue(request, "token");
+    }
+
+    /**
+     * 对跨域提供支持
+     */
+    @Override
+    protected boolean preHandle(ServletRequest request, ServletResponse response) throws Exception {
+        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+        HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+        httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
+        httpServletResponse.setHeader("Access-control-Allow-Origin", HttpContextUtil.getOrigin());
+        httpServletResponse.setHeader("Access-Control-Allow-Methods", HttpContextUtil.getMethods());
+        httpServletResponse.setHeader("Access-Control-Allow-Headers", HttpContextUtil.getHanders());
+        // 跨域时会首先发送一个option请求，这里我们给option请求直接返回正常状态
+        if (httpServletRequest.getMethod().equals(RequestMethod.OPTIONS.name())) {
+            httpServletResponse.setStatus(HttpStatus.SC_OK);
+            return false;
+        }
+        return super.preHandle(request, response);
     }
 
 }

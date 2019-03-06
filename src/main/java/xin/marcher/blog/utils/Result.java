@@ -29,6 +29,11 @@ public class Result extends HashMap<String, Object> {
 		return error(code, msg);
 	}
 
+	public static <T> Result error(T t, String msg) {
+		int code = (Integer)EnumUtil.getMethodValue(EnumUtil.ENUM_CODE_METHOD, t);
+		return error(code, msg);
+	}
+
 	public static Result error(int code, String msg){
 		return new Result().put("status", statusData(code, msg));
 	}

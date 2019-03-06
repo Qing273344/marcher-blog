@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 public class HttpContextUtil {
 
 	public static HttpServletRequest getHttpServletRequest() {
+		System.out.println(RequestContextHolder.getRequestAttributes());
 		return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 	}
 
@@ -25,5 +26,14 @@ public class HttpContextUtil {
 	public static String getOrigin(){
 		HttpServletRequest request = getHttpServletRequest();
 		return request.getHeader("Origin");
+	}
+
+	public static String getMethods() {
+		return "GET, POST, OPTIONS, PUT, DELETE";
+	}
+
+	public static String getHanders() {
+		HttpServletRequest request = getHttpServletRequest();
+		return request.getHeader("Access-Control-Request-Headers");
 	}
 }
