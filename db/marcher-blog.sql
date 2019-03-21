@@ -33,7 +33,7 @@ CREATE TABLE `blog_article_content` (
 -- 博客文章类型 blog_article_type
 CREATE TABLE `blog_article_type` (
   `type_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '类型id',
-  `pid` bigint(20) DEFAULT '0' COMMENT '父类型id,顶级为0',
+--   `pid` bigint(20) DEFAULT '0' COMMENT '父类型id,顶级为0',
   `name` varchar(50) DEFAULT NULL COMMENT '文章类型名',
   `description` varchar(200) DEFAULT NULL COMMENT '类型介绍',
   `sort` int(10) DEFAULT NULL COMMENT '排序',
@@ -53,7 +53,7 @@ CREATE TABLE `blog_article_browse` (
   `article_id` bigint(20) NOT NULL COMMENT '文章ID',
   `user_id` bigint(20) DEFAULT NULL COMMENT '已登录用户ID',
   `user_ip` varchar(50) DEFAULT NULL COMMENT '用户IP',
-  `browse_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '浏览时间',
+  `browse_time` bigint(20) DEFAULT NULL COMMENT '浏览时间',
 
   `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
   `modify_time` bigint(20) DEFAULT NULL COMMENT '修改时间',
@@ -63,9 +63,9 @@ CREATE TABLE `blog_article_browse` (
 
 
 -- 标签 blog_tags
-CREATE TABLE `blog_tags` (
-  `tag_id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) NOT NULL COMMENT '表签名',
+CREATE TABLE `blog_tag` (
+  `tag_id` bigint(20) NOT NULL AUTO_INCREMENT COMMIT '标签ID',
+  `name` varchar(50) NOT NULL COMMENT '标签名',
   `description` varchar(100) DEFAULT NULL COMMENT '描述',
 
   `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',

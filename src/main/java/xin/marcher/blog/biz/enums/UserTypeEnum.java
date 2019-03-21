@@ -14,7 +14,7 @@ public enum  UserTypeEnum {
     /** 保留 */
     ALl(0, ""),
     USER_TYPE_ME(1, "本帅"),
-    USER_TYPE_OKAMI(2, "大神"),
+    USER_TYPE_MANITO(2, "大神"),
     ;
 
     private Integer code;

@@ -1,54 +1,63 @@
 package xin.marcher.blog.utils;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 /**
  * 分页工具
  *
  * @author marcher
  */
+@Getter
+@Setter
+@ToString
 public class PageUtil {
 
     /**
      * 总数据数
      */
-    private int totalRow;
+    private Integer totalRow;
 
     /**
      * 总页数
      */
-    private int totalPage;
+    private Integer totalPage;
 
     /**
      * 每页数据数
      */
-    private int pageSize;
+    private Integer pageSize;
 
     /**
      * 当前页数
      */
-    private int curPage;
+    private Integer curPage;
 
     /**
      * 是否首页
      */
-    private boolean firstPage;
+    private Boolean firstPage;
 
     /**
      * 是否末页
      */
-    private boolean lastPage;
+    private Boolean lastPage;
+
+    public PageUtil() {
+    }
 
     /**
      * 分页
      *
-     * @param totalRow    总记录数
-     * @param pageSize    每页记录数
-     * @param currentPage 当前页数
+     * @param totalRow  总记录数
+     * @param queryPage 分页参数
      */
-    public PageUtil(int totalRow, int pageSize, int currentPage) {
-        this.pageSize = pageSize;
-        this.curPage = currentPage;
+    public PageUtil(Integer totalRow, QueryPage queryPage) {
+        this.pageSize = queryPage.getLimit();
+        this.curPage = queryPage.getCurPage();
         this.totalRow = totalRow;
-        this.totalPage = (int) Math.ceil((double) totalRow / pageSize);
+        this.totalPage = (int) Math.ceil((double) this.totalRow / this.pageSize);
         this.firstPage = this.curPage == 1;
         this.lastPage = this.curPage >= this.totalPage;
     }

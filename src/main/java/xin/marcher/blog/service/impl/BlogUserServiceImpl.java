@@ -20,7 +20,6 @@ import xin.marcher.blog.from.RegisterForm;
 import xin.marcher.blog.service.BlogUserService;
 import xin.marcher.blog.utils.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
@@ -54,7 +53,7 @@ public class BlogUserServiceImpl extends ServiceImpl<BlogUserDao, BlogUser> impl
         BlogUser blogUser = new BlogUser();
         blogUser.setUsername(registerForm.getUsername());
         blogUser.setPassword(password);
-        blogUser.setUserType(UserTypeEnum.USER_TYPE_OKAMI.getCode());
+        blogUser.setUserType(UserTypeEnum.USER_TYPE_MANITO.getCode());
         blogUser.setSource(UserSourceEnum.USER_SOURCE_PC.getCode());
         blogUser.setLocked(UserLockedEnum.USER_LOCKED_NORMAL.getCode());
         blogUser.setCreateTime(now);

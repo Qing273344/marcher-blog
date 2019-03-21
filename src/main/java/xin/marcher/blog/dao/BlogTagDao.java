@@ -2,7 +2,7 @@ package xin.marcher.blog.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
-import xin.marcher.blog.entity.BlogTags;
+import xin.marcher.blog.entity.BlogTag;
 
 /**
  * 标签
@@ -10,6 +10,6 @@ import xin.marcher.blog.entity.BlogTags;
  * @author marcher
  */
 @Mapper
-public interface BlogTagsDao extends BaseMapper<BlogTags> {
-	
+public interface BlogTagDao extends BaseMapper<BlogTag> {
+
 }

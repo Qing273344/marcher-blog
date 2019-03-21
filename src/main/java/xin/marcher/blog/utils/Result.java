@@ -59,6 +59,14 @@ public class Result extends HashMap<String, Object> {
 		return result;
 	}
 
+	public static Result successPage(Object obj, PageUtil page){
+		Result result = new Result();
+		result.putAll(dataResult(obj));
+		result.putAll(putPage(page));
+		result.putAll(statusResult());
+		return result;
+	}
+
 	protected static Result dataResult(){
 		return new Result().put("data", putData("result", true));
 	}
@@ -71,12 +79,27 @@ public class Result extends HashMap<String, Object> {
 		return new Result().put("data", putData("list", list));
 	}
 
+	protected static Result dataResult(Map<String, Object> map){
+		return new Result().put("data", map);
+	}
+
+	private static Result statusResult(Map<String, Object> map){
+		return new Result().put("status", map);
+	}
+
 	protected static Result putData(String key, Object value){
 		return new Result().put(key, value);
 	}
 
-	protected static Result dataResult(Map<String, Object> map){
-		return new Result().put("data", map);
+	private static Result putPage(PageUtil page){
+		return new Result().put("page", page);
+	}
+
+	private static Result putStatus(int code, String msg){
+		Result result = new Result();
+		result.put("code", code);
+		result.put("msg", msg);
+		return result;
 	}
 
 	protected static Result statusResult(){

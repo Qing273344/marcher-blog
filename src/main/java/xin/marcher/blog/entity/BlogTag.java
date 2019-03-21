@@ -15,8 +15,8 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-@TableName("blog_tags")
-public class BlogTags {
+@TableName("blog_tag")
+public class BlogTag {
 
 	/**
 	 * 
@@ -25,7 +25,7 @@ public class BlogTags {
 	private Long tagId;
 
 	/**
-	 * 表签名
+	 * 标签名
 	 */
 	private String name;
 

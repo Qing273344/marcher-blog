@@ -1,64 +1,32 @@
 package xin.marcher.blog.utils;
 
 import lombok.Getter;
-import xin.marcher.blog.common.xss.SQLFilter;
+import lombok.Setter;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import javax.validation.Valid;
 
 /**
- * 查询参数
+ * query
  *
  * @author marcher
  */
 @Getter
-public class Query<T> extends LinkedHashMap<String, Object> {
+@Setter
+public class Query<T> {
 
     /**
-     * 当前页码
+     * 加入参数校验注解, Controller中也加入该注解即可校验
      */
-    private int pageNum = 1;
+    @Valid
+    private T data;
 
-    /**
-     * 每页条数
-     */
-    private int limit = 10;
+    private QueryPage page;
 
-    public Query() {
-    }
-
-
-    public Query(Map<String, Object> params) {
-        this.putAll(params);
-
-        //分页参数
-        int pageNum = 1;
-        if (params.get("pageNum") != null) {
-            pageNum = Integer.parseInt((String) params.get("pageNum"));
+    public QueryPage getPage() {
+        if (EmptyUtil.isEmpty(this.page) || this.page.getCurPage() == 0) {
+            return new QueryPage();
         }
-
-        int limit = 10;
-        if (params.get("limit") != null) {
-            limit = Integer.parseInt((String) params.get("limit"));
-        }
-
-        this.put("offset", (pageNum - 1) * limit);
-        this.put("page", pageNum);
-        this.put("limit", limit);
-
-        //防止SQL注入（因为sidx、order是通过拼接SQL实现排序的，会有SQL注入风险）
-        String sidx = SQLFilter.sqlInject((String) params.get("sidx"));
-        String order = SQLFilter.sqlInject((String) params.get("order"));
-        this.put("sidx", sidx);
-        this.put("order", order);
-
-        //mybatis-plus分页
-//        this.page = new Page<>(pageNum, limit);
-//
-//        if (EmptyUtil.isNotEmpty(sidx) && EmptyUtil.isNotEmpty(order)) {
-//            this.page.setOrderByField(sidx);
-//            this.page.setAsc("ASC".equalsIgnoreCase(order));
-//        }
+        return page;
     }
 
 }

@@ -25,11 +25,6 @@ public class BlogArticleType {
 	private Long typeId;
 
 	/**
-	 * 父类型id,顶级为0
-	 */
-	private Long pid;
-
-	/**
 	 * 文章类型名
 	 */
 	private String name;

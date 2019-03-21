@@ -78,6 +78,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
         httpServletResponse.setHeader("Access-control-Allow-Origin", HttpContextUtil.getOrigin());
         httpServletResponse.setHeader("Access-Control-Allow-Methods", HttpContextUtil.getMethods());
         httpServletResponse.setHeader("Access-Control-Allow-Headers", HttpContextUtil.getHanders());
+        httpServletResponse.setHeader("Access-Control-Max-Age", "3600");
         // 跨域时会首先发送一个option请求，这里我们给option请求直接返回正常状态
         if (httpServletRequest.getMethod().equals(RequestMethod.OPTIONS.name())) {
             httpServletResponse.setStatus(HttpStatus.SC_OK);
