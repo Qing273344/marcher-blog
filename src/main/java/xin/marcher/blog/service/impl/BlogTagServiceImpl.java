@@ -71,9 +71,9 @@ public class BlogTagServiceImpl extends ServiceImpl<BlogTagDao, BlogTag> impleme
 
         IPage<BlogTag> blogTagIPage = blogTagDao.selectPage(queryPage, queryWrapper);
 
-        List<BlogTag> blogTagList = blogTagIPage.getRecords();
+        List<BlogTag> blogTags = blogTagIPage.getRecords();
         List<BlogTagVo> blogTagVoList = new ArrayList<>();
-        for (BlogTag blogTag : blogTagList) {
+        for (BlogTag blogTag : blogTags) {
             BlogTagVo blogTagVo = new BlogTagVo();
             ObjectUtil.copyProperties(blogTag, blogTagVo);
             blogTagVoList.add(blogTagVo);
@@ -111,7 +111,7 @@ public class BlogTagServiceImpl extends ServiceImpl<BlogTagDao, BlogTag> impleme
     }
 
     private BlogTag toBlogTag(BlogTagFrom blogTagFrom) {
-        Long now = System.currentTimeMillis();
+        Long now = DateUtil.getTimestamp();
 
         BlogTag blogTag = new BlogTag();
         ObjectUtil.copyProperties(blogTagFrom, blogTag);

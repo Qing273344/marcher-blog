@@ -68,7 +68,7 @@ public class BlogRealm extends AuthorizingRealm {
         if (EmptyUtil.isEmpty(blogUser)) {
             throw new UnknownAccountException("账号不存在!");
         }
-        if (blogUser.getLocked() != null && UserLockedEnum.USER_LOCKED_DISABLE.getCode().equals(blogUser.getLocked())){
+        if (blogUser.getIsLocked() != null && UserLockedEnum.USER_LOCKED_DISABLE.getCode().equals(blogUser.getIsLocked())){
             throw new LockedAccountException("账号已被锁定, 禁止登录!");
         }
 

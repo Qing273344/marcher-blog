@@ -8,7 +8,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 /**
- * 博客文章类型
+ * 博客类型
  *
  * @author marcher
  */

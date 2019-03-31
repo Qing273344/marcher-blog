@@ -25,11 +25,6 @@ public class BlogArticle {
 	private Long articleId;
 
 	/**
-	 * 用户ID
-	 */
-	private Long userId;
-
-	/**
 	 * 类型
 	 */
 	private Long typeId;
@@ -52,22 +47,12 @@ public class BlogArticle {
 	/**
 	 * 是否置顶
 	 */
-	private Integer top;
-
-	/**
-	 * 是否推荐
-	 */
-	private Integer recommended;
-
-	/**
-	 * 是否原创
-	 */
-	private Integer original;
+	private Integer isTop;
 
 	/**
 	 * 是否开启评论
 	 */
-	private Integer comment;
+	private Integer isComment;
 
 	/**
 	 * 创建时间

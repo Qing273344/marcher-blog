@@ -7,61 +7,47 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.io.Serializable;
-
 /**
- * 博客用户
+ * 博客类型
  * 
  * @author marcher
  */
 @Getter
 @Setter
 @ToString
-@TableName("blog_user")
-public class BlogUser implements Serializable {
-
-	private static final long serialVersionUID = 7628883607894181236L;
+@TableName("blog_type")
+public class BlogType {
 
 	/**
-	 * 用户编号
+	 * 类型id
 	 */
 	@TableId
-	private Long userId;
+	private Long typeId;
 
 	/**
-	 * 账号
+	 * 类型名称
 	 */
-	private String username;
+	private String name;
 
 	/**
-	 * 密码
+	 * 类型介绍
 	 */
-	private String password;
+	private String description;
 
 	/**
-	 * 昵称
+	 * 排序
 	 */
-	private String nickname;
+	private Integer sort;
 
 	/**
-	 * 头像
+	 * 图标
 	 */
-	private String avatar;
+	private String icon;
 
 	/**
-	 * 用户类型, 1:本帅, 2普通用户
+	 * 是否可用
 	 */
-	private Integer userType;
-
-	/**
-	 * 用户来源
-	 */
-	private Integer source;
-
-	/**
-	 * 状态(0:锁定,1:正常)
-	 */
-	private Integer isLocked;
+	private Integer available;
 
 	/**
 	 * 创建时间

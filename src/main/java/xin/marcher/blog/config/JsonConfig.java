@@ -16,8 +16,8 @@ public class JsonConfig {
     /**
      * Jackson JSON解析允许为null
      */
-//    @Bean
-//    public ObjectMapper objectMapper() {
-//        return new ObjectMapper().disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
-//    }
+    @Bean
+    public ObjectMapper objectMapper() {
+        return new ObjectMapper().disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
+    }
 }

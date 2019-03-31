@@ -8,21 +8,21 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * 博客文章类型管理
+ * 博客文章标签关联
  *
  * @author marcher
  */
 @Getter
 @Setter
 @ToString
-@TableName("blog_article_type")
-public class BlogArticleType {
+@TableName("blog_article_tag")
+public class BlogArticleTag {
 
     /**
-     * 文章类型id
+     * 文章标签id
      */
     @TableId
-    private Long articleTypeId;
+    private Long articleTagId;
 
     /**
      * 文章编号
@@ -30,9 +30,9 @@ public class BlogArticleType {
     private Long articleId;
 
     /**
-     * 类型id
+     * 标签id
      */
-    private Long typeId;
+    private Long tagId;
 
     /**
      * 创建时间

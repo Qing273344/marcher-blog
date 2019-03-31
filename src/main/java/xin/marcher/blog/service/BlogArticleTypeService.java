@@ -2,60 +2,35 @@ package xin.marcher.blog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import xin.marcher.blog.entity.BlogArticleType;
-import xin.marcher.blog.from.BlogArticleTypeFrom;
-import xin.marcher.blog.utils.Query;
-import xin.marcher.blog.utils.QueryData;
-import xin.marcher.blog.utils.Result;
-import xin.marcher.blog.vo.BlogArticleTypeVo;
-
-import java.util.List;
 
 /**
- * 博客文章类型
+ * 博客文章类型关联
  *
  * @author marcher
  */
 public interface BlogArticleTypeService extends IService<BlogArticleType> {
 
     /**
-     * 博客文章类型详情
+     * add 文章类型
      *
-     * @param id    博客文章类型id
+     * @param articleId 文章id
+     * @param typeId    类型id
      */
-    BlogArticleTypeVo get(Long id);
+    void add(Long articleId, Long typeId);
 
     /**
-     * 获取所有博客文章类型
+     * remove 根据文章id
+     *
+     * @param articleId 文章id
      */
-    List<BlogArticleTypeVo> listAll();
+    void removeByArticleId(Long articleId);
 
     /**
-     * query 文章类型
+     * get 文章类型id
      *
-     * @param query query参数
+     * @param articleId    文章id
+     * @return
+     *      文章类型id
      */
-    Result query(Query<QueryData> query);
-
-    /**
-     * save 博客文章分类
-     *
-     * @param blogArticleTypeFrom   分类信息form
-     */
-    void create(BlogArticleTypeFrom blogArticleTypeFrom);
-
-    /**
-     * update 博客文章分类
-     *
-     * @param blogArticleTypeFrom   分类信息form
-     */
-    void update(BlogArticleTypeFrom blogArticleTypeFrom);
-
-    /**
-     * remove 博客文章分类
-     *
-     * @param ids   文章分类id
-     */
-    void remove(List<Long> ids);
-
+    Long getId(Long articleId);
 }
-

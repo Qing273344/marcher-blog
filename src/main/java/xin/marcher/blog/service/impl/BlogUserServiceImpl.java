@@ -55,7 +55,7 @@ public class BlogUserServiceImpl extends ServiceImpl<BlogUserDao, BlogUser> impl
         blogUser.setPassword(password);
         blogUser.setUserType(UserTypeEnum.USER_TYPE_MANITO.getCode());
         blogUser.setSource(UserSourceEnum.USER_SOURCE_PC.getCode());
-        blogUser.setLocked(UserLockedEnum.USER_LOCKED_NORMAL.getCode());
+        blogUser.setIsLocked(UserLockedEnum.USER_LOCKED_NORMAL.getCode());
         blogUser.setCreateTime(now);
         blogUser.setModifyTime(now);
         blogUser.setDeleted(Constant.NO_DELETED);
@@ -86,7 +86,7 @@ public class BlogUserServiceImpl extends ServiceImpl<BlogUserDao, BlogUser> impl
         if (EmptyUtil.isEmpty(blogUser)) {
             throw new MarcherException("账号或密码错误~");
         }
-        if (blogUser.getLocked() != null && UserLockedEnum.USER_LOCKED_DISABLE.getCode().equals(blogUser.getLocked())){
+        if (blogUser.getIsLocked() != null && UserLockedEnum.USER_LOCKED_DISABLE.getCode().equals(blogUser.getIsLocked())){
             throw new LockedAccountException("账号已被锁定, 禁止登录!");
         }
 

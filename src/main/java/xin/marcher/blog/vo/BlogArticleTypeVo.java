@@ -5,7 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * 博客文章类型
+ * 博客类型
  *
  * @author marcher
  */

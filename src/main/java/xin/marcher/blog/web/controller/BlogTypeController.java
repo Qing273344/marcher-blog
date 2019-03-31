@@ -3,7 +3,7 @@ package xin.marcher.blog.web.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import xin.marcher.blog.from.BlogArticleTypeFrom;
-import xin.marcher.blog.service.BlogArticleTypeService;
+import xin.marcher.blog.service.BlogTypeService;
 import xin.marcher.blog.utils.EmptyUtil;
 import xin.marcher.blog.utils.Query;
 import xin.marcher.blog.utils.QueryData;
@@ -21,15 +21,15 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(value = "/blog/type")
-public class BlogArticleTypeController {
+public class BlogTypeController {
 
     @Autowired
-    private BlogArticleTypeService blogArticleTypeService;
+    private BlogTypeService blogTypeService;
 
     /**
-     * 博客文章类型详情
+     * 博客类型详情
      *
-     * @param id    博客文章类型id
+     * @param id    博客类型id
      */
     @GetMapping("/get")
     @ResponseBody
@@ -38,19 +38,19 @@ public class BlogArticleTypeController {
             return Result.error("请选择记录");
         }
 
-        BlogArticleTypeVo blogArticleTypeVo = blogArticleTypeService.get(id);
+        BlogArticleTypeVo blogArticleTypeVo = blogTypeService.get(id);
 
         Result data = new Result().put("info", blogArticleTypeVo);
         return Result.success(data);
     }
 
     /**
-     * 获取所有博客文章类型
+     * 获取所有博客类型
      */
     @GetMapping("/listAll")
     @ResponseBody
     public Result listAll() {
-        List<BlogArticleTypeVo> blogArticleTypeVoList = blogArticleTypeService.listAll();
+        List<BlogArticleTypeVo> blogArticleTypeVoList = blogTypeService.listAll();
 
         Result data = new Result().put("list", blogArticleTypeVoList);
         return Result.success(data);
@@ -64,7 +64,7 @@ public class BlogArticleTypeController {
     @PostMapping("/query")
     @ResponseBody
     public Result query(@RequestBody Query<QueryData> query) {
-        return blogArticleTypeService.query(query);
+        return blogTypeService.query(query);
     }
 
     /**
@@ -75,7 +75,7 @@ public class BlogArticleTypeController {
     @PostMapping("/save")
     @ResponseBody
     public Result save(@RequestBody BlogArticleTypeFrom blogArticleTypeFrom) {
-        blogArticleTypeService.create(blogArticleTypeFrom);
+        blogTypeService.create(blogArticleTypeFrom);
 
         return Result.success();
     }
@@ -91,7 +91,7 @@ public class BlogArticleTypeController {
         if (EmptyUtil.isEmpty(blogArticleTypeFrom.getTypeId())) {
             return Result.error("请选择需要修改的分类");
         }
-        blogArticleTypeService.update(blogArticleTypeFrom);
+        blogTypeService.update(blogArticleTypeFrom);
 
         return Result.success();
     }
@@ -110,7 +110,7 @@ public class BlogArticleTypeController {
 
         List<Long> idList = new ArrayList<>();
         Collections.addAll(idList, ids);
-        blogArticleTypeService.remove(idList);
+        blogTypeService.remove(idList);
 
         return Result.success();
     }
