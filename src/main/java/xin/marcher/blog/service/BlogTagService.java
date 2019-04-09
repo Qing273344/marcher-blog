@@ -52,5 +52,11 @@ public interface BlogTagService extends IService<BlogTag> {
      */
     void remove(List<Long> ids);
 
+    /**
+     * get 热门标签
+     * @return
+     *      热门标签
+     */
+    List<String> getHotTag();
 }
 

@@ -19,6 +19,7 @@ import xin.marcher.blog.vo.BlogTagVo;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author marcher
@@ -108,6 +109,13 @@ public class BlogTagServiceImpl extends ServiceImpl<BlogTagDao, BlogTag> impleme
     @Override
     public void remove(List<Long> ids) {
         blogTagDao.deleteBatchIds(ids);
+    }
+
+    @Override
+    public List<String> getHotTag() {
+        List<BlogTag> blogTags = list();
+        List<String> tagNameList = blogTags.stream().map(BlogTag::getName).distinct().collect(Collectors.toList());
+        return tagNameList;
     }
 
     private BlogTag toBlogTag(BlogTagFrom blogTagFrom) {

@@ -1,13 +1,13 @@
 package xin.marcher.blog.service;
 
-import java.io.File;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 七牛云业务
  *
  * @author marcher
  */
-public interface QiniuOssService {
+public interface OssService {
 
     /**
      * put文件
@@ -15,6 +15,6 @@ public interface QiniuOssService {
      * @return
      *      文件url
      */
-    String putFile(File file);
+    String putFile(MultipartFile file);
 
 }

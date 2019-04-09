@@ -2,34 +2,35 @@ package xin.marcher.blog.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import xin.marcher.blog.from.BlogArticleTypeFrom;
-import xin.marcher.blog.service.BlogTypeService;
+import xin.marcher.blog.from.BlogTagFrom;
+import xin.marcher.blog.service.BlogTagService;
 import xin.marcher.blog.utils.EmptyUtil;
 import xin.marcher.blog.utils.Query;
 import xin.marcher.blog.utils.QueryData;
 import xin.marcher.blog.utils.Result;
-import xin.marcher.blog.vo.BlogArticleTypeVo;
+import xin.marcher.blog.vo.BlogTagVo;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 /**
- * 博客文章类型
+ * 博客标签
  *
  * @author marcher
  */
 @RestController
-@RequestMapping(value = "/blog/type")
-public class BlogTypeController {
+@RequestMapping(value = "/admin/tag")
+public class AdminTagController {
+
 
     @Autowired
-    private BlogTypeService blogTypeService;
+    private BlogTagService blogTagService;
 
     /**
-     * 博客类型详情
+     * get标签详情
      *
-     * @param id    博客类型id
+     * @param id    标签id
      */
     @GetMapping("/get")
     @ResponseBody
@@ -38,80 +39,78 @@ public class BlogTypeController {
             return Result.error("请选择记录");
         }
 
-        BlogArticleTypeVo blogArticleTypeVo = blogTypeService.get(id);
+        BlogTagVo blogTagVo = blogTagService.get(id);
 
-        Result data = new Result().put("info", blogArticleTypeVo);
+        Result data = new Result().put("info", blogTagVo);
         return Result.success(data);
     }
 
     /**
-     * 获取所有博客类型
+     * list 所有标签
      */
     @GetMapping("/listAll")
     @ResponseBody
     public Result listAll() {
-        List<BlogArticleTypeVo> blogArticleTypeVoList = blogTypeService.listAll();
+        List<BlogTagVo> list = blogTagService.listAll();
 
-        Result data = new Result().put("list", blogArticleTypeVoList);
+        Result data = new Result().put("list", list);
         return Result.success(data);
     }
 
     /**
-     * query 文章类型
+     * query 标签
      *
      * @param query query参数
      */
     @PostMapping("/query")
     @ResponseBody
     public Result query(@RequestBody Query<QueryData> query) {
-        return blogTypeService.query(query);
+        return blogTagService.query(query);
     }
 
     /**
-     * save 博客文章分类
-     *
-     * @param blogArticleTypeFrom   分类信息form
+     * 新增标签
      */
     @PostMapping("/save")
     @ResponseBody
-    public Result save(@RequestBody BlogArticleTypeFrom blogArticleTypeFrom) {
-        blogTypeService.create(blogArticleTypeFrom);
+    public Result save(@RequestBody BlogTagFrom blogTagFrom) {
+        blogTagService.create(blogTagFrom);
 
         return Result.success();
     }
 
     /**
-     * update 博客文章分类
-     *
-     * @param blogArticleTypeFrom   分类信息form
+     * 编辑标签
      */
     @PostMapping("/update")
     @ResponseBody
-    public Result update(@RequestBody BlogArticleTypeFrom blogArticleTypeFrom) {
-        if (EmptyUtil.isEmpty(blogArticleTypeFrom.getTypeId())) {
-            return Result.error("请选择需要修改的分类");
+    public Result update(@RequestBody BlogTagFrom blogTagFrom) {
+        if (EmptyUtil.isEmpty(blogTagFrom.getTagId())) {
+            return Result.error("请选择需要修改的标签");
         }
-        blogTypeService.update(blogArticleTypeFrom);
+
+        blogTagService.update(blogTagFrom);
 
         return Result.success();
     }
 
     /**
-     * remove 博客文章分类
+     * 删除标签
      *
-     * @param ids   文章分类id
+     * @param ids   标签id
      */
     @PostMapping("/remove")
     @ResponseBody
-    public Result remove(@RequestBody  Long[] ids) {
+    public Result remove(@RequestBody Long[] ids) {
         if (EmptyUtil.isEmpty(ids)) {
             return Result.error("请至少选择一条记录");
         }
 
         List<Long> idList = new ArrayList<>();
         Collections.addAll(idList, ids);
-        blogTypeService.remove(idList);
+        blogTagService.remove(idList);
 
         return Result.success();
     }
+
 }

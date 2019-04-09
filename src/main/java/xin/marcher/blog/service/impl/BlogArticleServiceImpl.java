@@ -4,17 +4,17 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.apache.tomcat.util.bcel.Const;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xin.marcher.blog.biz.consts.Constant;
 import xin.marcher.blog.common.exception.MarcherException;
 import xin.marcher.blog.dao.BlogArticleDao;
 import xin.marcher.blog.entity.BlogArticle;
 import xin.marcher.blog.entity.BlogArticleContent;
-import xin.marcher.blog.entity.BlogArticleType;
 import xin.marcher.blog.from.BlogArticleFrom;
-import xin.marcher.blog.service.*;
+import xin.marcher.blog.service.BlogArticleContentService;
+import xin.marcher.blog.service.BlogArticleService;
+import xin.marcher.blog.service.BlogArticleTagService;
+import xin.marcher.blog.service.BlogArticleTypeService;
 import xin.marcher.blog.utils.*;
 import xin.marcher.blog.vo.AdminArticleListVo;
 import xin.marcher.blog.vo.BlogArticleListVo;
@@ -102,7 +102,9 @@ public class BlogArticleServiceImpl extends ServiceImpl<BlogArticleDao, BlogArti
 
         QueryWrapper<BlogArticle> queryWrapper = new QueryWrapper<>();
         if (EmptyUtil.isNotEmpty(queryData)) {
-            queryWrapper.lambda().like(BlogArticle::getTitle, queryData.getKeyword());
+            if (EmptyUtil.isNotEmpty(queryData.getKeyword())) {
+                queryWrapper.lambda().like(BlogArticle::getTitle, queryData.getKeyword());
+            }
         }
         queryWrapper.lambda().orderByDesc(BlogArticle::getArticleId);
         IPage<BlogArticle> pageWrapper = new Page<>(queryPage.getCurPage(), queryPage.getLimit());
@@ -130,7 +132,9 @@ public class BlogArticleServiceImpl extends ServiceImpl<BlogArticleDao, BlogArti
 
         QueryWrapper<BlogArticle> queryWrapper = new QueryWrapper<>();
         if (EmptyUtil.isNotEmpty(queryData)) {
-            queryWrapper.lambda().like(BlogArticle::getTitle, queryData.getKeyword());
+            if (EmptyUtil.isNotEmpty(queryData.getKeyword())) {
+                queryWrapper.lambda().like(BlogArticle::getTitle, queryData.getKeyword());
+            }
         }
         queryWrapper.lambda().orderByDesc(BlogArticle::getArticleId);
         IPage<BlogArticle> pageWrapper = new Page<>(queryPage.getCurPage(), queryPage.getLimit());

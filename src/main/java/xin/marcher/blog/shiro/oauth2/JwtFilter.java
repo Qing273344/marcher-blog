@@ -43,7 +43,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
             try {
                 executeLogin(request, response);
             } catch (Exception e) {
-                log.error(e.getMessage(), e);
+                log.error("登录权限不足！", e);
             }
         }
         return true;

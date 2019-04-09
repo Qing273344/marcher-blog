@@ -77,7 +77,7 @@ CREATE TABLE `blog_article_type` (
 
 -- 标签 blog_tag
 CREATE TABLE `blog_tag` (
-  `tag_id` bigint(20) NOT NULL AUTO_INCREMENT COMMIT '标签ID',
+  `tag_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '标签ID',
   `name` varchar(50) NOT NULL COMMENT '标签名',
   `description` varchar(100) DEFAULT NULL COMMENT '描述',
 

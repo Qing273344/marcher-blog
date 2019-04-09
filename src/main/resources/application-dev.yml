@@ -55,4 +55,10 @@ cache:
 jwt:
   expire: 2   # token有效时长, 单位小时
   token: token   # token 存在 cookie 中
-  secret: 61D73234C4F93E03074D74D74D1E39D9
+  secret: AES@u9bX3ohn2rEMj4pBh/SjSlVMbQ0piluFtz/LgHDtAG2O4BFU/QmgH1h1h2MVqAMI
+
+oss:
+  qiniuAccessKey: AES@W0XwQDFQMOevU3yRLsmjDFP+F+hT9BVtK9erpTHjU8g6H/i4j1uS66+X5Gvcxtx7
+  qiniuSecreKey: AES@Foy3nrhHBc7Jk7p1/fFxXPXpIiE12YgzLik940AyI5OMnPHPcBsJTAlXdfnH7t7x
+  qiniuBucketName: marcher-blog
+  qiniuRegion: http://ppikh5m4w.bkt.clouddn.com

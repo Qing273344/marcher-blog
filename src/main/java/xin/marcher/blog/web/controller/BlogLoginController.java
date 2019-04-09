@@ -1,14 +1,9 @@
 package xin.marcher.blog.web.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import sun.tools.tree.NullExpression;
 import xin.marcher.blog.biz.consts.RedisKeyConstant;
-import xin.marcher.blog.entity.BlogUser;
 import xin.marcher.blog.from.LoginFrom;
 import xin.marcher.blog.plugin.kaptcha.AbstractCaptcha;
 import xin.marcher.blog.plugin.kaptcha.GifCaptcha;
@@ -18,7 +13,6 @@ import xin.marcher.blog.utils.CookieUtil;
 import xin.marcher.blog.utils.JwtUtil;
 import xin.marcher.blog.utils.Result;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;

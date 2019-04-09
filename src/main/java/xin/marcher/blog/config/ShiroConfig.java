@@ -60,8 +60,10 @@ public class ShiroConfig {
         // 拦截器.
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         // 配置不会被拦截的链接 顺序判断
-        filterChainDefinitionMap.put("/blog/passport/**", "anon");
-        filterChainDefinitionMap.put("/logout", "logout");
+//        filterChainDefinitionMap.put("/blog/passport/**", "anon");
+//        filterChainDefinitionMap.put("/blog/article/**", "anon");
+//        filterChainDefinitionMap.put("/blog/**", "anon");
+//        filterChainDefinitionMap.put("/logout", "logout");
 
         filterChainDefinitionMap.put("/**", "jwt");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);

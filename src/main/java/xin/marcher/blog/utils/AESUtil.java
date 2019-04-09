@@ -14,7 +14,7 @@ import java.security.SecureRandom;
 
 /**
  * AES加解密工具类
- * 必须先启动堡垒机
+ * 必须先启动堡垒机(秘钥自配)
  *
  * @author shuzheng
  */
@@ -119,7 +119,10 @@ public class AESUtil {
         return new SecretKeySpec(raw, ALGORITHM_AES);
     }
 
-
+    /**
+     * 加密解密示例
+     * @param args
+     */
     public static void main(String[] args) {
         String key = "123456";
         System.out.println("key | AESEncode | AESDecode");

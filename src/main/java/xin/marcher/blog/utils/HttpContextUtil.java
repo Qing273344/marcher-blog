@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 public class HttpContextUtil {
 
 	public static HttpServletRequest getHttpServletRequest() {
-		System.out.println(RequestContextHolder.getRequestAttributes());
 		return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 	}
 
