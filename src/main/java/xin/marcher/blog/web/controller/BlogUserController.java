@@ -36,8 +36,6 @@ public class BlogUserController extends AbstractBaseController {
     @GetMapping("/info")
     @ResponseBody
     public Result getUserInfo() {
-        log.error("这里打印一下错误日志, 供测试用");
-
         BlogUser blogUser = getUser();
         if (EmptyUtil.isEmpty(blogUser)) {
             return Result.error();

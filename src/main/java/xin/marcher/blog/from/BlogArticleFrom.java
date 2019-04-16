@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -35,7 +34,9 @@ public class BlogArticleFrom {
     @NotEmpty(message = "请选择文章标题")
     private List<Long> tagIdList = new ArrayList<>();
 
-    @NotNull(message = "前选择是否公开文章")
-    @Min(1)
+    @NotNull(message = "请选择是否公开文章")
     private Integer status;
+
+    @NotNull(message = "前选择是否开启评论")
+    private Integer isComment;
 }

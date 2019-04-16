@@ -14,7 +14,7 @@ public class CookieUtil {
     public static final String COOKIE_DOMAIN = "marcher.xin";
 
     /** cookie超时时间(单位:秒) */
-    private static final int MAX_AGE = 60 * 60 * 8;
+    private static final int MAX_AGE = 60 * 60 * 24 * 30;
 
     /**
      * 添加新Cookie
@@ -126,6 +126,7 @@ public class CookieUtil {
      */
     public static void delCookie(HttpServletResponse response, Cookie cookie) {
         if (EmptyUtil.isNotEmpty(cookie)) {
+            cookie.setDomain(COOKIE_DOMAIN);
             cookie.setPath("/");
             cookie.setMaxAge(0);
             cookie.setValue(null);

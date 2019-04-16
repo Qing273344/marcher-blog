@@ -8,6 +8,7 @@ import xin.marcher.blog.utils.EmptyUtil;
 import xin.marcher.blog.utils.Query;
 import xin.marcher.blog.utils.QueryData;
 import xin.marcher.blog.utils.Result;
+import xin.marcher.blog.vo.BlogArticleDetailsVo;
 
 /**
  * 博客类型
@@ -24,15 +25,15 @@ public class BlogArticleController {
     /**
      * 文章详情
      */
-    @GetMapping("/get")
+    @GetMapping("/details")
     public Result details(Long id) {
         if (EmptyUtil.isEmpty(id)) {
             return Result.error(RspBaseCodeEnum.PARAM_MISS, "请选择指定文章");
         }
 
-        String contend = blogArticleService.details(id);
+        BlogArticleDetailsVo blogArticleDetails = blogArticleService.details(id);
 
-        Result data = new Result().put("details", contend);
+        Result data = new Result().put("info", blogArticleDetails);
         return Result.success(data);
     }
 
@@ -43,5 +44,17 @@ public class BlogArticleController {
     public Result query(@RequestBody Query<QueryData> query) {
         Result successPage = blogArticleService.query(query);
         return successPage;
+    }
+
+    @PostMapping("/liked")
+    public Result liked(Long id) {
+        if (EmptyUtil.isEmpty(id)) {
+            return Result.error(RspBaseCodeEnum.PARAM_MISS, "请选择指定文章");
+        }
+
+        Integer likedCount = blogArticleService.liked(id);
+
+        Result data = new Result().put("likedCount", likedCount);
+        return Result.success(data);
     }
 }

@@ -55,6 +55,11 @@ public class BlogArticle {
 	private Integer isComment;
 
 	/**
+	 * 点赞量
+	 */
+	private Integer likedCount;
+
+	/**
 	 * 创建时间
 	 */
 	private Long createTime;

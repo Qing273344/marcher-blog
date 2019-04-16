@@ -2,6 +2,8 @@ package xin.marcher.blog.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Update;
 import xin.marcher.blog.entity.BlogArticle;
 
 /**
@@ -11,5 +13,12 @@ import xin.marcher.blog.entity.BlogArticle;
  */
 @Mapper
 public interface BlogArticleDao extends BaseMapper<BlogArticle> {
-	
+
+    /**
+     * 文章点赞
+     *
+     * @param id    文章id
+     */
+    @Update("UPDATE blog_article SET liked_count = liked_count + 1 WHERE article_id = #{articleId};")
+    void liked(@Param("articleId") Long id);
 }

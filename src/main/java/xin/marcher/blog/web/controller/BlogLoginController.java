@@ -70,7 +70,7 @@ public class BlogLoginController {
      */
     @PostMapping("/login")
     @ResponseBody
-    public Result login(HttpServletResponse response, @Valid @RequestBody LoginFrom loginFrom) throws Exception {
+    public Result login(HttpServletResponse response, @Valid @RequestBody LoginFrom loginFrom) {
 
         // 验证码校验
 //        blogCaptchaService.checkCaptcha(request, loginFrom.getCaptcha());

@@ -17,6 +17,7 @@ import xin.marcher.blog.service.BlogArticleTagService;
 import xin.marcher.blog.service.BlogArticleTypeService;
 import xin.marcher.blog.utils.*;
 import xin.marcher.blog.vo.AdminArticleListVo;
+import xin.marcher.blog.vo.BlogArticleDetailsVo;
 import xin.marcher.blog.vo.BlogArticleListVo;
 
 import javax.annotation.Resource;
@@ -90,9 +91,16 @@ public class BlogArticleServiceImpl extends ServiceImpl<BlogArticleDao, BlogArti
     }
 
     @Override
-    public String details(long articleId) {
+    public BlogArticleDetailsVo details(long articleId) {
+        BlogArticle blogArticle = getById(articleId);
+
         BlogArticleContent blogArticleContent = blogArticleContentService.getById(articleId);
-        return blogArticleContent.getContentMd();
+
+        BlogArticleDetailsVo blogArticleDetailsVo = new BlogArticleDetailsVo();
+        ObjectUtil.copyProperties(blogArticle, blogArticleDetailsVo);
+        blogArticleDetailsVo.setArticleContentMd(blogArticleContent.getContentMd());
+
+        return blogArticleDetailsVo;
     }
 
     @Override
@@ -222,6 +230,14 @@ public class BlogArticleServiceImpl extends ServiceImpl<BlogArticleDao, BlogArti
         updateBlogArticle.setIsTop(isTop);
         updateBlogArticle.setModifyTime(DateUtil.getTimestamp());
         blogArticleDao.updateById(updateBlogArticle);
+    }
+
+    @Override
+    public Integer liked(Long id) {
+        blogArticleDao.liked(id);
+
+        BlogArticle blogArticle = blogArticleDao.selectById(id);
+        return blogArticle.getLikedCount();
     }
 
     private BlogArticle toArticle(BlogArticleFrom blogArticleFrom) {

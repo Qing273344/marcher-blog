@@ -10,6 +10,7 @@ CREATE TABLE `blog_article` (
 --   `recommended` tinyint(1) DEFAULT '0' COMMENT '是否推荐',
 --   `original` tinyint(1) DEFAULT '1' COMMENT '是否原创',
   `is_comment` tinyint(1) DEFAULT '1' COMMENT '是否开启评论',
+   `liked_count` INT(11) NOT NULL DEFAULT 1 COMMENT '点赞数量',
 
   `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
   `modify_time` bigint(20) DEFAULT NULL COMMENT '修改时间',
@@ -137,6 +138,7 @@ CREATE TABLE `blog_user_resource` (
   `user_resource_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '编号',
   `user_type` tinyint(2) NOT NULL COMMENT '用户类型',
   `resource_id` bigint(20) NOT NULL COMMENT '资源编号',
+  `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
   `modify_time` bigint(20) DEFAULT NULL COMMENT '修改时间',
   `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '逻辑删除(0:正常,1:删除)',
   PRIMARY KEY (`user_resource_id`)

@@ -6,6 +6,7 @@ import xin.marcher.blog.from.BlogArticleFrom;
 import xin.marcher.blog.utils.Query;
 import xin.marcher.blog.utils.QueryData;
 import xin.marcher.blog.utils.Result;
+import xin.marcher.blog.vo.BlogArticleDetailsVo;
 
 /**
  * 博客文章
@@ -27,7 +28,7 @@ public interface BlogArticleService extends IService<BlogArticle> {
      * @param articleId 文章id
      * @return 文章详情
      */
-    String details(long articleId);
+    BlogArticleDetailsVo details(long articleId);
 
     /**
      * query文章
@@ -65,5 +66,14 @@ public interface BlogArticleService extends IService<BlogArticle> {
      * @param id    文章id
      */
     void top(Long id);
+
+    /**
+     * 文章点赞
+     *
+     * @param id    文章id
+     * @return
+     *      点赞之后的赞点数
+     */
+    Integer liked(Long id);
 }
 
