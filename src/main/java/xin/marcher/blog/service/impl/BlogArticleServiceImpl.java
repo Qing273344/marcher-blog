@@ -6,7 +6,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import xin.marcher.blog.biz.consts.Constant;
+import xin.marcher.blog.biz.enums.ArticleStatusEnum;
+import xin.marcher.blog.biz.enums.RspBaseCodeEnum;
 import xin.marcher.blog.common.exception.MarcherException;
+import xin.marcher.blog.common.exception.MarcherHintException;
 import xin.marcher.blog.dao.BlogArticleDao;
 import xin.marcher.blog.entity.BlogArticle;
 import xin.marcher.blog.entity.BlogArticleContent;
@@ -93,6 +96,9 @@ public class BlogArticleServiceImpl extends ServiceImpl<BlogArticleDao, BlogArti
     @Override
     public BlogArticleDetailsVo details(long articleId) {
         BlogArticle blogArticle = getById(articleId);
+        if (EmptyUtil.isEmpty(blogArticle)) {
+            throw new MarcherHintException("我真的找不到你想要的这篇文章");
+        }
 
         BlogArticleContent blogArticleContent = blogArticleContentService.getById(articleId);
 
@@ -114,6 +120,7 @@ public class BlogArticleServiceImpl extends ServiceImpl<BlogArticleDao, BlogArti
                 queryWrapper.lambda().like(BlogArticle::getTitle, queryData.getKeyword());
             }
         }
+        queryWrapper.lambda().eq(BlogArticle::getStatus, ArticleStatusEnum.ARTICLE_STATUS_PUBLISH.getCode());
         queryWrapper.lambda().orderByDesc(BlogArticle::getArticleId);
         IPage<BlogArticle> pageWrapper = new Page<>(queryPage.getCurPage(), queryPage.getLimit());
         IPage<BlogArticle> blogArticleIPage = blogArticleDao.selectPage(pageWrapper, queryWrapper);
@@ -183,6 +190,8 @@ public class BlogArticleServiceImpl extends ServiceImpl<BlogArticleDao, BlogArti
         BlogArticleFrom blogArticleFrom = new BlogArticleFrom();
         blogArticleFrom.setArticleId(blogArticle.getArticleId());
         blogArticleFrom.setTitle(blogArticle.getTitle());
+        blogArticleFrom.setStatus(blogArticle.getStatus());
+        blogArticleFrom.setIsComment(blogArticle.getIsComment());
         blogArticleFrom.setArticleContent(blogArticleContent.getContentMd());
         blogArticleFrom.setTagIdList(tagIdList);
         blogArticleFrom.setTypeId(typeId);
@@ -194,7 +203,7 @@ public class BlogArticleServiceImpl extends ServiceImpl<BlogArticleDao, BlogArti
     public void comment(Long id) {
         BlogArticle blogArticle = blogArticleDao.selectById(id);
         if (EmptyUtil.isEmpty(blogArticle)) {
-            throw new MarcherException("无记录");
+            throw new MarcherException(RspBaseCodeEnum.NOT_RESOURCE.getMsg());
         }
 
         Integer isComment = blogArticle.getIsComment();
@@ -215,7 +224,7 @@ public class BlogArticleServiceImpl extends ServiceImpl<BlogArticleDao, BlogArti
     public void top(Long id) {
         BlogArticle blogArticle = blogArticleDao.selectById(id);
         if (EmptyUtil.isEmpty(blogArticle)) {
-            throw new MarcherException("无记录");
+            throw new MarcherException(RspBaseCodeEnum.NOT_RESOURCE.getMsg());
         }
 
         Integer isTop = blogArticle.getIsTop();
@@ -238,6 +247,11 @@ public class BlogArticleServiceImpl extends ServiceImpl<BlogArticleDao, BlogArti
 
         BlogArticle blogArticle = blogArticleDao.selectById(id);
         return blogArticle.getLikedCount();
+    }
+
+    @Override
+    public void viewsIncrease(Long id) {
+        blogArticleDao.viewsIncrease(id);
     }
 
     private BlogArticle toArticle(BlogArticleFrom blogArticleFrom) {

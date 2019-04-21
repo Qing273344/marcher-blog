@@ -75,5 +75,11 @@ public interface BlogArticleService extends IService<BlogArticle> {
      *      点赞之后的赞点数
      */
     Integer liked(Long id);
+
+    /**
+     * 浏览量+1
+     * @param id    文章id
+     */
+    void viewsIncrease(Long id);
 }
 

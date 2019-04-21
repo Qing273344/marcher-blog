@@ -6,6 +6,7 @@ import xin.marcher.blog.dao.BlogUserResourceDao;
 import xin.marcher.blog.entity.BlogUserResource;
 import xin.marcher.blog.service.BlogResourceService;
 import xin.marcher.blog.service.BlogUserResourceService;
+import xin.marcher.blog.utils.EmptyUtil;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -27,6 +28,9 @@ public class BlogUserResourceServiceImpl extends ServiceImpl<BlogUserResourceDao
     public Set<String> getByUserType(Integer userType) {
         // 获取用户权限id
         List<Long> blogResourceIds = getResourceIds(userType);
+        if (EmptyUtil.isEmpty(blogResourceIds)) {
+            return null;
+        }
 
         // 获取资源唯一name
         return blogResourceService.getNameByIds(blogResourceIds);

@@ -23,4 +23,8 @@ public class AdminArticleListVo {
     private Integer isTop;
 
     private Integer isComment;
+
+    private Integer likedCount;
+
+    private Integer viewsCount;
 }

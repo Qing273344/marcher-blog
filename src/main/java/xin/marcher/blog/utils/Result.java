@@ -34,7 +34,7 @@ public class Result extends HashMap<String, Object> {
 		return error(code, msg);
 	}
 
-	public static Result error(int code, String msg){
+	public static Result error(Integer code, String msg){
 		return new Result().put("status", statusData(code, msg));
 	}
 

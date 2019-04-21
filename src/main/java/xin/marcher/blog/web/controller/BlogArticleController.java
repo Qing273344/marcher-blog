@@ -33,6 +33,9 @@ public class BlogArticleController {
 
         BlogArticleDetailsVo blogArticleDetails = blogArticleService.details(id);
 
+        // 浏览量+1
+        blogArticleService.viewsIncrease(id);
+
         Result data = new Result().put("info", blogArticleDetails);
         return Result.success(data);
     }

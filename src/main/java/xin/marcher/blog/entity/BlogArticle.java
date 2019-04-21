@@ -60,6 +60,11 @@ public class BlogArticle {
 	private Integer likedCount;
 
 	/**
+	 * 浏览量
+	 */
+	private Integer viewsCount;
+
+	/**
 	 * 创建时间
 	 */
 	private Long createTime;

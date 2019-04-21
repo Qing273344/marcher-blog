@@ -116,7 +116,7 @@
     父logger看有没有指定级别，直到找到root。-->
     <root level="INFO">
         <!-- 控制台输出 -->
-        <!--<appender-ref ref="STDOUT" />-->
+        <appender-ref ref="STDOUT" />
         <!-- 文件输出 -->
         <appender-ref ref="ERROR" />
         <!--<appender-ref ref="INFO" />-->

@@ -2,6 +2,7 @@ package xin.marcher.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -84,20 +85,19 @@ public class BlogUserServiceImpl extends ServiceImpl<BlogUserDao, BlogUser> impl
     public void checkLoginInfo(HttpServletResponse response, LoginFrom loginFrom) {
         BlogUser blogUser = getByUsername(loginFrom.getUsername());
         if (EmptyUtil.isEmpty(blogUser)) {
-            throw new MarcherException("账号或密码错误~");
+            throw new AuthenticationException("账号或密码错误~");
         }
+        String inPassword = OAuthUtil.encrypt(loginFrom.getPassword(), blogUser.getCreateTime().toString());
+        if (!inPassword.equals(blogUser.getPassword())) {
+            throw new AuthenticationException("账号或密码错误~");
+        }
+
         if (blogUser.getIsLocked() != null && UserLockedEnum.USER_LOCKED_DISABLE.getCode().equals(blogUser.getIsLocked())){
             throw new LockedAccountException("账号已被锁定, 禁止登录!");
         }
 
-        String inPassword = OAuthUtil.encrypt(loginFrom.getPassword(), blogUser.getCreateTime().toString());
-
-        if (!inPassword.equals(blogUser.getPassword())) {
-            throw new MarcherException("账号或密码错误~");
-        }
-
         // 登录成功后用户信息存入缓存中
-        blogUserService.saveUserInfoToCache(blogUser);
+//        blogUserService.saveUserInfoToCache(blogUser);
 
         // 通过用户id生成token, set-cookie到浏览器, 后续通过cookie获取token做校验
         String jwtToken = jwtUtil.generateToken(blogUser.getUserId());

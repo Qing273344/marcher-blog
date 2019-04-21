@@ -21,4 +21,12 @@ public interface BlogArticleDao extends BaseMapper<BlogArticle> {
      */
     @Update("UPDATE blog_article SET liked_count = liked_count + 1 WHERE article_id = #{articleId};")
     void liked(@Param("articleId") Long id);
+
+    /**
+     * 浏览量+1
+     * @param id    文章id
+     */
+    @Update("UPDATE blog_article SET views_count = views_count + 1 WHERE article_id = #{articleId};")
+    void viewsIncrease(@Param("articleId") Long id);
+
 }

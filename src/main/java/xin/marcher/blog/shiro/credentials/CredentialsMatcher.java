@@ -1,5 +1,6 @@
 package xin.marcher.blog.shiro.credentials;
 
+import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -31,7 +32,7 @@ public class CredentialsMatcher extends SimpleCredentialsMatcher {
 
         boolean match = this.equals(inPassword, dbPassword);
         if (!match) {
-            throw new MarcherException("账号或密码错误~");
+            throw new AuthenticationException("账号或密码错误~");
         }
 
         return true;

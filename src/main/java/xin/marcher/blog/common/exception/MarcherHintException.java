@@ -10,7 +10,7 @@ public class MarcherHintException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 
     private String msg;
-    private int code = 500;
+    private int code = 400;
 
     public MarcherHintException(String msg) {
 		super(msg);

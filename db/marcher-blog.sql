@@ -11,6 +11,7 @@ CREATE TABLE `blog_article` (
 --   `original` tinyint(1) DEFAULT '1' COMMENT '是否原创',
   `is_comment` tinyint(1) DEFAULT '1' COMMENT '是否开启评论',
    `liked_count` INT(11) NOT NULL DEFAULT 1 COMMENT '点赞数量',
+   `views_count` INT(11) NOT NULL DEFAULT 1 COMMENT '浏览数量',
 
   `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
   `modify_time` bigint(20) DEFAULT NULL COMMENT '修改时间',

@@ -6,7 +6,9 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.stereotype.Component;
+import xin.marcher.blog.biz.enums.RspBaseCodeEnum;
 import xin.marcher.blog.biz.enums.UserLockedEnum;
+import xin.marcher.blog.common.exception.MarcherException;
 import xin.marcher.blog.entity.BlogUser;
 import xin.marcher.blog.service.BlogUserResourceService;
 import xin.marcher.blog.service.BlogUserService;
@@ -63,6 +65,9 @@ public class BlogRealm extends AuthorizingRealm {
 
         // 从token中获取userId
         Long userId = jwtUtil.getUserIdFromToke(accessToken);
+        if (EmptyUtil.isEmpty(userId)) {
+            throw new AuthenticationException(RspBaseCodeEnum.LOGIN_TOKEN_INVALID.getMsg());
+        }
 
         BlogUser blogUser = blogUserService.getById(userId);
         if (EmptyUtil.isEmpty(blogUser)) {

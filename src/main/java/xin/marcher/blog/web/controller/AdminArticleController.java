@@ -1,15 +1,13 @@
 package xin.marcher.blog.web.controller;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import xin.marcher.blog.biz.enums.RspBaseCodeEnum;
 import xin.marcher.blog.entity.BlogArticle;
 import xin.marcher.blog.from.BlogArticleFrom;
 import xin.marcher.blog.service.BlogArticleService;
-import xin.marcher.blog.utils.EmptyUtil;
-import xin.marcher.blog.utils.Query;
-import xin.marcher.blog.utils.QueryData;
-import xin.marcher.blog.utils.Result;
+import xin.marcher.blog.utils.*;
 
 import javax.validation.Valid;
 
@@ -46,12 +44,11 @@ public class AdminArticleController {
      */
     @GetMapping("/getAsEdit")
     public Result getAsEdit(Long id) {
-        if (EmptyUtil.isEmpty(id)) {
-            return Result.error(RspBaseCodeEnum.PARAM_MISS, "id");
-        }
+        Assert.isNullOrZero(id, "请选择需要编辑的文章");
+
         BlogArticle blogArticle = blogArticleService.getById(id);
         if (EmptyUtil.isEmpty(blogArticle)) {
-            return Result.error("无记录");
+            return Result.error(RspBaseCodeEnum.NOT_RESOURCE.getMsg());
         }
 
         BlogArticleFrom blogArticleFrom = blogArticleService.getAsEdit(id);
@@ -64,6 +61,7 @@ public class AdminArticleController {
      * @param query 参数
      */
     @PostMapping("/query")
+    @RequiresPermissions("marcher")
     public Result query(@RequestBody Query<QueryData> query) {
         return blogArticleService.queryAsAdmin(query);
     }
@@ -75,9 +73,7 @@ public class AdminArticleController {
      */
     @PostMapping("/remove")
     public Result remove(Long id) {
-        if (EmptyUtil.isEmpty(id)) {
-            return Result.error(RspBaseCodeEnum.PARAM_MISS, "id");
-        }
+        Assert.isNullOrZero(id, "请选择需要删除的文章");
 
         blogArticleService.removeById(id);
 
@@ -91,9 +87,7 @@ public class AdminArticleController {
      */
     @PostMapping("/comment")
     public Result comment(Long id) {
-        if (EmptyUtil.isEmpty(id)) {
-            return Result.error(RspBaseCodeEnum.PARAM_MISS, "id");
-        }
+        Assert.isNullOrZero(id, "请选择需要点赞的文章");
 
         blogArticleService.comment(id);
 
@@ -107,9 +101,7 @@ public class AdminArticleController {
      */
     @PostMapping("/top")
     public Result top(Long id) {
-        if (EmptyUtil.isEmpty(id)) {
-            return Result.error(RspBaseCodeEnum.PARAM_MISS, "id");
-        }
+        Assert.isNullOrZero(id, "请选择需要指定的文章");
 
         blogArticleService.top(id);
 

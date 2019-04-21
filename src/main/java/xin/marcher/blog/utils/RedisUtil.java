@@ -1,6 +1,8 @@
 package xin.marcher.blog.utils;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.*;
+import xin.marcher.blog.biz.property.RedisProperties;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -14,6 +16,14 @@ import java.util.concurrent.TimeUnit;
  */
 public class RedisUtil {
 
+    @Autowired
+    private RedisProperties redisProperties;
+
+    public final Long U_SESSION_EXPIRE = redisProperties.getExpireTime() * 60 * 24 * 30L;
+
+    /** 不设置过期时间 */
+    public final long NOT_EXPIRE = -1;
+
     /**
      * 由于当前class不在spring boot框架内（不在web项目中）所以无法使用autowired，使用此种方法进行注入
      */
@@ -25,7 +35,7 @@ public class RedisUtil {
      *
      * @param key    key
      * @param data   数据
-     * @param expire 过期时间,为null着不设置
+     * @param expire 过期时间,为null则不设置
      */
     public static void setCacheStr(String key, String data, Long expire) {
         if (EmptyUtil.isNotEmpty(redisTemplate)) {

@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.time.DateUtils;
-import org.apache.http.HttpStatus;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 import xin.marcher.blog.biz.enums.RspBaseCodeEnum;
@@ -102,11 +101,11 @@ public class JwtUtil {
      */
     public Long getUserIdFromToke(String token) {
         if (EmptyUtil.isEmpty(token)) {
-            throw new MarcherException("invalid token", RspBaseCodeEnum.LOGIN_TOKEN_INVALID.getCode());
+            return null;
         }
         Claims claims = getClaimByToken(token);
         if (EmptyUtil.isEmpty(claims) || isTokenExpired(claims.getExpiration())) {
-            throw new MarcherException(getToken() + "失效, 请重新登录", RspBaseCodeEnum.LOGIN_TOKEN_INVALID.getCode());
+            return null;
         }
         return Long.parseLong(claims.getSubject());
     }

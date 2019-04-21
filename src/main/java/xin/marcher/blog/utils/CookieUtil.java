@@ -14,7 +14,7 @@ public class CookieUtil {
     public static final String COOKIE_DOMAIN = "marcher.xin";
 
     /** cookie超时时间(单位:秒) */
-    private static final int MAX_AGE = 60 * 60 * 24 * 30;
+    private static final int U_MAX_AGE = 60 * 60 * 24 * 30;
 
     /**
      * 添加新Cookie
@@ -73,7 +73,7 @@ public class CookieUtil {
      * @param domain        所属域
      */
     public static void addCookie(HttpServletResponse response, String cookieName, String cookieValue, String domain) {
-        addCookie(response, cookieName, cookieValue, domain, true, MAX_AGE, "/", false);
+        addCookie(response, cookieName, cookieValue, domain, true, U_MAX_AGE, "/", false);
     }
 
     /**

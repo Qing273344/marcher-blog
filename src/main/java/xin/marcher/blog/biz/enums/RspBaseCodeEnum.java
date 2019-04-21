@@ -15,18 +15,21 @@ public enum RspBaseCodeEnum {
     OK(0, "ok"),
     PARAM_MISS(1, "请提交"),
     PARAM_ILLEGAL(2, "错误的参数"),
-    PERMISSION_NOT(3, "permission"),
+    NOT_PERMISSION(3, "是想访问么? 让我想想..."),
+    NOT_RESOURCE(5, "没有找到你想要的..."),
 
-    LOGIN_FAIL(10, "请登录"),
-    LOGIN_TOKEN_INVALID(11, "token失效"),
+    NOT_LOGIN(10, "登录后才可以悄悄的干坏事哟!"),
+    LOGIN_TOKEN_INVALID(11, "登录失效咯, 再登一次吧!"),
+
+    MARCHER_CODE(999, ""),
     ;
 
     private Integer code;
     private String msg;
 
-    RspBaseCodeEnum(Integer code, String desc) {
+    RspBaseCodeEnum(Integer code, String msg) {
         this.code = code;
-        this.msg = desc;
+        this.msg = msg;
     }
 
     public static RspBaseCodeEnum get(Integer code) {

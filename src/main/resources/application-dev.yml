@@ -53,7 +53,7 @@ cache:
   default-expire-time: 60
 
 jwt:
-  expire: 2   # token有效时长, 单位小时
+  expire: 720   # token有效时长, 单位小时
   token: token   # token 存在 cookie 中
   secret: AES@u9bX3ohn2rEMj4pBh/SjSlVMbQ0piluFtz/LgHDtAG2O4BFU/QmgH1h1h2MVqAMI
 

@@ -1,14 +1,16 @@
 package xin.marcher.blog.common.exception;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authz.AuthorizationException;
-import org.apache.shiro.authz.UnauthorizedException;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import xin.marcher.blog.biz.enums.RspBaseCodeEnum;
 import xin.marcher.blog.utils.Result;
@@ -29,9 +31,10 @@ public class MarcherExceptionHandler {
      * @return
      *      异常提示
      */
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MarcherHintException.class)
     @ResponseBody
-    public static Result handleMarcherException(MarcherHintException ex) {
+    public Result handleMarcherException(MarcherHintException ex) {
         return Result.error(ex.getCode(), ex.getMsg());
     }
 
@@ -44,7 +47,7 @@ public class MarcherExceptionHandler {
      */
     @ExceptionHandler(MarcherException.class)
     @ResponseBody
-    public static Result handleMarcherException(MarcherException ex) {
+    public Result handleMarcherException(MarcherException ex) {
         log.error(ex.getMsg(), ex);
         return Result.error(ex.getCode(), ex.getMsg());
     }
@@ -56,9 +59,10 @@ public class MarcherExceptionHandler {
      * @return
      *      异常提示
      */
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({MethodArgumentNotValidException.class})
     @ResponseBody
-    public static Result handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
+    public Result handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
         BindingResult bindingResult = ex.getBindingResult();
         StringBuilder errorMessage = new StringBuilder(bindingResult.getFieldErrors().size() * 16);
 
@@ -66,7 +70,7 @@ public class MarcherExceptionHandler {
             FieldError fieldError = bindingResult.getFieldErrors().get(0);
             errorMessage.append(fieldError.getDefaultMessage());
         }
-        return Result.error(errorMessage.toString());
+        return Result.error(HttpStatus.BAD_REQUEST.value(), errorMessage.toString());
     }
 
     /**
@@ -75,32 +79,42 @@ public class MarcherExceptionHandler {
      * @return
      *      异常提示
      */
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(NoHandlerFoundException.class)
     @ResponseBody
     public Result handlerNoFoundException(Exception ex) {
         log.error(ex.getMessage(), ex);
-        return Result.error(404, "路径不存在，请检查路径是否正确");
+        return Result.error(HttpStatus.NOT_FOUND.value(), "你好像访问到了其他地方...");
     }
 
     /**
-     * shiro权限异常提示
+     * shiro权限异常提示(授权)
      *
      * @param ex    异常
      * @return
      *      异常提示
      */
+    @ResponseStatus(HttpStatus.FORBIDDEN)
     @ExceptionHandler(AuthorizationException.class)
     @ResponseBody
-    public static Result handleAuthorizationException(AuthorizationException ex) {
+    public Result handleAuthorizationException(AuthorizationException ex) {
         log.error(ex.getMessage(), ex);
-        return Result.error(RspBaseCodeEnum.PERMISSION_NOT);
+        return Result.error(RspBaseCodeEnum.NOT_PERMISSION);
     }
 
-    @ExceptionHandler(UnauthorizedException.class)
+    /**
+     * shiro凭证异常提示(登录)
+     *
+     * @param ex    异常
+     * @return
+     *      异常提示
+     */
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(AuthenticationException.class)
     @ResponseBody
-    public static Result handleUnauthorizedException(UnauthorizedException ex) {
+    public Result handleAuthenticationException(AuthenticationException ex) {
         log.error(ex.getMessage(), ex);
-        return Result.error(RspBaseCodeEnum.PERMISSION_NOT);
+        return Result.error(HttpStatus.UNAUTHORIZED.value(), ex.getMessage());
     }
 
     /**
@@ -110,6 +124,7 @@ public class MarcherExceptionHandler {
      * @return
      *      异常提示
      */
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public Result handleException(Exception ex) {
