@@ -1,13 +1,11 @@
 package xin.marcher.blog.web.controller;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import xin.marcher.blog.from.BlogArticleTypeFrom;
 import xin.marcher.blog.service.BlogTypeService;
-import xin.marcher.blog.utils.EmptyUtil;
-import xin.marcher.blog.utils.Query;
-import xin.marcher.blog.utils.QueryData;
-import xin.marcher.blog.utils.Result;
+import xin.marcher.blog.utils.*;
 import xin.marcher.blog.vo.BlogArticleTypeVo;
 
 import java.util.ArrayList;
@@ -32,11 +30,9 @@ public class AdminTypeController {
      * @param id    博客类型id
      */
     @GetMapping("/get")
-    @ResponseBody
+    @RequiresPermissions("marcher")
     public Result get(Long id) {
-        if (EmptyUtil.isEmpty(id)) {
-            return Result.error("请选择记录");
-        }
+        Assert.isNullOrZero(id, "请选择分类");
 
         BlogArticleTypeVo blogArticleTypeVo = blogTypeService.get(id);
 
@@ -48,7 +44,7 @@ public class AdminTypeController {
      * 获取所有博客类型
      */
     @GetMapping("/listAll")
-    @ResponseBody
+    @RequiresPermissions("marcher")
     public Result listAll() {
         List<BlogArticleTypeVo> blogArticleTypeVoList = blogTypeService.listAll();
 
@@ -62,7 +58,7 @@ public class AdminTypeController {
      * @param query query参数
      */
     @PostMapping("/query")
-    @ResponseBody
+    @RequiresPermissions("marcher")
     public Result query(@RequestBody Query<QueryData> query) {
         return blogTypeService.query(query);
     }
@@ -73,7 +69,7 @@ public class AdminTypeController {
      * @param blogArticleTypeFrom   分类信息form
      */
     @PostMapping("/save")
-    @ResponseBody
+    @RequiresPermissions("marcher")
     public Result save(@RequestBody BlogArticleTypeFrom blogArticleTypeFrom) {
         blogTypeService.create(blogArticleTypeFrom);
 
@@ -86,11 +82,10 @@ public class AdminTypeController {
      * @param blogArticleTypeFrom   分类信息form
      */
     @PostMapping("/update")
-    @ResponseBody
+    @RequiresPermissions("marcher")
     public Result update(@RequestBody BlogArticleTypeFrom blogArticleTypeFrom) {
-        if (EmptyUtil.isEmpty(blogArticleTypeFrom.getTypeId())) {
-            return Result.error("请选择需要修改的分类");
-        }
+        Assert.isNullOrZero(blogArticleTypeFrom.getTypeId(), "请选择需要修改的分类");
+
         blogTypeService.update(blogArticleTypeFrom);
 
         return Result.success();
@@ -102,11 +97,9 @@ public class AdminTypeController {
      * @param ids   文章分类id
      */
     @PostMapping("/remove")
-    @ResponseBody
+    @RequiresPermissions("marcher")
     public Result remove(@RequestBody  Long[] ids) {
-        if (EmptyUtil.isEmpty(ids)) {
-            return Result.error("请至少选择一条记录");
-        }
+        Assert.isEmpty(ids, "请至少选择一条记录");
 
         List<Long> idList = new ArrayList<>();
         Collections.addAll(idList, ids);

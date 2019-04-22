@@ -4,10 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import xin.marcher.blog.biz.enums.RspBaseCodeEnum;
 import xin.marcher.blog.service.BlogArticleService;
-import xin.marcher.blog.utils.EmptyUtil;
-import xin.marcher.blog.utils.Query;
-import xin.marcher.blog.utils.QueryData;
-import xin.marcher.blog.utils.Result;
+import xin.marcher.blog.utils.*;
 import xin.marcher.blog.vo.BlogArticleDetailsVo;
 
 /**
@@ -27,9 +24,7 @@ public class BlogArticleController {
      */
     @GetMapping("/details")
     public Result details(Long id) {
-        if (EmptyUtil.isEmpty(id)) {
-            return Result.error(RspBaseCodeEnum.PARAM_MISS, "请选择指定文章");
-        }
+        Assert.isNullOrZero(id, "请选择指定文章");
 
         BlogArticleDetailsVo blogArticleDetails = blogArticleService.details(id);
 
@@ -51,9 +46,7 @@ public class BlogArticleController {
 
     @PostMapping("/liked")
     public Result liked(Long id) {
-        if (EmptyUtil.isEmpty(id)) {
-            return Result.error(RspBaseCodeEnum.PARAM_MISS, "请选择指定文章");
-        }
+        Assert.isNullOrZero(id, "请选择指定文章");
 
         Integer likedCount = blogArticleService.liked(id);
 

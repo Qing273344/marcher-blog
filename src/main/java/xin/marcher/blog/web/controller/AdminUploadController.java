@@ -1,5 +1,6 @@
 package xin.marcher.blog.web.controller;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -7,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import xin.marcher.blog.service.OssService;
+import xin.marcher.blog.utils.Assert;
 import xin.marcher.blog.utils.Result;
 
 /**
@@ -28,6 +30,7 @@ public class AdminUploadController {
      * @return 文件url
      */
     @PostMapping("/uploadFile")
+    @RequiresPermissions("marcher")
     public Result upload(@RequestParam("file") MultipartFile file) {
         if (file.isEmpty()) {
             return Result.error("上传文件不能为空");

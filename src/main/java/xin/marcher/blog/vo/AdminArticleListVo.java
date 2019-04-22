@@ -20,6 +20,8 @@ public class AdminArticleListVo {
 
     private String timeStr;
 
+    private Integer status;
+
     private Integer isTop;
 
     private Integer isComment;

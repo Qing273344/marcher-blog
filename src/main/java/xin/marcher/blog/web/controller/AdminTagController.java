@@ -1,13 +1,11 @@
 package xin.marcher.blog.web.controller;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import xin.marcher.blog.from.BlogTagFrom;
 import xin.marcher.blog.service.BlogTagService;
-import xin.marcher.blog.utils.EmptyUtil;
-import xin.marcher.blog.utils.Query;
-import xin.marcher.blog.utils.QueryData;
-import xin.marcher.blog.utils.Result;
+import xin.marcher.blog.utils.*;
 import xin.marcher.blog.vo.BlogTagVo;
 
 import java.util.ArrayList;
@@ -33,11 +31,9 @@ public class AdminTagController {
      * @param id    标签id
      */
     @GetMapping("/get")
-    @ResponseBody
+    @RequiresPermissions("marcher")
     public Result get(Long id) {
-        if (EmptyUtil.isEmpty(id)) {
-            return Result.error("请选择记录");
-        }
+        Assert.isNullOrZero(id, "请选择标签");
 
         BlogTagVo blogTagVo = blogTagService.get(id);
 
@@ -49,7 +45,7 @@ public class AdminTagController {
      * list 所有标签
      */
     @GetMapping("/listAll")
-    @ResponseBody
+    @RequiresPermissions("marcher")
     public Result listAll() {
         List<BlogTagVo> list = blogTagService.listAll();
 
@@ -63,7 +59,7 @@ public class AdminTagController {
      * @param query query参数
      */
     @PostMapping("/query")
-    @ResponseBody
+    @RequiresPermissions("marcher")
     public Result query(@RequestBody Query<QueryData> query) {
         return blogTagService.query(query);
     }
@@ -72,7 +68,7 @@ public class AdminTagController {
      * 新增标签
      */
     @PostMapping("/save")
-    @ResponseBody
+    @RequiresPermissions("marcher")
     public Result save(@RequestBody BlogTagFrom blogTagFrom) {
         blogTagService.create(blogTagFrom);
 
@@ -83,11 +79,9 @@ public class AdminTagController {
      * 编辑标签
      */
     @PostMapping("/update")
-    @ResponseBody
+    @RequiresPermissions("marcher")
     public Result update(@RequestBody BlogTagFrom blogTagFrom) {
-        if (EmptyUtil.isEmpty(blogTagFrom.getTagId())) {
-            return Result.error("请选择需要修改的标签");
-        }
+        Assert.isNullOrZero(blogTagFrom.getTagId(), "请选择标签");
 
         blogTagService.update(blogTagFrom);
 
@@ -100,11 +94,9 @@ public class AdminTagController {
      * @param ids   标签id
      */
     @PostMapping("/remove")
-    @ResponseBody
+    @RequiresPermissions("marcher")
     public Result remove(@RequestBody Long[] ids) {
-        if (EmptyUtil.isEmpty(ids)) {
-            return Result.error("请至少选择一条记录");
-        }
+        Assert.isEmpty(ids, "请至少选择一条记录");
 
         List<Long> idList = new ArrayList<>();
         Collections.addAll(idList, ids);

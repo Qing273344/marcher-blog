@@ -29,6 +29,7 @@ public class AdminArticleController {
      * @param blogArticleFrom   文章信息
      */
     @PostMapping("/publish")
+    @RequiresPermissions("marcher")
     public Result publish(@Valid @RequestBody BlogArticleFrom blogArticleFrom) {
 
         Long articleId = blogArticleService.publish(blogArticleFrom);
@@ -43,6 +44,7 @@ public class AdminArticleController {
      * @param id    文章id
      */
     @GetMapping("/getAsEdit")
+    @RequiresPermissions("marcher")
     public Result getAsEdit(Long id) {
         Assert.isNullOrZero(id, "请选择需要编辑的文章");
 
@@ -72,6 +74,7 @@ public class AdminArticleController {
      * @param id    文章id
      */
     @PostMapping("/remove")
+    @RequiresPermissions("marcher")
     public Result remove(Long id) {
         Assert.isNullOrZero(id, "请选择需要删除的文章");
 
@@ -86,6 +89,7 @@ public class AdminArticleController {
      * @param id    文章id
      */
     @PostMapping("/comment")
+    @RequiresPermissions("marcher")
     public Result comment(Long id) {
         Assert.isNullOrZero(id, "请选择需要点赞的文章");
 
@@ -100,8 +104,9 @@ public class AdminArticleController {
      * @param id    文章id
      */
     @PostMapping("/top")
+    @RequiresPermissions("marcher")
     public Result top(Long id) {
-        Assert.isNullOrZero(id, "请选择需要指定的文章");
+        Assert.isNullOrZero(id, "请选择需要置顶的文章");
 
         blogArticleService.top(id);
 
