@@ -18,7 +18,6 @@
 
     <properties>
         <spring-boot.version>2.0.4.RELEASE</spring-boot.version>
-        <docker.image.prefix>springboot</docker.image.prefix>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
@@ -204,18 +203,24 @@
                 </executions>
             </plugin>
 
-            <!-- Docker maven plugin -->
+            <!-- Docker maven plugin 注:未使用该方式 -->
             <plugin>
                 <groupId>com.spotify</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
                 <version>1.0.0</version>
                 <configuration>
-                    <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+                    <!-- 镜像名称 -->
+                    <imageName>${project.artifactId}</imageName>
+                    <!-- Dockerfile文件目录 -->
                     <dockerDirectory>src/main/docker</dockerDirectory>
+                    <!-- docker远程服务器, 需docker开启远程访问 -->
+                    <dockerHost>http://127.0.0.1:2375</dockerHost>
                     <resources>
                         <resource>
                             <targetPath>/</targetPath>
+                            <!-- 资源所在目录 -->
                             <directory>${project.build.directory}</directory>
+                            <!-- 生成的jar文件 -->
                             <include>${project.build.finalName}.jar</include>
                         </resource>
                     </resources>

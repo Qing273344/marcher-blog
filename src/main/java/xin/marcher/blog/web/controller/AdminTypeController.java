@@ -101,8 +101,7 @@ public class AdminTypeController {
     public Result remove(@RequestBody  Long[] ids) {
         Assert.isEmpty(ids, "请至少选择一条记录");
 
-        List<Long> idList = new ArrayList<>();
-        Collections.addAll(idList, ids);
+        List<Long> idList = ConvertUtil.arrayToList(ids);
         blogTypeService.remove(idList);
 
         return Result.success();

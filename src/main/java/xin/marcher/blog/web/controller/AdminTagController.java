@@ -8,8 +8,6 @@ import xin.marcher.blog.service.BlogTagService;
 import xin.marcher.blog.utils.*;
 import xin.marcher.blog.vo.BlogTagVo;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -98,8 +96,7 @@ public class AdminTagController {
     public Result remove(@RequestBody Long[] ids) {
         Assert.isEmpty(ids, "请至少选择一条记录");
 
-        List<Long> idList = new ArrayList<>();
-        Collections.addAll(idList, ids);
+        List<Long> idList = ConvertUtil.arrayToList(ids);
         blogTagService.remove(idList);
 
         return Result.success();
