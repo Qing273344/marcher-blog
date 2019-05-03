@@ -29,7 +29,7 @@ public class AESUtil {
     public static String KEY;
 
     static {
-        String configUrl = "http://localhost:9020/config/encryption/key";
+         String configUrl = "http://localhost:9020/config/encryption/key";
         KEY = HttpUtil.get(configUrl);
     }
 

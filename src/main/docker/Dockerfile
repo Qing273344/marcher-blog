@@ -10,5 +10,5 @@ ADD marcher-blog-1.0.0.jar app.jar
 # 暴露端口
 EXPOSE 8879
 # 入口点
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar", "--spring.profiles.active=prod"]
 

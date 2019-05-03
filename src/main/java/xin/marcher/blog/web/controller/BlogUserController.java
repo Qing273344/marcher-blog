@@ -13,8 +13,6 @@ import xin.marcher.blog.utils.ObjectUtil;
 import xin.marcher.blog.utils.Result;
 import xin.marcher.blog.vo.BlogUserVo;
 
-import javax.swing.border.EmptyBorder;
-
 /**
  * 用户
  *

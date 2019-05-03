@@ -211,10 +211,15 @@
                 <configuration>
                     <!-- 镜像名称 -->
                     <imageName>${project.artifactId}</imageName>
+                    <!-- TAG, 用工程版本号 -->
+                    <imageTags>
+                        <imageTag>${project.version}</imageTag>
+                    </imageTags>
                     <!-- Dockerfile文件目录 -->
                     <dockerDirectory>src/main/docker</dockerDirectory>
                     <!-- docker远程服务器, 需docker开启远程访问 -->
                     <dockerHost>http://127.0.0.1:2375</dockerHost>
+                    <!-- 构建镜像的配置信息 -->
                     <resources>
                         <resource>
                             <targetPath>/</targetPath>

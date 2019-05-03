@@ -31,7 +31,6 @@ public class Assert {
     }
 
     public static void isNullOrZero(Number number, String msg) {
-        System.out.println(number.intValue());
         if (EmptyUtil.isEmpty(number) || number.longValue() <= 0) {
             throw new MarcherHintException(msg);
         }

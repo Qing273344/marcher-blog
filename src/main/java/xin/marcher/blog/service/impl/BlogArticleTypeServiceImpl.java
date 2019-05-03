@@ -46,13 +46,9 @@ public class BlogArticleTypeServiceImpl extends ServiceImpl<BlogArticleTypeDao, 
     }
 
     private BlogArticleType toArticleType(Long articleId, Long typeId) {
-        Long now = DateUtil.getTimestamp();
-
         BlogArticleType blogArticleType = new BlogArticleType();
         blogArticleType.setArticleId(articleId);
         blogArticleType.setTypeId(typeId);
-        blogArticleType.setCreateTime(now);
-        blogArticleType.setModifyTime(now);
         blogArticleType.setDeleted(Constant.NO_DELETED);
 
         return blogArticleType;

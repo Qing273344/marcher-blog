@@ -65,5 +65,5 @@ oss:
   qiniuBucketName: marcher-blog
   qiniuRegion: http://ppikh5m4w.bkt.clouddn.com
 
-logging:
-  config: classpath:logback-dev.xml
+#logging:
+#  config: classpath:logback-dev.xml

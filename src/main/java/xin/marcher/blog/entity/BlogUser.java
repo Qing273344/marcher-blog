@@ -6,12 +6,14 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import xin.marcher.blog.common.annotion.CreateTime;
+import xin.marcher.blog.common.annotion.ModifyTime;
 
 import java.io.Serializable;
 
 /**
  * 博客用户
- * 
+ *
  * @author marcher
  */
 @Getter
@@ -65,12 +67,14 @@ public class BlogUser implements Serializable {
 
 	/**
 	 * 创建时间
+	 * TODO: 该字段不做自动更新操作, 时间需与加密中的一致
 	 */
 	private Long createTime;
 
 	/**
 	 * 修改时间
 	 */
+	@ModifyTime
 	private Long modifyTime;
 
 	/**

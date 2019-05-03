@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import xin.marcher.blog.common.annotion.CreateTime;
+import xin.marcher.blog.common.annotion.ModifyTime;
 
 /**
  * 博客文章类型管理
@@ -37,11 +39,13 @@ public class BlogArticleType {
     /**
      * 创建时间
      */
+    @CreateTime
     private Long createTime;
 
     /**
      * 修改时间
      */
+    @ModifyTime
     private Long modifyTime;
 
     /**

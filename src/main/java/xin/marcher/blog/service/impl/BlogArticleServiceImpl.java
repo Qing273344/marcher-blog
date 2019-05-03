@@ -216,7 +216,6 @@ public class BlogArticleServiceImpl extends ServiceImpl<BlogArticleDao, BlogArti
         BlogArticle updateBlogArticle = new BlogArticle();
         updateBlogArticle.setArticleId(id);
         updateBlogArticle.setIsComment(isComment);
-        updateBlogArticle.setModifyTime(DateUtil.getTimestamp());
         blogArticleDao.updateById(updateBlogArticle);
     }
 
@@ -237,7 +236,6 @@ public class BlogArticleServiceImpl extends ServiceImpl<BlogArticleDao, BlogArti
         BlogArticle updateBlogArticle = new BlogArticle();
         updateBlogArticle.setArticleId(id);
         updateBlogArticle.setIsTop(isTop);
-        updateBlogArticle.setModifyTime(DateUtil.getTimestamp());
         blogArticleDao.updateById(updateBlogArticle);
     }
 
@@ -255,17 +253,11 @@ public class BlogArticleServiceImpl extends ServiceImpl<BlogArticleDao, BlogArti
     }
 
     private BlogArticle toArticle(BlogArticleFrom blogArticleFrom) {
-        Long now = System.currentTimeMillis();
-
         BlogArticle blogArticle = new BlogArticle();
         blogArticle.setIsTop(Constant.NO);
         blogArticle.setIsComment(Constant.NO);
         ObjectUtil.copyProperties(blogArticleFrom, blogArticle);
-        if (EmptyUtil.isEmpty(blogArticleFrom.getArticleId())) {
-            blogArticle.setCreateTime(now);
-            blogArticle.setDeleted(Constant.NO_DELETED);
-        }
-        blogArticle.setModifyTime(now);
+        blogArticle.setDeleted(Constant.NO_DELETED);
 
         return blogArticle;
     }

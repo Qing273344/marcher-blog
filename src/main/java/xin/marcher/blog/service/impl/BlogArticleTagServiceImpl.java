@@ -51,15 +51,11 @@ public class BlogArticleTagServiceImpl extends ServiceImpl<BlogArticleTagDao, Bl
     }
 
     private List<BlogArticleTag> toArticleTag(Long articleId, List<Long> tagIdList) {
-        Long now = DateUtil.getTimestamp();
-
         List<BlogArticleTag> blogArticleTagList = new ArrayList<>();
         for (Long tagId : tagIdList) {
             BlogArticleTag blogArticleTag = new BlogArticleTag();
             blogArticleTag.setArticleId(articleId);
             blogArticleTag.setTagId(tagId);
-            blogArticleTag.setCreateTime(now);
-            blogArticleTag.setModifyTime(now);
             blogArticleTag.setDeleted(Constant.NO_DELETED);
             blogArticleTagList.add(blogArticleTag);
         }

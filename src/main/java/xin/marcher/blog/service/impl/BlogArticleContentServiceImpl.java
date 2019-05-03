@@ -6,7 +6,6 @@ import xin.marcher.blog.biz.consts.Constant;
 import xin.marcher.blog.dao.BlogArticleContentDao;
 import xin.marcher.blog.entity.BlogArticleContent;
 import xin.marcher.blog.service.BlogArticleContentService;
-import xin.marcher.blog.utils.EmptyUtil;
 
 import javax.annotation.Resource;
 
@@ -21,27 +20,21 @@ public class BlogArticleContentServiceImpl extends ServiceImpl<BlogArticleConten
 
     @Override
     public void save(Long articleId, String contentMd) {
-        BlogArticleContent blogArticleContent = toArticleContent(articleId, contentMd, false);
+        BlogArticleContent blogArticleContent = toArticleContent(articleId, contentMd);
         blogArticleContentDao.insert(blogArticleContent);
     }
 
     @Override
     public void update(Long articleId, String contentMd) {
-        BlogArticleContent blogArticleContent = toArticleContent(articleId, contentMd, true);
+        BlogArticleContent blogArticleContent = toArticleContent(articleId, contentMd);
         blogArticleContentDao.updateById(blogArticleContent);
     }
 
-    private BlogArticleContent toArticleContent(Long articleId, String contentMd, boolean isEdit) {
-        Long now = System.currentTimeMillis();
-
+    private BlogArticleContent toArticleContent(Long articleId, String contentMd) {
         BlogArticleContent blogArticleContent = new BlogArticleContent();
         blogArticleContent.setArticleId(articleId);
         blogArticleContent.setContentMd(contentMd);
-        if (isEdit) {
-            blogArticleContent.setCreateTime(now);
-            blogArticleContent.setDeleted(Constant.NO_DELETED);
-        }
-        blogArticleContent.setModifyTime(now);
+        blogArticleContent.setDeleted(Constant.NO_DELETED);
         return blogArticleContent;
     }
 }

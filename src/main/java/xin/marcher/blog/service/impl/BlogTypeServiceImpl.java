@@ -106,13 +106,9 @@ public class BlogTypeServiceImpl extends ServiceImpl<BlogTypeDao, BlogType> impl
     }
 
     private BlogType toBlogArticleType(BlogArticleTypeFrom blogArticleTypeFrom) {
-        Long now = System.currentTimeMillis();
-
         BlogType blogType = new BlogType();
         ObjectUtil.copyProperties(blogArticleTypeFrom, blogType);
         blogType.setTypeId(null);
-        blogType.setCreateTime(now);
-        blogType.setModifyTime(now);
         blogType.setDeleted(Constant.NO_DELETED);
 
         return blogType;

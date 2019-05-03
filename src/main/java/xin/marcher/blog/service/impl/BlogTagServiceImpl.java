@@ -118,14 +118,8 @@ public class BlogTagServiceImpl extends ServiceImpl<BlogTagDao, BlogTag> impleme
     }
 
     private BlogTag toBlogTag(BlogTagFrom blogTagFrom) {
-        Long now = DateUtil.getTimestamp();
-
         BlogTag blogTag = new BlogTag();
         ObjectUtil.copyProperties(blogTagFrom, blogTag);
-        if (EmptyUtil.isEmpty(blogTagFrom.getTagId())) {
-            blogTag.setCreateTime(now);
-        }
-        blogTag.setModifyTime(now);
         blogTag.setDeleted(Constant.NO_DELETED);
         return blogTag;
     }
