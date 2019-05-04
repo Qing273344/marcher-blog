@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Redis操作工具类
  * 使用该工具类的JavaBean必须实现Serializable接口
+ * 注: 一定要设置过期时间, 一定要设置过期时间, 一定要设置过期时间
  *
  * @author marcher
  */

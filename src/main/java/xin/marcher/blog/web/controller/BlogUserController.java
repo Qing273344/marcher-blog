@@ -32,7 +32,6 @@ public class BlogUserController extends AbstractBaseController {
      *      用户信息
      */
     @GetMapping("/info")
-    @ResponseBody
     public Result getUserInfo() {
         BlogUser blogUser = getUser();
         if (EmptyUtil.isEmpty(blogUser)) {

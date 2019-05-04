@@ -12,6 +12,14 @@ import java.util.stream.Stream;
  */
 public class ConvertUtil {
 
+    /**
+     * 数组转List
+     *
+     * @param array 数组
+     * @param <T>   泛型
+     * @return
+     *      list
+     */
     public static <T> List<T> arrayToList(T[] array) {
         List<T> list = new ArrayList<>();
         if (EmptyUtil.isNotEmpty(array)) {

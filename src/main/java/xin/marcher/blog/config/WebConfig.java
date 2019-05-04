@@ -21,10 +21,11 @@ import java.util.List;
 
 /**
  * MVC配置
+ * 注: 想彻底自己控制MVC配置加上 @EnableWebMvc 注解
  *
  * @author marcher
  */
-@EnableWebMvc
+//@EnableWebMvc
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
