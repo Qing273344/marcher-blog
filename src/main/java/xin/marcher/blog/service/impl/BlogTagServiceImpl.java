@@ -73,11 +73,17 @@ public class BlogTagServiceImpl extends ServiceImpl<BlogTagDao, BlogTag> impleme
 
         List<BlogTag> blogTags = blogTagIPage.getRecords();
         List<BlogTagVo> blogTagVoList = new ArrayList<>();
-        for (BlogTag blogTag : blogTags) {
+//        for (BlogTag blogTag : blogTags) {
+//            BlogTagVo blogTagVo = new BlogTagVo();
+//            ObjectUtil.copyProperties(blogTag, blogTagVo);
+//            blogTagVoList.add(blogTagVo);
+//        }
+
+        blogTags.forEach( blogTag -> {
             BlogTagVo blogTagVo = new BlogTagVo();
             ObjectUtil.copyProperties(blogTag, blogTagVo);
             blogTagVoList.add(blogTagVo);
-        }
+        });
 
         PageUtil page = new PageUtil((int) blogTagIPage.getTotal(), query.getPage());
         Result data = new Result().put("list", blogTagVoList);

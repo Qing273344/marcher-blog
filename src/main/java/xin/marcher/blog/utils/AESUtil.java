@@ -124,7 +124,7 @@ public class AESUtil {
      * @param args
      */
     public static void main(String[] args) {
-        String key = "123456";
+        String key = "123";
         System.out.println("key | AESEncode | AESDecode");
 
         System.out.print(key + " | ");

@@ -58,10 +58,11 @@ jwt:
   secret: AES@u9bX3ohn2rEMj4pBh/SjSlVMbQ0piluFtz/LgHDtAG2O4BFU/QmgH1h1h2MVqAMI
 
 oss:
-  qiniuAccessKey: AES@W0XwQDFQMOevU3yRLsmjDFP+F+hT9BVtK9erpTHjU8g6H/i4j1uS66+X5Gvcxtx7
-  qiniuSecreKey: AES@Foy3nrhHBc7Jk7p1/fFxXPXpIiE12YgzLik940AyI5OMnPHPcBsJTAlXdfnH7t7x
-  qiniuBucketName: marcher-blog
-  qiniuRegion: http://ppikh5m4w.bkt.clouddn.com
+  aliyunEndPoint: oss-cn-shenzhen.aliyuncs.com
+  aliyunAccessKeyId: AES@IC1iNUMY0bxptfY/S+ckjI7gEVT9CaAfWHWHYxWoAwg=
+  aliyunAccessKeySecret: AES@CPDzD4mKIroozQNzwGFNZ3QhlPo/VZXIfb5zIxp7pEQ=
+  aliyunBucketName: marcher-temp
+  aliyunRegion: https://marcher-temp.oss-cn-shenzhen.aliyuncs.com
 
 logging:
   config: classpath:logback-prod.xml
