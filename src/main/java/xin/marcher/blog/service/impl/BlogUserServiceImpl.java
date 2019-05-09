@@ -56,7 +56,7 @@ public class BlogUserServiceImpl extends ServiceImpl<BlogUserDao, BlogUser> impl
         blogUser.setPassword(password);
         blogUser.setUserType(UserTypeEnum.USER_TYPE_MANITO.getCode());
         blogUser.setSource(UserSourceEnum.USER_SOURCE_PC.getCode());
-        blogUser.setIsLocked(UserLockedEnum.USER_LOCKED_DISABLE.getCode());
+        blogUser.setIsLocked(UserLockedEnum.USER_LOCKED_NORMAL.getCode());
         blogUser.setCreateTime(now);
         blogUser.setDeleted(Constant.NO_DELETED);
 

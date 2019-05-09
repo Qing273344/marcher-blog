@@ -47,6 +47,11 @@ spring:
         min-idle: 0
   cache:
     type: redis
+  # 设置spring boot上传文件大小限制
+  servlet:
+    multipart:
+      max-file-size: 30MB
+      max-request-size: 30MB
 
 
 cache:
