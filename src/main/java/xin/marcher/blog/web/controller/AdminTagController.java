@@ -3,10 +3,10 @@ package xin.marcher.blog.web.controller;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import xin.marcher.blog.from.BlogTagFrom;
+import xin.marcher.blog.dto.request.BlogTagFrom;
 import xin.marcher.blog.service.BlogTagService;
 import xin.marcher.blog.utils.*;
-import xin.marcher.blog.vo.BlogTagVo;
+import xin.marcher.blog.dto.response.BlogTagResp;
 
 import java.util.List;
 
@@ -33,9 +33,9 @@ public class AdminTagController {
     public Result get(Long id) {
         Assert.isNullOrZero(id, "请选择标签");
 
-        BlogTagVo blogTagVo = blogTagService.get(id);
+        BlogTagResp blogTagResp = blogTagService.get(id);
 
-        Result data = new Result().put("info", blogTagVo);
+        Result data = new Result().put("info", blogTagResp);
         return Result.success(data);
     }
 
@@ -45,7 +45,7 @@ public class AdminTagController {
     @GetMapping("/listAll")
     @RequiresPermissions("marcher")
     public Result listAll() {
-        List<BlogTagVo> list = blogTagService.listAll();
+        List<BlogTagResp> list = blogTagService.listAll();
 
         Result data = new Result().put("list", list);
         return Result.success(data);

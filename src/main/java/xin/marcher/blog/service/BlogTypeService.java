@@ -2,11 +2,11 @@ package xin.marcher.blog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import xin.marcher.blog.entity.BlogType;
-import xin.marcher.blog.from.BlogArticleTypeFrom;
+import xin.marcher.blog.dto.request.BlogArticleTypeFrom;
 import xin.marcher.blog.utils.Query;
 import xin.marcher.blog.utils.QueryData;
 import xin.marcher.blog.utils.Result;
-import xin.marcher.blog.vo.BlogArticleTypeVo;
+import xin.marcher.blog.dto.response.BlogArticleTypeResp;
 
 import java.util.List;
 
@@ -22,12 +22,12 @@ public interface BlogTypeService extends IService<BlogType> {
      *
      * @param id    博客类型id
      */
-    BlogArticleTypeVo get(Long id);
+    BlogArticleTypeResp get(Long id);
 
     /**
      * 获取所有博客类型
      */
-    List<BlogArticleTypeVo> listAll();
+    List<BlogArticleTypeResp> listAll();
 
     /**
      * query 类型

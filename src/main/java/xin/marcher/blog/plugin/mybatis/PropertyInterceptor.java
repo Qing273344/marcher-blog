@@ -65,6 +65,7 @@ public class PropertyInterceptor implements Interceptor {
 
     /**
      * 为对象的操作属性赋值
+     *
      * @param field     属性
      * @param parameter 参数
      * @param value     属性值

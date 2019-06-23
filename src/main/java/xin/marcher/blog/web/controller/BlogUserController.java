@@ -4,14 +4,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import xin.marcher.blog.entity.BlogUser;
 import xin.marcher.blog.service.BlogUserService;
 import xin.marcher.blog.utils.EmptyUtil;
 import xin.marcher.blog.utils.ObjectUtil;
 import xin.marcher.blog.utils.Result;
-import xin.marcher.blog.vo.BlogUserVo;
+import xin.marcher.blog.dto.response.BlogUserResp;
 
 /**
  * 用户
@@ -28,6 +27,7 @@ public class BlogUserController extends AbstractBaseController {
 
     /**
      * 获取用户信息
+     *
      * @return
      *      用户信息
      */
@@ -38,11 +38,11 @@ public class BlogUserController extends AbstractBaseController {
             return Result.error();
         }
 
-        BlogUserVo blogUserVo = new BlogUserVo();
-        ObjectUtil.copyProperties(blogUser, blogUserVo);
+        BlogUserResp blogUserResp = new BlogUserResp();
+        ObjectUtil.copyProperties(blogUser, blogUserResp);
 
         Result data = new Result()
-                .put("info", blogUserVo);
+                .put("info", blogUserResp);
         return Result.success(data);
     }
 }

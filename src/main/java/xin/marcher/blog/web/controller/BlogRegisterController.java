@@ -2,7 +2,7 @@ package xin.marcher.blog.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import xin.marcher.blog.from.RegisterForm;
+import xin.marcher.blog.dto.request.RegisterForm;
 import xin.marcher.blog.service.BlogUserService;
 import xin.marcher.blog.utils.Result;
 

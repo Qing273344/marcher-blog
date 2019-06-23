@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import xin.marcher.blog.biz.enums.RspBaseCodeEnum;
 import xin.marcher.blog.entity.BlogArticle;
-import xin.marcher.blog.from.BlogArticleFrom;
+import xin.marcher.blog.dto.request.BlogArticleReq;
 import xin.marcher.blog.service.BlogArticleService;
 import xin.marcher.blog.utils.*;
 
@@ -30,7 +30,7 @@ public class AdminArticleController {
      */
     @PostMapping("/publish")
     @RequiresPermissions("marcher")
-    public Result publish(@Valid @RequestBody BlogArticleFrom blogArticleFrom) {
+    public Result publish(@Valid @RequestBody BlogArticleReq blogArticleFrom) {
 
         Long articleId = blogArticleService.publish(blogArticleFrom);
 
@@ -53,7 +53,7 @@ public class AdminArticleController {
             return Result.error(RspBaseCodeEnum.NOT_RESOURCE.getMsg());
         }
 
-        BlogArticleFrom blogArticleFrom = blogArticleService.getAsEdit(id);
+        BlogArticleReq blogArticleFrom = blogArticleService.getAsEdit(id);
         Result data = new Result().put("info", blogArticleFrom);
         return Result.success(data);
     }

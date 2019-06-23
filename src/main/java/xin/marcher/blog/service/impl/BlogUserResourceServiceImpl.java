@@ -1,6 +1,7 @@
 package xin.marcher.blog.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xin.marcher.blog.dao.BlogUserResourceDao;
 import xin.marcher.blog.entity.BlogUserResource;
@@ -18,10 +19,10 @@ import java.util.Set;
 @Service
 public class BlogUserResourceServiceImpl extends ServiceImpl<BlogUserResourceDao, BlogUserResource> implements BlogUserResourceService {
 
-    @Resource
+    @Autowired
     private BlogResourceService blogResourceService;
 
-    @Resource
+    @Autowired
     private BlogUserResourceDao blogUserResourceDao;
 
     @Override

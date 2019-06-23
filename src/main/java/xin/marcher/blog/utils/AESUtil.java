@@ -9,6 +9,7 @@ import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
@@ -26,7 +27,7 @@ public class AESUtil {
     /**
      * 秘钥key, 存放于堡垒机中
      */
-    public static String KEY;
+    public static final String KEY;
 
     static {
          String configUrl = "http://localhost:9020/config/encryption/key";
@@ -57,7 +58,7 @@ public class AESUtil {
             // 初始化密码器，第一个参数为加密(Encrypt_mode)或者解密解密(Decrypt_mode)操作，第二个参数为使用的KEY
             cipher.init(Cipher.ENCRYPT_MODE, secretKey);
             // 获取加密内容的字节数组(这里要设置为utf-8)不然内容中如果有中文和英文混合中文就会解密为乱码
-            byte[] byteContent = content.getBytes("utf-8");
+            byte[] byteContent = content.getBytes(StandardCharsets.UTF_8);
             // 根据密码器的初始化方式--加密：将数据加密
             byte[] byteAES = cipher.doFinal(byteContent);
             //1 将加密后的数据转换为字符串
@@ -96,7 +97,7 @@ public class AESUtil {
 
             // 解密
             byte[] byteDecode = cipher.doFinal(byteContent);
-            decryptedData = new String(byteDecode, "utf-8");
+            decryptedData = new String(byteDecode, StandardCharsets.UTF_8);
         } catch (Exception e) {
             throw new RuntimeException("解密错误，错误信息：", e);
         }
@@ -108,7 +109,8 @@ public class AESUtil {
         KeyGenerator keygen = KeyGenerator.getInstance(ALGORITHM_AES);
         // 根据ecnodeRules规则初始化密钥生成器
         SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
-        random.setSeed(seed.getBytes());
+        byte[] keyByte = seed.getBytes();
+        random.setSeed(keyByte);
         // 生成一个128位的随机源,根据传入的字节数组
         keygen.init(128, random);
         // 产生原始对称密钥

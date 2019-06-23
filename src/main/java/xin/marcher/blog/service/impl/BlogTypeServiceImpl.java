@@ -4,18 +4,18 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xin.marcher.blog.biz.consts.Constant;
 import xin.marcher.blog.biz.enums.RspBaseCodeEnum;
 import xin.marcher.blog.common.exception.MarcherHintException;
 import xin.marcher.blog.dao.BlogTypeDao;
 import xin.marcher.blog.entity.BlogType;
-import xin.marcher.blog.from.BlogArticleTypeFrom;
+import xin.marcher.blog.dto.request.BlogArticleTypeFrom;
 import xin.marcher.blog.service.BlogTypeService;
 import xin.marcher.blog.utils.*;
-import xin.marcher.blog.vo.BlogArticleTypeVo;
+import xin.marcher.blog.dto.response.BlogArticleTypeResp;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,37 +25,37 @@ import java.util.List;
 @Service
 public class BlogTypeServiceImpl extends ServiceImpl<BlogTypeDao, BlogType> implements BlogTypeService {
 
-    @Resource
+    @Autowired
     private BlogTypeDao blogTypeDao;
 
     @Override
-    public BlogArticleTypeVo get(Long id) {
+    public BlogArticleTypeResp get(Long id) {
         BlogType blogType = blogTypeDao.selectById(id);
         if (EmptyUtil.isEmpty(blogType)) {
             return null;
         }
 
-        BlogArticleTypeVo blogArticleTypeVo = new BlogArticleTypeVo();
-        ObjectUtil.copyProperties(blogType, blogArticleTypeVo);
+        BlogArticleTypeResp blogArticleTypeResp = new BlogArticleTypeResp();
+        ObjectUtil.copyProperties(blogType, blogArticleTypeResp);
 
-        return blogArticleTypeVo;
+        return blogArticleTypeResp;
     }
 
     @Override
-    public List<BlogArticleTypeVo> listAll() {
+    public List<BlogArticleTypeResp> listAll() {
         List<BlogType> blogTypes = blogTypeDao.selectList(null);
         if (EmptyUtil.isEmpty(blogTypes)) {
             return new ArrayList<>();
         }
 
-        List<BlogArticleTypeVo> blogArticleTypeVoList = new ArrayList<>();
+        List<BlogArticleTypeResp> blogArticleTypeRespList = new ArrayList<>();
         for (BlogType blogType : blogTypes) {
-            BlogArticleTypeVo blogArticleTypeVo = new BlogArticleTypeVo();
-            ObjectUtil.copyProperties(blogType, blogArticleTypeVo);
-            blogArticleTypeVoList.add(blogArticleTypeVo);
+            BlogArticleTypeResp blogArticleTypeResp = new BlogArticleTypeResp();
+            ObjectUtil.copyProperties(blogType, blogArticleTypeResp);
+            blogArticleTypeRespList.add(blogArticleTypeResp);
         }
 
-        return blogArticleTypeVoList;
+        return blogArticleTypeRespList;
     }
 
     @Override
@@ -67,15 +67,15 @@ public class BlogTypeServiceImpl extends ServiceImpl<BlogTypeDao, BlogType> impl
         IPage<BlogType> blogArticleTypeIPage = blogTypeDao.selectPage(queryPage, queryWrapper);
 
         List<BlogType> blogTypes = blogArticleTypeIPage.getRecords();
-        List<BlogArticleTypeVo> blogArticleTypeVoList = new ArrayList<>();
+        List<BlogArticleTypeResp> blogArticleTypeRespList = new ArrayList<>();
         for (BlogType blogTag : blogTypes) {
-            BlogArticleTypeVo blogTagVo = new BlogArticleTypeVo();
-            ObjectUtil.copyProperties(blogTag, blogTagVo);
-            blogArticleTypeVoList.add(blogTagVo);
+            BlogArticleTypeResp blogArticleTypeResp = new BlogArticleTypeResp();
+            ObjectUtil.copyProperties(blogTag, blogArticleTypeResp);
+            blogArticleTypeRespList.add(blogArticleTypeResp);
         }
 
         PageUtil page = new PageUtil((int) blogArticleTypeIPage.getTotal(), query.getPage());
-        Result data = new Result().put("list", blogArticleTypeVoList);
+        Result data = new Result().put("list", blogArticleTypeRespList);
 
         return Result.successPage(data, page);
     }

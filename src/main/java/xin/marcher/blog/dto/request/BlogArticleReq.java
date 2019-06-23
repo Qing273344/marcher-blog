@@ -1,4 +1,4 @@
-package xin.marcher.blog.from;
+package xin.marcher.blog.dto.request;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -18,7 +18,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class BlogArticleFrom {
+public class BlogArticleReq {
 
     private Long articleId;
 

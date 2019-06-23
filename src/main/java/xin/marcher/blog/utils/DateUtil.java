@@ -13,8 +13,6 @@ public class DateUtil {
     /** 一天的时间毫秒值 */
     public static final Long DATE_TIMESTAMP = 86400000L;
 
-    public static final String PATTERN_DATE = "yyMMdd";
-
     public static final String PATTERN_DIVIDE_DATE = "yyyy/MM/dd";
     public static final String PATTERN_DIVIDE_TIME = "yyyy/MM/dd HH:mm:ss";
     public static final String PATTERN_DIVIDE_MINUTE_TIME = "yyyy/MM/dd HH:mm";

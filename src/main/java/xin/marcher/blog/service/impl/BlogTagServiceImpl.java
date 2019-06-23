@@ -4,18 +4,18 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xin.marcher.blog.biz.consts.Constant;
 import xin.marcher.blog.biz.enums.RspBaseCodeEnum;
 import xin.marcher.blog.common.exception.MarcherHintException;
 import xin.marcher.blog.dao.BlogTagDao;
+import xin.marcher.blog.dto.response.BlogTagResp;
 import xin.marcher.blog.entity.BlogTag;
-import xin.marcher.blog.from.BlogTagFrom;
+import xin.marcher.blog.dto.request.BlogTagFrom;
 import xin.marcher.blog.service.BlogTagService;
 import xin.marcher.blog.utils.*;
-import xin.marcher.blog.vo.BlogTagVo;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,37 +26,37 @@ import java.util.stream.Collectors;
 @Service
 public class BlogTagServiceImpl extends ServiceImpl<BlogTagDao, BlogTag> implements BlogTagService {
 
-    @Resource
+    @Autowired
     private BlogTagDao blogTagDao;
 
     @Override
-    public BlogTagVo get(Long id) {
+    public BlogTagResp get(Long id) {
         BlogTag blogTag = blogTagDao.selectById(id);
         if (EmptyUtil.isEmpty(blogTag)) {
             return null;
         }
 
-        BlogTagVo blogTagVo = new BlogTagVo();
-        ObjectUtil.copyProperties(blogTag, blogTagVo);
+        BlogTagResp blogTagResp = new BlogTagResp();
+        ObjectUtil.copyProperties(blogTag, blogTagResp);
 
-        return blogTagVo;
+        return blogTagResp;
     }
 
     @Override
-    public List<BlogTagVo> listAll() {
+    public List<BlogTagResp> listAll() {
         List<BlogTag> blogTags = blogTagDao.selectList(null);
         if (EmptyUtil.isEmpty(blogTags)) {
             return new ArrayList<>();
         }
 
-        List<BlogTagVo> blogTagVoList = new ArrayList<>();
+        List<BlogTagResp> blogTagRespList = new ArrayList<>();
         for (BlogTag blogTag : blogTags) {
-            BlogTagVo blogTagVo = new BlogTagVo();
-            ObjectUtil.copyProperties(blogTag, blogTagVo);
-            blogTagVoList.add(blogTagVo);
+            BlogTagResp blogTagResp = new BlogTagResp();
+            ObjectUtil.copyProperties(blogTag, blogTagResp);
+            blogTagRespList.add(blogTagResp);
         }
 
-        return blogTagVoList;
+        return blogTagRespList;
     }
 
     @Override
@@ -72,21 +72,16 @@ public class BlogTagServiceImpl extends ServiceImpl<BlogTagDao, BlogTag> impleme
         IPage<BlogTag> blogTagIPage = blogTagDao.selectPage(queryPage, queryWrapper);
 
         List<BlogTag> blogTags = blogTagIPage.getRecords();
-        List<BlogTagVo> blogTagVoList = new ArrayList<>();
-//        for (BlogTag blogTag : blogTags) {
-//            BlogTagVo blogTagVo = new BlogTagVo();
-//            ObjectUtil.copyProperties(blogTag, blogTagVo);
-//            blogTagVoList.add(blogTagVo);
-//        }
+        List<BlogTagResp> blogTagRespList = new ArrayList<>();
 
         blogTags.forEach( blogTag -> {
-            BlogTagVo blogTagVo = new BlogTagVo();
-            ObjectUtil.copyProperties(blogTag, blogTagVo);
-            blogTagVoList.add(blogTagVo);
+            BlogTagResp blogTagResp = new BlogTagResp();
+            ObjectUtil.copyProperties(blogTag, blogTagResp);
+            blogTagRespList.add(blogTagResp);
         });
 
         PageUtil page = new PageUtil((int) blogTagIPage.getTotal(), query.getPage());
-        Result data = new Result().put("list", blogTagVoList);
+        Result data = new Result().put("list", blogTagRespList);
 
         return Result.successPage(data, page);
     }

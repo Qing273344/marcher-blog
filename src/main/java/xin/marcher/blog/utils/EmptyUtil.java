@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * 空判断工具
  *
- * @author: marcher
+ * @author marcher
  */
 public class EmptyUtil {
 

@@ -11,7 +11,7 @@ import xin.marcher.blog.utils.EmptyUtil;
 @Getter
 public enum UserLockedEnum {
 
-    /** 禁用 */
+    /**  */
     USER_LOCKED_NORMAL(0, "正常"),
     USER_LOCKED_DISABLE(1, "锁定"),
     ;

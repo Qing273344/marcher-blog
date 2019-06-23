@@ -1,4 +1,4 @@
-package xin.marcher.blog.from;
+package xin.marcher.blog.dto.request;
 
 import lombok.Getter;
 import lombok.Setter;

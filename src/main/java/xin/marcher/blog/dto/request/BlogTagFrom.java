@@ -1,28 +1,25 @@
-package xin.marcher.blog.vo;
+package xin.marcher.blog.dto.request;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import javax.validation.constraints.NotBlank;
+
 /**
- * 标签
+ * 博客文章标题
  *
  * @author marcher
  */
 @Getter
 @Setter
 @ToString
-public class BlogTagVo {
+public class BlogTagFrom {
 
     private Long tagId;
 
-    /**
-     * 标签名
-     */
+    @NotBlank(message = "请填写标签名称")
     private String name;
 
-    /**
-     * 描述
-     */
     private String description;
 }

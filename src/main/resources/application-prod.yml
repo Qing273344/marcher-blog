@@ -2,12 +2,12 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/marcher-blog?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8
+    url: jdbc:mysql://${server.host}:3306/marcher-blog?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8
     username: root
     password: AES@8TLqCgSLP/ldKx2xAGpTnw==
     druid:
       initial-size: 10
-      max-active: 100
+      max-active: 30
       min-idle: 10
       max-wait: 60000
       pool-prepared-statements: true
@@ -34,7 +34,7 @@ spring:
   # Redis
   redis:
     database: 0
-    host: localhost
+    host: ${server.host}
     port: 6379
     lettuce:
       shutdown-timeout: 5000ms
@@ -52,6 +52,12 @@ cache:
   expire-time: 180
   default-expire-time: 60
 
+rabbitmq:
+  config:
+    exchange: marcher_blog_exchange
+    queue: blog_content_queue
+    routekey: blog_content_routekey
+
 jwt:
   expire: 720   # token有效时长, 单位小时
   token: token   # token 存在 cookie 中
@@ -61,8 +67,8 @@ oss:
   aliyunEndPoint: oss-cn-shenzhen.aliyuncs.com
   aliyunAccessKeyId: AES@IC1iNUMY0bxptfY/S+ckjI7gEVT9CaAfWHWHYxWoAwg=
   aliyunAccessKeySecret: AES@CPDzD4mKIroozQNzwGFNZ3QhlPo/VZXIfb5zIxp7pEQ=
-  aliyunBucketName: marcher-temp
-  aliyunRegion: https://marcher-temp.oss-cn-shenzhen.aliyuncs.com
+  aliyunBucketName: marcher-blog
+  aliyunTempBucketName: marcher-blog-temp
 
 logging:
   config: classpath:logback-prod.xml

@@ -2,10 +2,9 @@ package xin.marcher.blog.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import xin.marcher.blog.biz.enums.RspBaseCodeEnum;
 import xin.marcher.blog.service.BlogArticleService;
 import xin.marcher.blog.utils.*;
-import xin.marcher.blog.vo.BlogArticleDetailsVo;
+import xin.marcher.blog.dto.response.BlogArticleDetailsResp;
 
 /**
  * 博客类型
@@ -26,12 +25,12 @@ public class BlogArticleController {
     public Result details(Long id) {
         Assert.isNullOrZero(id, "请选择指定文章");
 
-        BlogArticleDetailsVo blogArticleDetails = blogArticleService.details(id);
+        BlogArticleDetailsResp blogArticleDetailsResp = blogArticleService.details(id);
 
         // 浏览量+1
         blogArticleService.viewsIncrease(id);
 
-        Result data = new Result().put("info", blogArticleDetails);
+        Result data = new Result().put("info", blogArticleDetailsResp);
         return Result.success(data);
     }
 

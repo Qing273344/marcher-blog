@@ -38,7 +38,7 @@ public class RedisCacheConfig extends CachingConfigurerSupport {
     @Autowired
     private RedisProperties redisProperties;
 
-    @Resource
+    @Autowired
     private LettuceConnectionFactory lettuceConnectionFactory;
 
     /**

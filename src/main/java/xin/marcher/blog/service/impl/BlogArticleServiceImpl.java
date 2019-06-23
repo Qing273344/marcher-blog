@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xin.marcher.blog.biz.consts.Constant;
 import xin.marcher.blog.biz.enums.ArticleStatusEnum;
@@ -13,17 +14,16 @@ import xin.marcher.blog.common.exception.MarcherHintException;
 import xin.marcher.blog.dao.BlogArticleDao;
 import xin.marcher.blog.entity.BlogArticle;
 import xin.marcher.blog.entity.BlogArticleContent;
-import xin.marcher.blog.from.BlogArticleFrom;
+import xin.marcher.blog.dto.request.BlogArticleReq;
 import xin.marcher.blog.service.BlogArticleContentService;
 import xin.marcher.blog.service.BlogArticleService;
 import xin.marcher.blog.service.BlogArticleTagService;
 import xin.marcher.blog.service.BlogArticleTypeService;
 import xin.marcher.blog.utils.*;
-import xin.marcher.blog.vo.AdminArticleListVo;
-import xin.marcher.blog.vo.BlogArticleDetailsVo;
-import xin.marcher.blog.vo.BlogArticleListVo;
+import xin.marcher.blog.dto.response.AdminArticleListResp;
+import xin.marcher.blog.dto.response.BlogArticleDetailsResp;
+import xin.marcher.blog.dto.response.BlogArticleListResp;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,20 +33,20 @@ import java.util.List;
 @Service
 public class BlogArticleServiceImpl extends ServiceImpl<BlogArticleDao, BlogArticle> implements BlogArticleService {
 
-    @Resource
+    @Autowired
     private BlogArticleDao blogArticleDao;
 
-    @Resource
+    @Autowired
     private BlogArticleContentService blogArticleContentService;
 
-    @Resource
+    @Autowired
     private BlogArticleTypeService blogArticleTypeService;
 
-    @Resource
+    @Autowired
     private BlogArticleTagService blogArticleTagService;
 
     @Override
-    public Long publish(BlogArticleFrom blogArticleFrom) {
+    public Long publish(BlogArticleReq blogArticleFrom) {
         // 新增
         if (EmptyUtil.isEmpty(blogArticleFrom.getArticleId())) {
             return add(blogArticleFrom);
@@ -54,7 +54,7 @@ public class BlogArticleServiceImpl extends ServiceImpl<BlogArticleDao, BlogArti
         return update(blogArticleFrom);
     }
 
-    private Long add(BlogArticleFrom blogArticleFrom) {
+    private Long add(BlogArticleReq blogArticleFrom) {
         // 文章基础信息
         BlogArticle blogArticle = toArticle(blogArticleFrom);
         blogArticleDao.insert(blogArticle);
@@ -72,7 +72,7 @@ public class BlogArticleServiceImpl extends ServiceImpl<BlogArticleDao, BlogArti
         return articleId;
     }
 
-    private Long update(BlogArticleFrom blogArticleFrom) {
+    private Long update(BlogArticleReq blogArticleFrom) {
         Long articleId = blogArticleFrom.getArticleId();
         BlogArticle blogArticle = toArticle(blogArticleFrom);
         // 文章信息
@@ -94,7 +94,7 @@ public class BlogArticleServiceImpl extends ServiceImpl<BlogArticleDao, BlogArti
     }
 
     @Override
-    public BlogArticleDetailsVo details(long articleId) {
+    public BlogArticleDetailsResp details(long articleId) {
         BlogArticle blogArticle = getById(articleId);
         if (EmptyUtil.isEmpty(blogArticle)) {
             throw new MarcherHintException("我真的找不到你想要的这篇文章");
@@ -102,11 +102,11 @@ public class BlogArticleServiceImpl extends ServiceImpl<BlogArticleDao, BlogArti
 
         BlogArticleContent blogArticleContent = blogArticleContentService.getById(articleId);
 
-        BlogArticleDetailsVo blogArticleDetailsVo = new BlogArticleDetailsVo();
-        ObjectUtil.copyProperties(blogArticle, blogArticleDetailsVo);
-        blogArticleDetailsVo.setArticleContentMd(blogArticleContent.getContentMd());
+        BlogArticleDetailsResp blogArticleDetailsResp = new BlogArticleDetailsResp();
+        ObjectUtil.copyProperties(blogArticle, blogArticleDetailsResp);
+        blogArticleDetailsResp.setArticleContentMd(blogArticleContent.getContentMd());
 
-        return blogArticleDetailsVo;
+        return blogArticleDetailsResp;
     }
 
     @Override
@@ -126,16 +126,16 @@ public class BlogArticleServiceImpl extends ServiceImpl<BlogArticleDao, BlogArti
         IPage<BlogArticle> blogArticleIPage = blogArticleDao.selectPage(pageWrapper, queryWrapper);
 
         List<BlogArticle> blogArticles = blogArticleIPage.getRecords();
-        List<BlogArticleListVo> blogArticleListVoList = new ArrayList<>();
+        List<BlogArticleListResp> blogArticleListRespList = new ArrayList<>();
         for (BlogArticle blogArticle : blogArticles) {
-            BlogArticleListVo blogArticleListVo = new BlogArticleListVo();
-            ObjectUtil.copyProperties(blogArticle, blogArticleListVo);
-            blogArticleListVo.setTimeStr(DateUtil.formatDate(blogArticle.getCreateTime(), DateUtil.PATTERN_HYPHEN_DATE));
-            blogArticleListVoList.add(blogArticleListVo);
+            BlogArticleListResp blogArticleListResp = new BlogArticleListResp();
+            ObjectUtil.copyProperties(blogArticle, blogArticleListResp);
+            blogArticleListResp.setTimeStr(DateUtil.formatDate(blogArticle.getCreateTime(), DateUtil.PATTERN_HYPHEN_DATE));
+            blogArticleListRespList.add(blogArticleListResp);
         }
 
         PageUtil page = new PageUtil((int) blogArticleIPage.getTotal(), queryPage);
-        Result data = new Result().put("list", blogArticleListVoList);
+        Result data = new Result().put("list", blogArticleListRespList);
 
         return Result.successPage(data, page);
     }
@@ -156,22 +156,22 @@ public class BlogArticleServiceImpl extends ServiceImpl<BlogArticleDao, BlogArti
         IPage<BlogArticle> blogArticleIPage = blogArticleDao.selectPage(pageWrapper, queryWrapper);
 
         List<BlogArticle> blogArticles = blogArticleIPage.getRecords();
-        List<AdminArticleListVo> adminArticleListVoList = new ArrayList<>();
+        List<AdminArticleListResp> adminArticleListRespList = new ArrayList<>();
         for (BlogArticle blogArticle : blogArticles) {
-            AdminArticleListVo adminArticleListVo = new AdminArticleListVo();
-            ObjectUtil.copyProperties(blogArticle, adminArticleListVo);
-            adminArticleListVo.setTimeStr(DateUtil.formatDate(blogArticle.getCreateTime(), DateUtil.PATTERN_HYPHEN_MINUTE_TIME));
-            adminArticleListVoList.add(adminArticleListVo);
+            AdminArticleListResp adminArticleListResp = new AdminArticleListResp();
+            ObjectUtil.copyProperties(blogArticle, adminArticleListResp);
+            adminArticleListResp.setTimeStr(DateUtil.formatDate(blogArticle.getCreateTime(), DateUtil.PATTERN_HYPHEN_MINUTE_TIME));
+            adminArticleListRespList.add(adminArticleListResp);
         }
 
         PageUtil page = new PageUtil((int) blogArticleIPage.getTotal(), queryPage);
-        Result data = new Result().put("list", adminArticleListVoList);
+        Result data = new Result().put("list", adminArticleListRespList);
 
         return Result.successPage(data, page);
     }
 
     @Override
-    public BlogArticleFrom getAsEdit(Long id) {
+    public BlogArticleReq getAsEdit(Long id) {
         // 文章信息
         BlogArticle blogArticle = blogArticleDao.selectById(id);
         if (EmptyUtil.isEmpty(blogArticle)) {
@@ -182,12 +182,12 @@ public class BlogArticleServiceImpl extends ServiceImpl<BlogArticleDao, BlogArti
         BlogArticleContent blogArticleContent = blogArticleContentService.getById(blogArticle.getArticleId());
 
         // 文章标签id
-        List<Long>tagIdList = blogArticleTagService.getIds(id);
+        List<Long> tagIdList = blogArticleTagService.getIds(id);
 
         // 文章类型id
         Long typeId = blogArticleTypeService.getId(id);
 
-        BlogArticleFrom blogArticleFrom = new BlogArticleFrom();
+        BlogArticleReq blogArticleFrom = new BlogArticleReq();
         blogArticleFrom.setArticleId(blogArticle.getArticleId());
         blogArticleFrom.setTitle(blogArticle.getTitle());
         blogArticleFrom.setStatus(blogArticle.getStatus());
@@ -252,7 +252,7 @@ public class BlogArticleServiceImpl extends ServiceImpl<BlogArticleDao, BlogArti
         blogArticleDao.viewsIncrease(id);
     }
 
-    private BlogArticle toArticle(BlogArticleFrom blogArticleFrom) {
+    private BlogArticle toArticle(BlogArticleReq blogArticleFrom) {
         BlogArticle blogArticle = new BlogArticle();
         blogArticle.setIsTop(Constant.NO);
         blogArticle.setIsComment(Constant.NO);

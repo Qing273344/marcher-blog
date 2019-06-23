@@ -2,11 +2,11 @@ package xin.marcher.blog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import xin.marcher.blog.entity.BlogArticle;
-import xin.marcher.blog.from.BlogArticleFrom;
+import xin.marcher.blog.dto.request.BlogArticleReq;
 import xin.marcher.blog.utils.Query;
 import xin.marcher.blog.utils.QueryData;
 import xin.marcher.blog.utils.Result;
-import xin.marcher.blog.vo.BlogArticleDetailsVo;
+import xin.marcher.blog.dto.response.BlogArticleDetailsResp;
 
 /**
  * 博客文章
@@ -21,14 +21,14 @@ public interface BlogArticleService extends IService<BlogArticle> {
      * @param blogArticleFrom   文章信息
      * @return 文章id
      */
-    Long publish(BlogArticleFrom blogArticleFrom);
+    Long publish(BlogArticleReq blogArticleFrom);
 
     /**
      * 文章详情
      * @param articleId 文章id
      * @return 文章详情
      */
-    BlogArticleDetailsVo details(long articleId);
+    BlogArticleDetailsResp details(long articleId);
 
     /**
      * query文章
@@ -51,7 +51,7 @@ public interface BlogArticleService extends IService<BlogArticle> {
      * @return
      *      文章
      */
-    BlogArticleFrom getAsEdit(Long id);
+    BlogArticleReq getAsEdit(Long id);
 
     /**
      * update 评论设置

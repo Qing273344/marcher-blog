@@ -11,7 +11,7 @@ import xin.marcher.blog.utils.EmptyUtil;
 @Getter
 public enum UserSourceEnum {
 
-    /** 保留 */
+    /**  */
     ALl(0, ""),
     USER_SOURCE_PC(1, "PC"),
     USER_SOURCE_WEB_MOVE(2, "web移动"),

@@ -1,34 +1,37 @@
 package xin.marcher.blog.biz.property;
 
-import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import xin.marcher.aliyun.oss.config.StorageConfig;
+import xin.marcher.blog.utils.EmptyUtil;
 
 /**
  * 阿里云配置
  *
  * @author marcher
  */
-@Data
 @Configuration
 @ConfigurationProperties(prefix = "oss")
 @Order(-1)
-public class OssProperties {
+public class OssProperties extends StorageConfig {
 
-    /** 阿里云aliyunEndPoint */
-    private String aliyunEndPoint;
+    /** 获取正式域名 */
+    @Override
+    public String getAliyunRegion() {
+        if (EmptyUtil.isNotEmpty(aliyunRegion)) {
+            return aliyunRegion;
+        }
+        return "https://" + aliyunBucketName + "." + aliyunEndPoint;
+    }
 
-    /** 阿里云aliyunAccessKeyId */
-    private String aliyunAccessKeyId;
-
-    /** 阿里云aliyunAccessKeySecret */
-    private String aliyunAccessKeySecret;
-
-    /** 阿里云aliyunBucketName(正式) */
-    private String aliyunBucketName;
-
-    /** 阿里云文件域名(正式) */
-    private String aliyunRegion;
+    /** 获取临时域名 */
+    @Override
+    public String getAliyunTempRegion() {
+        if (EmptyUtil.isNotEmpty(aliyunTempRegion)) {
+            return aliyunTempRegion;
+        }
+        return "https://" + aliyunTempBucketName + "." + aliyunEndPoint;
+    }
 
 }

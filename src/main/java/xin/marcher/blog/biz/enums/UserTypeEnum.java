@@ -11,7 +11,7 @@ import xin.marcher.blog.utils.EmptyUtil;
 @Getter
 public enum  UserTypeEnum {
 
-    /** 保留 */
+    /**  */
     ALl(0, ""),
     USER_TYPE_ME(1, "本帅"),
     USER_TYPE_MANITO(2, "大神"),

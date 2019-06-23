@@ -7,6 +7,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Set;
 
@@ -93,7 +94,7 @@ public class HttpUtil {
             os = conn.getOutputStream();
             // 注意编码格式，防止中文乱码
             if (StringUtils.hasText(paramStr)) {
-                os.write(paramStr.getBytes("utf-8"));
+                os.write(paramStr.getBytes(StandardCharsets.UTF_8));
                 os.close();
             }
             in = conn.getInputStream();

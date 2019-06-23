@@ -11,7 +11,7 @@ import xin.marcher.blog.utils.EmptyUtil;
 @Getter
 public enum ArticleStatusEnum {
 
-    /** 保留 */
+    /**  */
     ALl(0, ""),
     ARTICLE_STATUS_DRAFT(1, "草稿"),
     ARTICLE_STATUS_PUBLISH(2, "已发布"),

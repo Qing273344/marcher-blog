@@ -2,6 +2,7 @@ package xin.marcher.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xin.marcher.blog.biz.consts.Constant;
 import xin.marcher.blog.dao.BlogArticleTagDao;
@@ -22,7 +23,7 @@ import java.util.stream.Collectors;
 @Service
 public class BlogArticleTagServiceImpl extends ServiceImpl<BlogArticleTagDao, BlogArticleTag> implements BlogArticleTagService {
 
-    @Resource
+    @Autowired
     private BlogArticleTagDao blogArticleTagDao;
 
     @Override

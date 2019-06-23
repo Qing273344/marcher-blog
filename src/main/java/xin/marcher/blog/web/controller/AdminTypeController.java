@@ -3,13 +3,11 @@ package xin.marcher.blog.web.controller;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import xin.marcher.blog.from.BlogArticleTypeFrom;
+import xin.marcher.blog.dto.request.BlogArticleTypeFrom;
 import xin.marcher.blog.service.BlogTypeService;
 import xin.marcher.blog.utils.*;
-import xin.marcher.blog.vo.BlogArticleTypeVo;
+import xin.marcher.blog.dto.response.BlogArticleTypeResp;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -34,9 +32,9 @@ public class AdminTypeController {
     public Result get(Long id) {
         Assert.isNullOrZero(id, "请选择分类");
 
-        BlogArticleTypeVo blogArticleTypeVo = blogTypeService.get(id);
+        BlogArticleTypeResp blogArticleTypeResp = blogTypeService.get(id);
 
-        Result data = new Result().put("info", blogArticleTypeVo);
+        Result data = new Result().put("info", blogArticleTypeResp);
         return Result.success(data);
     }
 
@@ -46,9 +44,9 @@ public class AdminTypeController {
     @GetMapping("/listAll")
     @RequiresPermissions("marcher")
     public Result listAll() {
-        List<BlogArticleTypeVo> blogArticleTypeVoList = blogTypeService.listAll();
+        List<BlogArticleTypeResp> blogArticleTypeRespList = blogTypeService.listAll();
 
-        Result data = new Result().put("list", blogArticleTypeVoList);
+        Result data = new Result().put("list", blogArticleTypeRespList);
         return Result.success(data);
     }
 

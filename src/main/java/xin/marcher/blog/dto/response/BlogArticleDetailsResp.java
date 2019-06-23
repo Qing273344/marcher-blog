@@ -1,4 +1,4 @@
-package xin.marcher.blog.vo;
+package xin.marcher.blog.dto.response;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -12,7 +12,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class BlogArticleDetailsVo {
+public class BlogArticleDetailsResp {
 
     private Long articleId;
 

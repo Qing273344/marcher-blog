@@ -1,6 +1,7 @@
 package xin.marcher.blog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import xin.marcher.blog.entity.BlogArticle;
 import xin.marcher.blog.entity.BlogArticleContent;
 
 /**
@@ -16,6 +17,15 @@ public interface BlogArticleContentService extends IService<BlogArticleContent> 
      * @param contentMd 内容(md格式)
      */
     void save(Long articleId, String contentMd);
+
+    /**
+     * get 文章内容
+     *
+     * @param id    文章id
+     * @return
+     *      文章内容
+     */
+    BlogArticleContent get(Long id);
 
     /**
      * update 文章内容

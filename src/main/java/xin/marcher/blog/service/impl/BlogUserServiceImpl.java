@@ -16,8 +16,8 @@ import xin.marcher.blog.biz.property.RedisProperties;
 import xin.marcher.blog.dao.BlogUserDao;
 import xin.marcher.blog.entity.BlogUser;
 import xin.marcher.blog.common.exception.*;
-import xin.marcher.blog.from.LoginFrom;
-import xin.marcher.blog.from.RegisterForm;
+import xin.marcher.blog.dto.request.LoginFrom;
+import xin.marcher.blog.dto.request.RegisterForm;
 import xin.marcher.blog.service.BlogUserService;
 import xin.marcher.blog.utils.*;
 

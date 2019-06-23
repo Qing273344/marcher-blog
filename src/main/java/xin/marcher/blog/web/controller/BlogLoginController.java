@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import xin.marcher.blog.biz.consts.RedisKeyConstant;
-import xin.marcher.blog.from.LoginFrom;
+import xin.marcher.blog.dto.request.LoginFrom;
 import xin.marcher.blog.plugin.kaptcha.AbstractCaptcha;
 import xin.marcher.blog.plugin.kaptcha.GifCaptcha;
 import xin.marcher.blog.service.BlogCaptchaService;

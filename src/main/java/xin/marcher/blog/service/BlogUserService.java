@@ -2,11 +2,9 @@ package xin.marcher.blog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import xin.marcher.blog.entity.BlogUser;
-import xin.marcher.blog.from.LoginFrom;
-import xin.marcher.blog.from.RegisterForm;
-import xin.marcher.blog.vo.BlogUserVo;
+import xin.marcher.blog.dto.request.LoginFrom;
+import xin.marcher.blog.dto.request.RegisterForm;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
