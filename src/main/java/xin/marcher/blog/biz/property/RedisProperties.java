@@ -3,8 +3,8 @@ package xin.marcher.blog.biz.property;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
 
 /**
  * Redis 属性
@@ -12,7 +12,7 @@ import org.springframework.core.annotation.Order;
  * @author marcher
  */
 @Data
-@Configuration
+@Component
 @ConfigurationProperties(prefix = "spring.redis")
 @Order(-1)
 public class RedisProperties {

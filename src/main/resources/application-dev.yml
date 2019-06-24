@@ -80,8 +80,8 @@ cache:
 rabbitmq:
   config:
     exchange: marcher_blog_exchange
-    queue: blog_content_queue
-    routekey: blog_content_routekey
+    queue: test_blog_content_queue
+    routekey: test_blog_content_routekey
 
 
 jwt:
@@ -93,8 +93,8 @@ oss:
   aliyunEndPoint: oss-cn-shenzhen.aliyuncs.com
   aliyunAccessKeyId: AES@IC1iNUMY0bxptfY/S+ckjI7gEVT9CaAfWHWHYxWoAwg=
   aliyunAccessKeySecret: AES@CPDzD4mKIroozQNzwGFNZ3QhlPo/VZXIfb5zIxp7pEQ=
-  aliyunBucketName: marcher-blog
-  aliyunTempBucketName: marcher-blog-temp
+  aliyunBucketName: marcher-test
+  aliyunTempBucketName: marcher-temp
 
 #logging:
 #  config: classpath:logback-dev.xml

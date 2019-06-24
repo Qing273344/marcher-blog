@@ -28,4 +28,5 @@ public class RabbitMqProperties {
      * 路由键
      */
     private String routekey;
+
 }

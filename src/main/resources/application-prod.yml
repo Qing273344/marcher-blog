@@ -21,8 +21,8 @@ spring:
       stat-view-servlet:
         enabled: true
         url-pattern: /druid/*
-        #login-username: admin
-        #login-password: admin
+        login-username: admin
+        login-password: admin
       filter:
         stat:
           log-slow-sql: true
@@ -45,7 +45,19 @@ spring:
         min-idle: 0
   cache:
     type: redis
-
+  # 设置spring boot上传文件大小限制
+  servlet:
+    multipart:
+      max-file-size: 30MB
+      max-request-size: 30MB
+  # mq
+  rabbitmq:
+    host: ${server.host}
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /
+    connection-timeout: 10000ms
 
 cache:
   name: marcher
@@ -68,7 +80,7 @@ oss:
   aliyunAccessKeyId: AES@IC1iNUMY0bxptfY/S+ckjI7gEVT9CaAfWHWHYxWoAwg=
   aliyunAccessKeySecret: AES@CPDzD4mKIroozQNzwGFNZ3QhlPo/VZXIfb5zIxp7pEQ=
   aliyunBucketName: marcher-blog
-  aliyunTempBucketName: marcher-blog-temp
+  aliyunTempBucketName: marcher-temp
 
 logging:
   config: classpath:logback-prod.xml

@@ -28,9 +28,21 @@ public class ImgCopyConsumer {
     )
     @RabbitHandler
     public void handlerMessage(Long articleId) {
-        System.out.println("消费者(文章id): " + articleId);
-
         blogArticleContentService.convertUrl(articleId);
     }
 
+    /**
+     * 监听队列
+     * 参数: 可直接写生产者发送的对象
+     */
+    @RabbitListener(bindings = @QueueBinding(
+            value = @Queue(value = "test_blog_content_queue", durable = "true"),
+            exchange = @Exchange(name = "marcher_blog_exchange"),
+            key = "test_blog_content_routekey"
+    ), containerFactory = "rabbitListenerContainerFactory"
+    )
+    @RabbitHandler
+    public void handlerTestMessage(Long articleId) {
+        blogArticleContentService.convertUrl(articleId);
+    }
 }
