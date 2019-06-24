@@ -12,7 +12,7 @@ import xin.marcher.blog.common.exception.MarcherHintException;
 import xin.marcher.blog.dao.BlogTagDao;
 import xin.marcher.blog.dto.response.BlogTagResp;
 import xin.marcher.blog.entity.BlogTag;
-import xin.marcher.blog.dto.request.BlogTagFrom;
+import xin.marcher.blog.dto.request.BlogTagReq;
 import xin.marcher.blog.service.BlogTagService;
 import xin.marcher.blog.utils.*;
 
@@ -87,21 +87,21 @@ public class BlogTagServiceImpl extends ServiceImpl<BlogTagDao, BlogTag> impleme
     }
 
     @Override
-    public void create(BlogTagFrom blogTagFrom) {
+    public void create(BlogTagReq blogTagReq) {
         // 校验同名标签
-        checkAlikeName(blogTagFrom.getName());
+        checkAlikeName(blogTagReq.getName());
 
-        BlogTag blogTag = toBlogTag(blogTagFrom);
+        BlogTag blogTag = toBlogTag(blogTagReq);
         blogTagDao.insert(blogTag);
     }
 
     @Override
-    public void update(BlogTagFrom blogTagFrom) {
+    public void update(BlogTagReq blogTagReq) {
         // 校验同名标签
-        checkAlikeName(blogTagFrom.getTagId(), blogTagFrom.getName());
+        checkAlikeName(blogTagReq.getTagId(), blogTagReq.getName());
 
-        BlogTag blogTag = toBlogTag(blogTagFrom);
-        blogTag.setTagId(blogTagFrom.getTagId());
+        BlogTag blogTag = toBlogTag(blogTagReq);
+        blogTag.setTagId(blogTagReq.getTagId());
 
         blogTagDao.updateById(blogTag);
     }
@@ -118,9 +118,9 @@ public class BlogTagServiceImpl extends ServiceImpl<BlogTagDao, BlogTag> impleme
         return tagNameList;
     }
 
-    private BlogTag toBlogTag(BlogTagFrom blogTagFrom) {
+    private BlogTag toBlogTag(BlogTagReq blogTagReq) {
         BlogTag blogTag = new BlogTag();
-        ObjectUtil.copyProperties(blogTagFrom, blogTag);
+        ObjectUtil.copyProperties(blogTagReq, blogTag);
         blogTag.setDeleted(Constant.NO_DELETED);
         return blogTag;
     }

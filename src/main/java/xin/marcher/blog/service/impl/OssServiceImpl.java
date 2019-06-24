@@ -43,7 +43,7 @@ public class OssServiceImpl implements OssService {
         } catch (OSSException | ClientException | IOException e) {
             log.error("applet put oss error!", e);
         }
-        return ossProperties.getAliyunTempRegion() + "/" + ossKey;
+        return ossProperties.getAliyunTempRegion() + ossKey;
     }
 
     /**
@@ -57,4 +57,11 @@ public class OssServiceImpl implements OssService {
     public List<String> listFile(String keyPrefix) {
         return OSSFactory.build(ossProperties).listObjects(ossProperties.getAliyunTempBucketName(), keyPrefix);
     }
+
+    @Override
+    public String copyOssObject(String srcFileUrl, String... directorys) {
+        return OSSFactory.build(ossProperties).copyOssObject(ossProperties.getAliyunTempBucketName(), srcFileUrl,
+                ossProperties.getAliyunBucketName(), directorys);
+    }
+
 }

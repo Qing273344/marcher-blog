@@ -3,7 +3,7 @@ package xin.marcher.blog.web.controller;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import xin.marcher.blog.dto.request.BlogArticleTypeFrom;
+import xin.marcher.blog.dto.request.BlogArticleTypeReq;
 import xin.marcher.blog.service.BlogTypeService;
 import xin.marcher.blog.utils.*;
 import xin.marcher.blog.dto.response.BlogArticleTypeResp;
@@ -64,12 +64,12 @@ public class AdminTypeController {
     /**
      * save 博客文章分类
      *
-     * @param blogArticleTypeFrom   分类信息form
+     * @param blogArticleTypeReq   分类信息form
      */
     @PostMapping("/save")
     @RequiresPermissions("marcher")
-    public Result save(@RequestBody BlogArticleTypeFrom blogArticleTypeFrom) {
-        blogTypeService.create(blogArticleTypeFrom);
+    public Result save(@RequestBody BlogArticleTypeReq blogArticleTypeReq) {
+        blogTypeService.create(blogArticleTypeReq);
 
         return Result.success();
     }
@@ -77,14 +77,14 @@ public class AdminTypeController {
     /**
      * update 博客文章分类
      *
-     * @param blogArticleTypeFrom   分类信息form
+     * @param blogArticleTypeReq   分类信息form
      */
     @PostMapping("/update")
     @RequiresPermissions("marcher")
-    public Result update(@RequestBody BlogArticleTypeFrom blogArticleTypeFrom) {
-        Assert.isNullOrZero(blogArticleTypeFrom.getTypeId(), "请选择需要修改的分类");
+    public Result update(@RequestBody BlogArticleTypeReq blogArticleTypeReq) {
+        Assert.isNullOrZero(blogArticleTypeReq.getTypeId(), "请选择需要修改的分类");
 
-        blogTypeService.update(blogArticleTypeFrom);
+        blogTypeService.update(blogArticleTypeReq);
 
         return Result.success();
     }

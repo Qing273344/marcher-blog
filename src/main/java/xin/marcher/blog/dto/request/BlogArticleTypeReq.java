@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @ToString
-public class BlogArticleTypeFrom {
+public class BlogArticleTypeReq {
 
     private Long typeId;
 

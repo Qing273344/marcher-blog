@@ -1,7 +1,9 @@
 package xin.marcher.blog.consumers;
 
 import org.springframework.amqp.rabbit.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import xin.marcher.blog.service.BlogArticleContentService;
 
 /**
  * oss图片从临时桶拷贝到正式桶
@@ -11,11 +13,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class ImgCopyConsumer {
 
+    @Autowired
+    private BlogArticleContentService blogArticleContentService;
+
     /**
      * 监听队列
      * 参数: 可直接写生产者发送的对象
-     *
-     * @param str
      */
     @RabbitListener(bindings = @QueueBinding(
             value = @Queue(value = "blog_content_queue", durable = "true"),
@@ -24,8 +27,10 @@ public class ImgCopyConsumer {
         ), containerFactory = "rabbitListenerContainerFactory"
     )
     @RabbitHandler
-    public void handlerMessage(String str) {
-        System.out.println("消费者: " + str);
+    public void handlerMessage(Long articleId) {
+        System.out.println("消费者(文章id): " + articleId);
+
+        blogArticleContentService.convertUrl(articleId);
     }
 
 }

@@ -14,7 +14,7 @@ import javax.validation.constraints.NotBlank;
 @Setter
 @Getter
 @ToString
-public class RegisterForm {
+public class RegisterReq {
 
     @NotBlank(message = "请输入用户名")
     private String username;

@@ -1,9 +1,9 @@
 package xin.marcher.blog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import xin.marcher.blog.dto.request.LoginReq;
 import xin.marcher.blog.entity.BlogUser;
-import xin.marcher.blog.dto.request.LoginFrom;
-import xin.marcher.blog.dto.request.RegisterForm;
+import xin.marcher.blog.dto.request.RegisterReq;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -24,9 +24,9 @@ public interface BlogUserService extends IService<BlogUser> {
     /**
      * 创建用户
      *
-     * @param registerForm 用户注册信息
+     * @param registerReq 用户注册信息
      */
-    void createUser(RegisterForm registerForm);
+    void createUser(RegisterReq registerReq);
 
 
     /**
@@ -56,8 +56,8 @@ public interface BlogUserService extends IService<BlogUser> {
      * 校验登录信息
      *
      * @param response  响应(用户set token 到cookie中)
-     * @param loginFrom 用户输入的信息
+     * @param loginReq 用户输入的信息
      */
-    void checkLoginInfo(HttpServletResponse response, LoginFrom loginFrom);
+    void checkLoginInfo(HttpServletResponse response, LoginReq loginReq);
 
 }

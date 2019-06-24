@@ -22,7 +22,7 @@ public class OssProperties extends StorageConfig {
         if (EmptyUtil.isNotEmpty(aliyunRegion)) {
             return aliyunRegion;
         }
-        return "https://" + aliyunBucketName + "." + aliyunEndPoint;
+        return "http://" + aliyunBucketName + "." + aliyunEndPoint + "/";
     }
 
     /** 获取临时域名 */
@@ -31,7 +31,7 @@ public class OssProperties extends StorageConfig {
         if (EmptyUtil.isNotEmpty(aliyunTempRegion)) {
             return aliyunTempRegion;
         }
-        return "https://" + aliyunTempBucketName + "." + aliyunEndPoint;
+        return "http://" + aliyunTempBucketName + "." + aliyunEndPoint + "/";
     }
 
 }

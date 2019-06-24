@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import xin.marcher.blog.biz.consts.RedisKeyConstant;
-import xin.marcher.blog.dto.request.LoginFrom;
+import xin.marcher.blog.dto.request.LoginReq;
 import xin.marcher.blog.plugin.kaptcha.AbstractCaptcha;
 import xin.marcher.blog.plugin.kaptcha.GifCaptcha;
 import xin.marcher.blog.service.BlogCaptchaService;
@@ -66,17 +66,17 @@ public class BlogLoginController {
     /**
      * 登录
      *
-     * @param loginFrom 登录信息
+     * @param loginReq 登录信息
      */
     @PostMapping("/login")
     @ResponseBody
-    public Result login(HttpServletResponse response, @Valid @RequestBody LoginFrom loginFrom) {
+    public Result login(HttpServletResponse response, @Valid @RequestBody LoginReq loginReq) {
 
         // 验证码校验
-//        blogCaptchaService.checkCaptcha(request, loginFrom.getCaptcha());
+//        blogCaptchaService.checkCaptcha(request, loginReq.getCaptcha());
 
         // 验证用户输入的账号信息
-        blogUserService.checkLoginInfo(response, loginFrom);
+        blogUserService.checkLoginInfo(response, loginReq);
 
         return Result.success();
     }

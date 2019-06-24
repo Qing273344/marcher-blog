@@ -14,10 +14,10 @@ import xin.marcher.blog.biz.enums.UserSourceEnum;
 import xin.marcher.blog.biz.enums.UserTypeEnum;
 import xin.marcher.blog.biz.property.RedisProperties;
 import xin.marcher.blog.dao.BlogUserDao;
+import xin.marcher.blog.dto.request.LoginReq;
 import xin.marcher.blog.entity.BlogUser;
 import xin.marcher.blog.common.exception.*;
-import xin.marcher.blog.dto.request.LoginFrom;
-import xin.marcher.blog.dto.request.RegisterForm;
+import xin.marcher.blog.dto.request.RegisterReq;
 import xin.marcher.blog.service.BlogUserService;
 import xin.marcher.blog.utils.*;
 
@@ -47,12 +47,12 @@ public class BlogUserServiceImpl extends ServiceImpl<BlogUserDao, BlogUser> impl
     }
 
     @Override
-    public void createUser(RegisterForm registerForm) {
+    public void createUser(RegisterReq registerReq) {
         Long now = DateUtil.getTimestamp();
-        String password = OAuthUtil.encrypt(registerForm.getPassword(), now.toString());
+        String password = OAuthUtil.encrypt(registerReq.getPassword(), now.toString());
 
         BlogUser blogUser = new BlogUser();
-        blogUser.setUsername(registerForm.getUsername());
+        blogUser.setUsername(registerReq.getUsername());
         blogUser.setPassword(password);
         blogUser.setUserType(UserTypeEnum.USER_TYPE_MANITO.getCode());
         blogUser.setSource(UserSourceEnum.USER_SOURCE_PC.getCode());
@@ -81,12 +81,12 @@ public class BlogUserServiceImpl extends ServiceImpl<BlogUserDao, BlogUser> impl
     }
 
     @Override
-    public void checkLoginInfo(HttpServletResponse response, LoginFrom loginFrom) {
-        BlogUser blogUser = getByUsername(loginFrom.getUsername());
+    public void checkLoginInfo(HttpServletResponse response, LoginReq loginReq) {
+        BlogUser blogUser = getByUsername(loginReq.getUsername());
         if (EmptyUtil.isEmpty(blogUser)) {
             throw new AuthenticationException("账号或密码错误~");
         }
-        String inPassword = OAuthUtil.encrypt(loginFrom.getPassword(), blogUser.getCreateTime().toString());
+        String inPassword = OAuthUtil.encrypt(loginReq.getPassword(), blogUser.getCreateTime().toString());
         if (!inPassword.equals(blogUser.getPassword())) {
             throw new AuthenticationException("账号或密码错误~");
         }

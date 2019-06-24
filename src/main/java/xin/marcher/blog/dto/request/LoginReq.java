@@ -14,7 +14,7 @@ import javax.validation.constraints.NotBlank;
 @Setter
 @Getter
 @ToString
-public class LoginFrom {
+public class LoginReq {
 
     @NotBlank(message = "请输入用户名")
     private String username;

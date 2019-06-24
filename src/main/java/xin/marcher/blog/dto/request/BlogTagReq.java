@@ -14,7 +14,7 @@ import javax.validation.constraints.NotBlank;
 @Getter
 @Setter
 @ToString
-public class BlogTagFrom {
+public class BlogTagReq {
 
     private Long tagId;
 

@@ -13,6 +13,7 @@ public interface BlogArticleContentService extends IService<BlogArticleContent> 
 
     /**
      * save 文章内容
+     *
      * @param articleId 文章id
      * @param contentMd 内容(md格式)
      */
@@ -34,5 +35,12 @@ public interface BlogArticleContentService extends IService<BlogArticleContent> 
      * @param articleContent    文章内容
      */
     void update(Long articleId, String articleContent);
+
+    /**
+     * 图片url转换
+     *
+     * @param articleId 文章id
+     */
+    void convertUrl(Long articleId);
 }
 

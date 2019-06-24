@@ -3,7 +3,7 @@ package xin.marcher.blog.web.controller;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import xin.marcher.blog.dto.request.BlogTagFrom;
+import xin.marcher.blog.dto.request.BlogTagReq;
 import xin.marcher.blog.service.BlogTagService;
 import xin.marcher.blog.utils.*;
 import xin.marcher.blog.dto.response.BlogTagResp;
@@ -67,8 +67,8 @@ public class AdminTagController {
      */
     @PostMapping("/save")
     @RequiresPermissions("marcher")
-    public Result save(@RequestBody BlogTagFrom blogTagFrom) {
-        blogTagService.create(blogTagFrom);
+    public Result save(@RequestBody BlogTagReq blogTagReq) {
+        blogTagService.create(blogTagReq);
 
         return Result.success();
     }
@@ -78,10 +78,10 @@ public class AdminTagController {
      */
     @PostMapping("/update")
     @RequiresPermissions("marcher")
-    public Result update(@RequestBody BlogTagFrom blogTagFrom) {
-        Assert.isNullOrZero(blogTagFrom.getTagId(), "请选择标签");
+    public Result update(@RequestBody BlogTagReq blogTagReq) {
+        Assert.isNullOrZero(blogTagReq.getTagId(), "请选择标签");
 
-        blogTagService.update(blogTagFrom);
+        blogTagService.update(blogTagReq);
 
         return Result.success();
     }

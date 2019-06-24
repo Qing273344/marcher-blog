@@ -25,13 +25,15 @@ public interface BlogArticleService extends IService<BlogArticle> {
 
     /**
      * 文章详情
+     *
      * @param articleId 文章id
      * @return 文章详情
      */
     BlogArticleDetailsResp details(long articleId);
 
     /**
-     * query文章
+     * query 文章
+     *
      * @param query query参数
      * @return 文章列表
      */
@@ -39,6 +41,7 @@ public interface BlogArticleService extends IService<BlogArticle> {
 
     /**
      * query 文章
+     *
      * @param query query参数
      * @return 文章列表
      */

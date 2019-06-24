@@ -11,7 +11,7 @@ import xin.marcher.blog.biz.enums.RspBaseCodeEnum;
 import xin.marcher.blog.common.exception.MarcherHintException;
 import xin.marcher.blog.dao.BlogTypeDao;
 import xin.marcher.blog.entity.BlogType;
-import xin.marcher.blog.dto.request.BlogArticleTypeFrom;
+import xin.marcher.blog.dto.request.BlogArticleTypeReq;
 import xin.marcher.blog.service.BlogTypeService;
 import xin.marcher.blog.utils.*;
 import xin.marcher.blog.dto.response.BlogArticleTypeResp;
@@ -81,21 +81,21 @@ public class BlogTypeServiceImpl extends ServiceImpl<BlogTypeDao, BlogType> impl
     }
 
     @Override
-    public void create(BlogArticleTypeFrom blogArticleTypeFrom) {
+    public void create(BlogArticleTypeReq blogArticleTypeReq) {
         // 校验同名类型
-        checkAlikeName(blogArticleTypeFrom.getName());
+        checkAlikeName(blogArticleTypeReq.getName());
 
-        BlogType blogType = toBlogArticleType(blogArticleTypeFrom);
+        BlogType blogType = toBlogArticleType(blogArticleTypeReq);
         blogTypeDao.insert(blogType);
     }
 
     @Override
-    public void update(BlogArticleTypeFrom blogArticleTypeFrom) {
+    public void update(BlogArticleTypeReq blogArticleTypeReq) {
         // 校验同名标签
-        checkAlikeName(blogArticleTypeFrom.getTypeId(), blogArticleTypeFrom.getName());
+        checkAlikeName(blogArticleTypeReq.getTypeId(), blogArticleTypeReq.getName());
 
-        BlogType blogType = toBlogArticleType(blogArticleTypeFrom);
-        blogType.setTypeId(blogArticleTypeFrom.getTypeId());
+        BlogType blogType = toBlogArticleType(blogArticleTypeReq);
+        blogType.setTypeId(blogArticleTypeReq.getTypeId());
 
         blogTypeDao.updateById(blogType);
     }
@@ -105,9 +105,9 @@ public class BlogTypeServiceImpl extends ServiceImpl<BlogTypeDao, BlogType> impl
         blogTypeDao.deleteBatchIds(ids);
     }
 
-    private BlogType toBlogArticleType(BlogArticleTypeFrom blogArticleTypeFrom) {
+    private BlogType toBlogArticleType(BlogArticleTypeReq blogArticleTypeReq) {
         BlogType blogType = new BlogType();
-        ObjectUtil.copyProperties(blogArticleTypeFrom, blogType);
+        ObjectUtil.copyProperties(blogArticleTypeReq, blogType);
         blogType.setTypeId(null);
         blogType.setDeleted(Constant.NO_DELETED);
 
