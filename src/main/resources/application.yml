@@ -4,10 +4,16 @@ server:
   tomcat:
     uri-encoding: utf-8
 
-
 spring:
   application:
     name: marcher-blog
   # 环境 dev|test|prod
   profiles:
     active: dev
+  http:
+    encoding:
+      charset: UTF-8
+      # 将编码强制到HTTP请求和响应上配置的字符集
+      force: true
+      # 启用http编码支持
+      enabled: true

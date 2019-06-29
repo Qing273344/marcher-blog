@@ -2,12 +2,20 @@ package xin.marcher.blog.web.controller;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import xin.marcher.blog.dto.request.BlogArticleTypeReq;
-import xin.marcher.blog.service.BlogTypeService;
-import xin.marcher.blog.utils.*;
 import xin.marcher.blog.dto.response.BlogArticleTypeResp;
+import xin.marcher.blog.service.BlogTypeService;
+import xin.marcher.blog.utils.Assert;
+import xin.marcher.blog.utils.Query;
+import xin.marcher.blog.utils.QueryData;
+import xin.marcher.blog.utils.Result;
+import xin.marcher.blog.validator.group.FirstGroup;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.groups.Default;
 import java.util.List;
 
 /**
@@ -15,6 +23,7 @@ import java.util.List;
  *
  * @author marcher
  */
+@Validated
 @RestController
 @RequestMapping(value = "/admin/type")
 public class AdminTypeController {
@@ -68,7 +77,7 @@ public class AdminTypeController {
      */
     @PostMapping("/save")
     @RequiresPermissions("marcher")
-    public Result save(@RequestBody BlogArticleTypeReq blogArticleTypeReq) {
+    public Result save(@Validated @RequestBody BlogArticleTypeReq blogArticleTypeReq) {
         blogTypeService.create(blogArticleTypeReq);
 
         return Result.success();
@@ -81,9 +90,7 @@ public class AdminTypeController {
      */
     @PostMapping("/update")
     @RequiresPermissions("marcher")
-    public Result update(@RequestBody BlogArticleTypeReq blogArticleTypeReq) {
-        Assert.isNullOrZero(blogArticleTypeReq.getTypeId(), "请选择需要修改的分类");
-
+    public Result update(@Validated({FirstGroup.class, Default.class}) @RequestBody BlogArticleTypeReq blogArticleTypeReq) {
         blogTypeService.update(blogArticleTypeReq);
 
         return Result.success();
@@ -96,11 +103,8 @@ public class AdminTypeController {
      */
     @PostMapping("/remove")
     @RequiresPermissions("marcher")
-    public Result remove(@RequestBody  Long[] ids) {
-        Assert.isEmpty(ids, "请至少选择一条记录");
-
-        List<Long> idList = ConvertUtil.arrayToList(ids);
-        blogTypeService.remove(idList);
+    public Result remove(@NotEmpty(message = "请至少选择一条记录") @RequestBody  List<Long> ids) {
+        blogTypeService.remove(ids);
 
         return Result.success();
     }

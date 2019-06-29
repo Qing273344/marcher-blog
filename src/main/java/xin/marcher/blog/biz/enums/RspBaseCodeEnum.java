@@ -18,7 +18,7 @@ public enum RspBaseCodeEnum {
     NOT_PERMISSION(3, "是想访问么? 让我想想..."),
     NOT_RESOURCE(5, "没有找到你想要的..."),
 
-    NOT_LOGIN(10, "登录后才可以悄悄的干坏事哟!"),
+    NOT_LOGIN(10, "登录后才可以悄悄的干坏事!"),
     LOGIN_TOKEN_INVALID(11, "登录失效咯, 再登一次吧!"),
 
     MARCHER_CODE(999, ""),

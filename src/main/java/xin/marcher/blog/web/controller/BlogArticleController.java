@@ -39,8 +39,7 @@ public class BlogArticleController {
      */
     @PostMapping("/query")
     public Result query(@RequestBody Query<QueryData> query) {
-        Result successPage = blogArticleService.query(query);
-        return successPage;
+        return blogArticleService.query(query);
     }
 
     @PostMapping("/liked")

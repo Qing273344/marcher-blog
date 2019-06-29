@@ -58,6 +58,10 @@ spring:
     password: guest
     virtual-host: /
     connection-timeout: 10000ms
+    listener:
+      # 手动ACK 不开启自动ACK模式,目的是防止报错后未正确处理消息丢失 默认 为 none
+      simple:
+        acknowledge-mode: manual
 
 cache:
   name: marcher

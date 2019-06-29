@@ -28,9 +28,6 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
     @Autowired
     private JwtUtil jwtUtil;
 
-    @Autowired
-    private BlogUserService blogUserService;
-
     /**
      * 预处理回调方法，实现处理器的预处理（如检查登陆），第三个参数为响应的处理器，自定义Controller
      * 返回值：

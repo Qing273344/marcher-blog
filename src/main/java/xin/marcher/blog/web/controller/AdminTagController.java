@@ -2,12 +2,16 @@ package xin.marcher.blog.web.controller;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import xin.marcher.blog.dto.request.BlogTagReq;
 import xin.marcher.blog.service.BlogTagService;
 import xin.marcher.blog.utils.*;
 import xin.marcher.blog.dto.response.BlogTagResp;
+import xin.marcher.blog.validator.group.FirstGroup;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.groups.Default;
 import java.util.List;
 
 /**
@@ -15,6 +19,7 @@ import java.util.List;
  *
  * @author marcher
  */
+@Validated
 @RestController
 @RequestMapping(value = "/admin/tag")
 public class AdminTagController {
@@ -67,7 +72,7 @@ public class AdminTagController {
      */
     @PostMapping("/save")
     @RequiresPermissions("marcher")
-    public Result save(@RequestBody BlogTagReq blogTagReq) {
+    public Result save(@Validated @RequestBody BlogTagReq blogTagReq) {
         blogTagService.create(blogTagReq);
 
         return Result.success();
@@ -78,9 +83,7 @@ public class AdminTagController {
      */
     @PostMapping("/update")
     @RequiresPermissions("marcher")
-    public Result update(@RequestBody BlogTagReq blogTagReq) {
-        Assert.isNullOrZero(blogTagReq.getTagId(), "请选择标签");
-
+    public Result update(@Validated({FirstGroup.class, Default.class}) @RequestBody BlogTagReq blogTagReq) {
         blogTagService.update(blogTagReq);
 
         return Result.success();
@@ -93,11 +96,8 @@ public class AdminTagController {
      */
     @PostMapping("/remove")
     @RequiresPermissions("marcher")
-    public Result remove(@RequestBody Long[] ids) {
-        Assert.isEmpty(ids, "请至少选择一条记录");
-
-        List<Long> idList = ConvertUtil.arrayToList(ids);
-        blogTagService.remove(idList);
+    public Result remove(@NotEmpty(message = "请至少选择一条记录") @RequestBody List<Long> ids) {
+        blogTagService.remove(ids);
 
         return Result.success();
     }

@@ -2,6 +2,7 @@ package xin.marcher.blog.web.controller;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import xin.marcher.blog.biz.enums.RspBaseCodeEnum;
 import xin.marcher.blog.entity.BlogArticle;
@@ -10,6 +11,7 @@ import xin.marcher.blog.service.BlogArticleService;
 import xin.marcher.blog.utils.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 /**
  * 博客文章管理
@@ -30,7 +32,7 @@ public class AdminArticleController {
      */
     @PostMapping("/publish")
     @RequiresPermissions("marcher")
-    public Result publish(@Valid @RequestBody BlogArticleReq blogArticleFrom) {
+    public Result publish(@Validated @RequestBody BlogArticleReq blogArticleFrom) {
 
         Long articleId = blogArticleService.publish(blogArticleFrom);
 
@@ -45,9 +47,7 @@ public class AdminArticleController {
      */
     @GetMapping("/getAsEdit")
     @RequiresPermissions("marcher")
-    public Result getAsEdit(Long id) {
-        Assert.isNullOrZero(id, "请选择需要编辑的文章");
-
+    public Result getAsEdit(@NotNull(message = "请选择需要编辑的文章") Long id) {
         BlogArticle blogArticle = blogArticleService.getById(id);
         if (EmptyUtil.isEmpty(blogArticle)) {
             return Result.error(RspBaseCodeEnum.NOT_RESOURCE.getMsg());

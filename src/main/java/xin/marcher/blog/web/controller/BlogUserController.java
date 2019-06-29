@@ -22,9 +22,6 @@ import xin.marcher.blog.dto.response.BlogUserResp;
 @RequestMapping(value = "/blog/user")
 public class BlogUserController extends AbstractBaseController {
 
-    @Autowired
-    private BlogUserService blogUserService;
-
     /**
      * 获取用户信息
      *

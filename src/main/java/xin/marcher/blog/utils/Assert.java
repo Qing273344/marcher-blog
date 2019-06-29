@@ -4,6 +4,11 @@ import xin.marcher.blog.common.exception.MarcherHintException;
 
 import java.util.Collection;
 
+/**
+ * assert
+ *
+ * @author marcher
+ */
 public class Assert {
 
     public static void isBlank(String str, String msg) {

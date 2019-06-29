@@ -2,6 +2,7 @@ package xin.marcher.blog.web.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import xin.marcher.blog.biz.consts.RedisKeyConstant;
 import xin.marcher.blog.dto.request.LoginReq;
@@ -26,9 +27,6 @@ import java.io.IOException;
 @RestController
 @RequestMapping(value = "/blog/passport")
 public class BlogLoginController {
-
-    @Autowired
-    private JwtUtil jwtUtil;
 
     @Autowired
     private BlogUserService blogUserService;
@@ -70,7 +68,7 @@ public class BlogLoginController {
      */
     @PostMapping("/login")
     @ResponseBody
-    public Result login(HttpServletResponse response, @Valid @RequestBody LoginReq loginReq) {
+    public Result login(HttpServletResponse response, @Validated @RequestBody LoginReq loginReq) {
 
         // 验证码校验
 //        blogCaptchaService.checkCaptcha(request, loginReq.getCaptcha());

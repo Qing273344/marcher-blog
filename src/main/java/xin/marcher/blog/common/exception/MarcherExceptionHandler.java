@@ -13,7 +13,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import xin.marcher.blog.biz.enums.RspBaseCodeEnum;
+import xin.marcher.blog.utils.EmptyUtil;
 import xin.marcher.blog.utils.Result;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import javax.validation.ValidationException;
+import java.util.Iterator;
+import java.util.Set;
 
 /**
  * 统一异常处理
@@ -28,8 +35,7 @@ public class MarcherExceptionHandler {
      * 自定义异常(提示)封装返回
      *
      * @param ex 异常
-     * @return
-     *      异常提示
+     * @return 异常提示
      */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MarcherHintException.class)
@@ -42,8 +48,7 @@ public class MarcherExceptionHandler {
      * 自定义异常封装返回
      *
      * @param ex 异常
-     * @return
-     *      异常提示
+     * @return 异常提示
      */
     @ExceptionHandler(MarcherException.class)
     @ResponseBody
@@ -56,28 +61,39 @@ public class MarcherExceptionHandler {
      * Hibernate Validated 参数提示封装JSON
      *
      * @param ex 异常
-     * @return
-     *      异常提示
+     * @return 异常提示
      */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler({MethodArgumentNotValidException.class})
+    @ExceptionHandler(value = {MethodArgumentNotValidException.class, ValidationException.class})
     @ResponseBody
-    public Result handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
-        BindingResult bindingResult = ex.getBindingResult();
-        StringBuilder errorMessage = new StringBuilder(bindingResult.getFieldErrors().size() * 16);
-
-        if (bindingResult.getFieldErrors().size() > 0) {
-            FieldError fieldError = bindingResult.getFieldErrors().get(0);
-            errorMessage.append(fieldError.getDefaultMessage());
+    public Result handleMethodArgumentNotValidException(Exception ex) {
+        String errorMessage = "";
+        if (ex instanceof MethodArgumentNotValidException) {
+            MethodArgumentNotValidException methodArgumentNotValidException = (MethodArgumentNotValidException) ex;
+            BindingResult bindingResult = methodArgumentNotValidException.getBindingResult();
+            if (bindingResult.getFieldErrors().size() > 0) {
+                FieldError fieldError = bindingResult.getFieldErrors().get(0);
+                errorMessage = fieldError.getDefaultMessage();
+            }
         }
-        return Result.error(HttpStatus.BAD_REQUEST.value(), errorMessage.toString());
+
+        if (ex instanceof ValidationException) {
+            ConstraintViolationException constraintViolationException = (ConstraintViolationException) ex;
+            Set<ConstraintViolation<?>> constraintViolations = constraintViolationException.getConstraintViolations();
+            if (!constraintViolations.isEmpty()) {
+                ConstraintViolation<?> constraintViolation = constraintViolations.iterator().next();
+                errorMessage = constraintViolation.getMessage();
+            }
+        }
+
+        return Result.error(HttpStatus.BAD_REQUEST.value(), errorMessage);
     }
 
     /**
      * 404 异常
-     * @param ex    异常
-     * @return
-     *      异常提示
+     *
+     * @param ex 异常
+     * @return 异常提示
      */
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(NoHandlerFoundException.class)
@@ -90,9 +106,8 @@ public class MarcherExceptionHandler {
     /**
      * shiro权限异常提示(授权)
      *
-     * @param ex    异常
-     * @return
-     *      异常提示
+     * @param ex 异常
+     * @return 异常提示
      */
     @ResponseStatus(HttpStatus.FORBIDDEN)
     @ExceptionHandler(AuthorizationException.class)
@@ -105,9 +120,8 @@ public class MarcherExceptionHandler {
     /**
      * shiro凭证异常提示(登录)
      *
-     * @param ex    异常
-     * @return
-     *      异常提示
+     * @param ex 异常
+     * @return 异常提示
      */
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(AuthenticationException.class)
@@ -121,8 +135,7 @@ public class MarcherExceptionHandler {
      * 顶级异常
      *
      * @param ex 异常
-     * @return
-     *      异常提示
+     * @return 异常提示
      */
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)

@@ -1,6 +1,7 @@
 package xin.marcher.blog.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import xin.marcher.blog.dto.request.RegisterReq;
 import xin.marcher.blog.service.BlogUserService;
@@ -26,7 +27,7 @@ public class BlogRegisterController {
      */
     @PostMapping("/register")
     @ResponseBody
-    public Result  register(@Valid @RequestBody RegisterReq registerReq) {
+    public Result  register(@Validated @RequestBody RegisterReq registerReq) {
 
         // check username
         blogUserService.checkUserNameExist(registerReq.getUsername());
