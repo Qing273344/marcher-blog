@@ -1,7 +1,6 @@
 package xin.marcher.blog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import xin.marcher.blog.entity.BlogArticle;
 import xin.marcher.blog.entity.BlogArticleContent;
 
 /**

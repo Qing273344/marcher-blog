@@ -7,8 +7,6 @@ import xin.marcher.blog.dto.request.RegisterReq;
 import xin.marcher.blog.service.BlogUserService;
 import xin.marcher.blog.utils.Result;
 
-import javax.validation.Valid;
-
 /**
  * 注册
  *

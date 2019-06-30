@@ -191,6 +191,12 @@
             <artifactId>spring-context-support</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>annotations</artifactId>
+            <version>3.0.1</version>
+        </dependency>
+
         <!-- 热部署 - 快速重启方式 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

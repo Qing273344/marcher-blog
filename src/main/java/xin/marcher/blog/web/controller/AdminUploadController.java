@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import xin.marcher.blog.service.OssService;
-import xin.marcher.blog.utils.Assert;
 import xin.marcher.blog.utils.Result;
 
 import javax.validation.constraints.NotNull;

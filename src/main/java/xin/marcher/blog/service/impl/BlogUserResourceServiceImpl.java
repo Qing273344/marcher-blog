@@ -9,7 +9,6 @@ import xin.marcher.blog.service.BlogResourceService;
 import xin.marcher.blog.service.BlogUserResourceService;
 import xin.marcher.blog.utils.EmptyUtil;
 
-import javax.annotation.Resource;
 import java.util.List;
 import java.util.Set;
 

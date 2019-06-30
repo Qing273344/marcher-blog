@@ -1,10 +1,15 @@
 package xin.marcher.blog.common.exception;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * 自定义异常(提示)
  * 
  * @author marcher
  */
+@Getter
+@Setter
 public class MarcherHintException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
@@ -34,19 +39,4 @@ public class MarcherHintException extends RuntimeException {
 		this.code = code;
 	}
 
-	public String getMsg() {
-		return msg;
-	}
-
-	public void setMsg(String msg) {
-		this.msg = msg;
-	}
-
-	public int getCode() {
-		return code;
-	}
-
-	public void setCode(int code) {
-		this.code = code;
-	}
 }

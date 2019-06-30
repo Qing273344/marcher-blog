@@ -35,9 +35,6 @@ public class BlogUserServiceImpl extends ServiceImpl<BlogUserDao, BlogUser> impl
     @Autowired
     private RedisProperties redisProperties;
 
-    @Autowired
-    private BlogUserService blogUserService;
-
     @Override
     public void checkUserNameExist(String username) {
         BlogUser blogUser = getByUsername(username);

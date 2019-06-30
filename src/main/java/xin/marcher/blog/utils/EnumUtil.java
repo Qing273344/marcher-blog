@@ -5,7 +5,7 @@ import xin.marcher.blog.common.exception.MarcherException;
 import java.lang.reflect.Method;
 
 /**
- * @author: marcher
+ * @author marcher
  */
 public class EnumUtil {
 

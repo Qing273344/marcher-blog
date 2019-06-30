@@ -11,11 +11,9 @@ import xin.marcher.blog.plugin.kaptcha.GifCaptcha;
 import xin.marcher.blog.service.BlogCaptchaService;
 import xin.marcher.blog.service.BlogUserService;
 import xin.marcher.blog.utils.CookieUtil;
-import xin.marcher.blog.utils.JwtUtil;
 import xin.marcher.blog.utils.Result;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 import java.io.IOException;
 
 /**

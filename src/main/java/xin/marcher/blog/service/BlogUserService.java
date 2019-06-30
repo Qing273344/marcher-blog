@@ -33,7 +33,8 @@ public interface BlogUserService extends IService<BlogUser> {
      * 通过用户名获取用户信息
      *
      * @param username 用户名
-     * @return 用户信息
+     * @return
+     *      用户信息
      */
     BlogUser getByUsername(String username);
 
@@ -48,7 +49,8 @@ public interface BlogUserService extends IService<BlogUser> {
      * 通过用户id获取用户信息
      *
      * @param userId 用户id
-     * @return 用户信息
+     * @return
+     *      用户信息
      */
     BlogUser getUserInfoFormCache(String userId);
 

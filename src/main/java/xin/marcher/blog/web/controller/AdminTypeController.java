@@ -14,7 +14,6 @@ import xin.marcher.blog.utils.Result;
 import xin.marcher.blog.validator.group.FirstGroup;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import javax.validation.groups.Default;
 import java.util.List;
 

@@ -2,8 +2,6 @@ package xin.marcher.blog.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
@@ -18,7 +16,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.*;
 import xin.marcher.blog.biz.property.RedisProperties;
 
-import javax.annotation.Resource;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -27,13 +24,14 @@ import java.util.Set;
 
 /**
  * Redis配置
- * 注解:@EnableTransactionManagement 事物支持
+ * 注解: @EnableTransactionManagement 事物支持
+ * 注解: @EnableCaching 启用缓存
  *
  * @author marcher
  */
-@EnableCaching // 启用缓存
+@EnableCaching
 @Order(1)
-public class RedisCacheConfig extends CachingConfigurerSupport {
+public class RedisConfig extends CachingConfigurerSupport {
 
     @Autowired
     private RedisProperties redisProperties;

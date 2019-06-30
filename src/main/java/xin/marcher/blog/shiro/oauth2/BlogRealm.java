@@ -9,14 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import xin.marcher.blog.biz.enums.RspBaseCodeEnum;
 import xin.marcher.blog.biz.enums.UserLockedEnum;
-import xin.marcher.blog.common.exception.MarcherException;
 import xin.marcher.blog.entity.BlogUser;
 import xin.marcher.blog.service.BlogUserResourceService;
 import xin.marcher.blog.service.BlogUserService;
 import xin.marcher.blog.utils.EmptyUtil;
 import xin.marcher.blog.utils.JwtUtil;
 
-import javax.annotation.Resource;
 import java.util.Set;
 
 /**

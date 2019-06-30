@@ -5,12 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import xin.marcher.blog.biz.enums.RspBaseCodeEnum;
-import xin.marcher.blog.entity.BlogArticle;
 import xin.marcher.blog.dto.request.BlogArticleReq;
+import xin.marcher.blog.entity.BlogArticle;
 import xin.marcher.blog.service.BlogArticleService;
 import xin.marcher.blog.utils.*;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 /**

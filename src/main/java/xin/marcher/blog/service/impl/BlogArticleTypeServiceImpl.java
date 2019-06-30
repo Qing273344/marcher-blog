@@ -7,7 +7,6 @@ import xin.marcher.blog.biz.consts.Constant;
 import xin.marcher.blog.dao.BlogArticleTypeDao;
 import xin.marcher.blog.entity.BlogArticleType;
 import xin.marcher.blog.service.BlogArticleTypeService;
-import xin.marcher.blog.utils.DateUtil;
 import xin.marcher.blog.utils.EmptyUtil;
 
 /**

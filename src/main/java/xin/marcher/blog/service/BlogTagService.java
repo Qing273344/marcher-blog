@@ -21,11 +21,15 @@ public interface BlogTagService extends IService<BlogTag> {
      * get标签详情
      *
      * @param id    标签id
+     * @return
+     *      标签
      */
     BlogTagResp get(Long id);
 
     /**
      * list 所有标签
+     * @return
+     *      标签
      */
     List<BlogTagResp> listAll();
 
@@ -33,16 +37,21 @@ public interface BlogTagService extends IService<BlogTag> {
      * query
      *
      * @param query query条件
+     * @return
+     *      tag
      */
     Result query(Query<QueryData> query);
 
     /**
      * 创建博客标签
+     *
+     * @param blogTagReq    blogTagReq
      */
     void create(BlogTagReq blogTagReq);
 
     /**
      * 编辑标签
+     *
      * @param blogTagReq 新的数据
      */
     void update(BlogTagReq blogTagReq);
@@ -56,6 +65,7 @@ public interface BlogTagService extends IService<BlogTag> {
 
     /**
      * get 热门标签
+     *
      * @return
      *      热门标签
      */
