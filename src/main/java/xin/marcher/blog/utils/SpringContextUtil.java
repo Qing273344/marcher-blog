@@ -1,7 +1,6 @@
 package xin.marcher.blog.utils;
 
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
@@ -12,22 +11,35 @@ import org.springframework.stereotype.Component;
  * @author marcher
  */
 @Component
-public class SpringContextUtils implements ApplicationContextAware {
+public class SpringContextUtil implements ApplicationContextAware {
 
-	public static ApplicationContext applicationContext;
+	private static ApplicationContext applicationContext;
 
 	@Override
-	public void setApplicationContext(ApplicationContext applicationContext)
-			throws BeansException {
-		SpringContextUtils.applicationContext = applicationContext;
+	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+		if (SpringContextUtil.applicationContext == null) {
+			SpringContextUtil.applicationContext = applicationContext;
+		}
 	}
 
 	public static Object getBean(String name) {
 		return applicationContext.getBean(name);
 	}
 
-	public static <T> T getBean(String name, Class<T> requiredType) {
-		return applicationContext.getBean(name, requiredType);
+	public static <T> T getBean(Class<T> clazz) {
+		return applicationContext.getBean(clazz);
+	}
+
+	/**
+	 * 通过name和class返回指定的Bean
+	 * @param name	name
+	 * @param clazz	class
+	 * @param <T>	T
+	 * @return
+	 * 		指定的Bean
+	 */
+	public static <T> T getBean(String name, Class<T> clazz) {
+		return applicationContext.getBean(name, clazz);
 	}
 
 	public static boolean containsBean(String name) {

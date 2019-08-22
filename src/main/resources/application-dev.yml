@@ -100,5 +100,5 @@ oss:
   aliyunBucketName: marcher-test
   aliyunTempBucketName: marcher-temp
 
-#logging:
-#  config: classpath:logback-dev.xml
+logging:
+  config: classpath:logback-dev.xml

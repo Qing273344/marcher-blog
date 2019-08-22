@@ -24,11 +24,13 @@ public class ImgCopyConsumer {
      * 监听队列
      * 参数: 可直接写生产者发送的对象
      */
-    @RabbitListener(bindings = @QueueBinding(
-            value = @Queue(value = "blog_content_queue", durable = "true"),
-            exchange = @Exchange(name = "marcher_blog_exchange"),
-            key = "blog_content_routekey"
-        ), containerFactory = "rabbitListenerContainerFactory"
+    @RabbitListener(
+            bindings = @QueueBinding(
+                    value = @Queue(value = "blog_content_queue", durable = "true"),
+                    exchange = @Exchange(name = "marcher_blog_exchange"),
+                    key = "blog_content_routekey"
+            ),
+            containerFactory = "rabbitListenerContainerFactory"
     )
     @RabbitHandler
     public void handlerMessage(Long articleId, Channel channel, Message message) throws IOException {

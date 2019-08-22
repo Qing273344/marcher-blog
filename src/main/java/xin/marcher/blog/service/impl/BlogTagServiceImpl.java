@@ -114,8 +114,7 @@ public class BlogTagServiceImpl extends ServiceImpl<BlogTagDao, BlogTag> impleme
     @Override
     public List<String> getHotTag() {
         List<BlogTag> blogTags = list();
-        List<String> tagNameList = blogTags.stream().map(BlogTag::getName).distinct().collect(Collectors.toList());
-        return tagNameList;
+        return blogTags.stream().map(BlogTag::getName).distinct().collect(Collectors.toList());
     }
 
     private BlogTag toBlogTag(BlogTagReq blogTagReq) {

@@ -10,7 +10,7 @@ import java.util.stream.Stream;
  *
  * @author marcher
  */
-public class ConvertUtil {
+public class ConverterUtil {
 
     /**
      * 数组转List

@@ -24,6 +24,7 @@ import xin.marcher.blog.service.BlogArticleTagService;
 import xin.marcher.blog.service.BlogArticleTypeService;
 import xin.marcher.blog.utils.*;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 

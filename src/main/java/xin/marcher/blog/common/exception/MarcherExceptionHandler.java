@@ -15,6 +15,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import xin.marcher.blog.biz.enums.RspBaseCodeEnum;
 import xin.marcher.blog.utils.Result;
 
+import javax.servlet.ServletResponse;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
