@@ -33,7 +33,7 @@
         <shiro.version>1.4.0</shiro.version>
         <jwt.version>0.9.0</jwt.version>
         <jasypt.version>2.1.0</jasypt.version>
-        <quartz.version>2.3.0</quartz.version>
+        <quartz.version>2.3.2</quartz.version>
 
         <marcher.mq.version>1.0.0</marcher.mq.version>
     </properties>
