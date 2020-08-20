@@ -3,11 +3,11 @@ package xin.marcher.blog.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
-import xin.marcher.blog.biz.consts.Constant;
-import xin.marcher.blog.dao.BlogArticleTypeDao;
-import xin.marcher.blog.entity.BlogArticleType;
+import xin.marcher.blog.mapper.BlogArticleTypeMapper;
+import xin.marcher.blog.model.BlogArticleType;
 import xin.marcher.blog.service.BlogArticleTypeService;
-import xin.marcher.blog.utils.EmptyUtil;
+import xin.marcher.framework.constants.GlobalConstant;
+import xin.marcher.framework.util.EmptyUtil;
 
 /**
  * 博客文章类型关联
@@ -15,7 +15,7 @@ import xin.marcher.blog.utils.EmptyUtil;
  * @author marcher
  */
 @Service
-public class BlogArticleTypeServiceImpl extends ServiceImpl<BlogArticleTypeDao, BlogArticleType> implements BlogArticleTypeService {
+public class BlogArticleTypeServiceImpl extends ServiceImpl<BlogArticleTypeMapper, BlogArticleType> implements BlogArticleTypeService {
 
     @Override
     public void add(Long articleId, Long typeId) {
@@ -48,7 +48,7 @@ public class BlogArticleTypeServiceImpl extends ServiceImpl<BlogArticleTypeDao, 
         BlogArticleType blogArticleType = new BlogArticleType();
         blogArticleType.setArticleId(articleId);
         blogArticleType.setTypeId(typeId);
-        blogArticleType.setDeleted(Constant.NO_DELETED);
+        blogArticleType.setDeleted(GlobalConstant.NO_DELETED);
 
         return blogArticleType;
     }

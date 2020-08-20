@@ -1,17 +1,13 @@
 package xin.marcher.blog.web.controller;
 
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import xin.marcher.blog.service.BlogArticleService;
-import xin.marcher.blog.utils.*;
-import xin.marcher.blog.dto.response.BlogArticleDetailsResp;
-
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Enumeration;
-import java.util.Map;
+import xin.marcher.blog.utils.Assert;
+import xin.marcher.blog.utils.Query;
+import xin.marcher.blog.utils.QueryData;
+import xin.marcher.blog.utils.Result;
+import xin.marcher.blog.vo.BlogArticleDetailsVO;
 
 /**
  * 博客类型
@@ -32,12 +28,12 @@ public class BlogArticleController {
     public Result details(Long id) {
         Assert.isNullOrZero(id, "请选择指定文章");
 
-        BlogArticleDetailsResp blogArticleDetailsResp = blogArticleService.details(id);
+        BlogArticleDetailsVO blogArticleDetailsVO = blogArticleService.details(id);
 
         // 浏览量+1
         blogArticleService.viewsIncrease(id);
 
-        Result data = new Result().put("info", blogArticleDetailsResp);
+        Result data = new Result().put("info", blogArticleDetailsVO);
         return Result.success(data);
     }
 

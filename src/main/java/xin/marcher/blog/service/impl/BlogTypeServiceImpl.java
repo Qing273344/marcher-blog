@@ -6,15 +6,20 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import xin.marcher.blog.biz.consts.Constant;
 import xin.marcher.blog.biz.enums.RspBaseCodeEnum;
-import xin.marcher.blog.common.exception.MarcherHintException;
-import xin.marcher.blog.dao.BlogTypeDao;
-import xin.marcher.blog.entity.BlogType;
-import xin.marcher.blog.dto.request.BlogArticleTypeReq;
+import xin.marcher.blog.dto.BlogArticleTypeDTO;
+import xin.marcher.blog.mapper.BlogTypeMapper;
+import xin.marcher.blog.model.BlogType;
 import xin.marcher.blog.service.BlogTypeService;
-import xin.marcher.blog.utils.*;
-import xin.marcher.blog.dto.response.BlogArticleTypeResp;
+import xin.marcher.blog.utils.PageUtil;
+import xin.marcher.blog.utils.Query;
+import xin.marcher.blog.utils.QueryData;
+import xin.marcher.blog.utils.Result;
+import xin.marcher.blog.vo.BlogArticleTypeVO;
+import xin.marcher.framework.constants.GlobalConstant;
+import xin.marcher.framework.exception.HintException;
+import xin.marcher.framework.util.EmptyUtil;
+import xin.marcher.framework.util.ObjectUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,39 +28,39 @@ import java.util.List;
  * @author marcher
  */
 @Service
-public class BlogTypeServiceImpl extends ServiceImpl<BlogTypeDao, BlogType> implements BlogTypeService {
+public class BlogTypeServiceImpl extends ServiceImpl<BlogTypeMapper, BlogType> implements BlogTypeService {
 
     @Autowired
-    private BlogTypeDao blogTypeDao;
+    private BlogTypeMapper blogTypeMapper;
 
     @Override
-    public BlogArticleTypeResp get(Long id) {
-        BlogType blogType = blogTypeDao.selectById(id);
+    public BlogArticleTypeVO get(Long id) {
+        BlogType blogType = blogTypeMapper.selectById(id);
         if (EmptyUtil.isEmpty(blogType)) {
             return null;
         }
 
-        BlogArticleTypeResp blogArticleTypeResp = new BlogArticleTypeResp();
-        ObjectUtil.copyProperties(blogType, blogArticleTypeResp);
+        BlogArticleTypeVO blogArticleTypeVO = new BlogArticleTypeVO();
+        ObjectUtil.copyProperties(blogType, blogArticleTypeVO);
 
-        return blogArticleTypeResp;
+        return blogArticleTypeVO;
     }
 
     @Override
-    public List<BlogArticleTypeResp> listAll() {
-        List<BlogType> blogTypes = blogTypeDao.selectList(null);
+    public List<BlogArticleTypeVO> listAll() {
+        List<BlogType> blogTypes = blogTypeMapper.selectList(null);
         if (EmptyUtil.isEmpty(blogTypes)) {
             return new ArrayList<>();
         }
 
-        List<BlogArticleTypeResp> blogArticleTypeRespList = new ArrayList<>();
+        List<BlogArticleTypeVO> blogArticleTypeVOList = new ArrayList<>();
         for (BlogType blogType : blogTypes) {
-            BlogArticleTypeResp blogArticleTypeResp = new BlogArticleTypeResp();
-            ObjectUtil.copyProperties(blogType, blogArticleTypeResp);
-            blogArticleTypeRespList.add(blogArticleTypeResp);
+            BlogArticleTypeVO blogArticleTypeVO = new BlogArticleTypeVO();
+            ObjectUtil.copyProperties(blogType, blogArticleTypeVO);
+            blogArticleTypeVOList.add(blogArticleTypeVO);
         }
 
-        return blogArticleTypeRespList;
+        return blogArticleTypeVOList;
     }
 
     @Override
@@ -64,52 +69,52 @@ public class BlogTypeServiceImpl extends ServiceImpl<BlogTypeDao, BlogType> impl
         queryWrapper.lambda().like(BlogType::getName, query.getData().getKeyword());
         IPage<BlogType> queryPage = new Page<>(query.getPage().getCurPage(), query.getPage().getLimit());
 
-        IPage<BlogType> blogArticleTypeIPage = blogTypeDao.selectPage(queryPage, queryWrapper);
+        IPage<BlogType> blogArticleTypeIPage = blogTypeMapper.selectPage(queryPage, queryWrapper);
 
         List<BlogType> blogTypes = blogArticleTypeIPage.getRecords();
-        List<BlogArticleTypeResp> blogArticleTypeRespList = new ArrayList<>();
+        List<BlogArticleTypeVO> blogArticleTypeVOList = new ArrayList<>();
         for (BlogType blogTag : blogTypes) {
-            BlogArticleTypeResp blogArticleTypeResp = new BlogArticleTypeResp();
-            ObjectUtil.copyProperties(blogTag, blogArticleTypeResp);
-            blogArticleTypeRespList.add(blogArticleTypeResp);
+            BlogArticleTypeVO blogArticleTypeVO = new BlogArticleTypeVO();
+            ObjectUtil.copyProperties(blogTag, blogArticleTypeVO);
+            blogArticleTypeVOList.add(blogArticleTypeVO);
         }
 
         PageUtil page = new PageUtil((int) blogArticleTypeIPage.getTotal(), query.getPage());
-        Result data = new Result().put("list", blogArticleTypeRespList);
+        Result data = new Result().put("list", blogArticleTypeVOList);
 
         return Result.successPage(data, page);
     }
 
     @Override
-    public void create(BlogArticleTypeReq blogArticleTypeReq) {
+    public void create(BlogArticleTypeDTO blogArticleTypeDTO) {
         // 校验同名类型
-        checkAlikeName(blogArticleTypeReq.getName());
+        checkAlikeName(blogArticleTypeDTO.getName());
 
-        BlogType blogType = toBlogArticleType(blogArticleTypeReq);
-        blogTypeDao.insert(blogType);
+        BlogType blogType = toBlogArticleType(blogArticleTypeDTO);
+        blogTypeMapper.insert(blogType);
     }
 
     @Override
-    public void update(BlogArticleTypeReq blogArticleTypeReq) {
+    public void update(BlogArticleTypeDTO blogArticleTypeDTO) {
         // 校验同名标签
-        checkAlikeName(blogArticleTypeReq.getTypeId(), blogArticleTypeReq.getName());
+        checkAlikeName(blogArticleTypeDTO.getTypeId(), blogArticleTypeDTO.getName());
 
-        BlogType blogType = toBlogArticleType(blogArticleTypeReq);
-        blogType.setTypeId(blogArticleTypeReq.getTypeId());
+        BlogType blogType = toBlogArticleType(blogArticleTypeDTO);
+        blogType.setTypeId(blogArticleTypeDTO.getTypeId());
 
-        blogTypeDao.updateById(blogType);
+        blogTypeMapper.updateById(blogType);
     }
 
     @Override
     public void remove(List<Long> ids) {
-        blogTypeDao.deleteBatchIds(ids);
+        blogTypeMapper.deleteBatchIds(ids);
     }
 
-    private BlogType toBlogArticleType(BlogArticleTypeReq blogArticleTypeReq) {
+    private BlogType toBlogArticleType(BlogArticleTypeDTO blogArticleTypeDTO) {
         BlogType blogType = new BlogType();
-        ObjectUtil.copyProperties(blogArticleTypeReq, blogType);
+        ObjectUtil.copyProperties(blogArticleTypeDTO, blogType);
         blogType.setTypeId(null);
-        blogType.setDeleted(Constant.NO_DELETED);
+        blogType.setDeleted(GlobalConstant.NO_DELETED);
 
         return blogType;
     }
@@ -117,9 +122,9 @@ public class BlogTypeServiceImpl extends ServiceImpl<BlogTypeDao, BlogType> impl
     private void checkAlikeName(String name) {
         QueryWrapper<BlogType> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().like(BlogType::getName, name);
-        Integer rowNum = blogTypeDao.selectCount(queryWrapper);
+        Integer rowNum = blogTypeMapper.selectCount(queryWrapper);
         if (rowNum > 0) {
-            throw new MarcherHintException("已存在该名称类型", RspBaseCodeEnum.PARAM_ILLEGAL.getCode());
+            throw new HintException(RspBaseCodeEnum.PARAM_ILLEGAL.getRealCode(), "已存在该名称类型");
         }
     }
 
@@ -127,9 +132,9 @@ public class BlogTypeServiceImpl extends ServiceImpl<BlogTypeDao, BlogType> impl
         QueryWrapper<BlogType> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().like(BlogType::getName, name);
         queryWrapper.lambda().ne(BlogType::getTypeId, typeId);
-        Integer rowNum = blogTypeDao.selectCount(queryWrapper);
+        Integer rowNum = blogTypeMapper.selectCount(queryWrapper);
         if (rowNum > 0) {
-            throw new MarcherHintException("已存在该名称类型", RspBaseCodeEnum.PARAM_ILLEGAL.getCode());
+            throw new HintException(RspBaseCodeEnum.PARAM_ILLEGAL.getRealCode(), "已存在该名称类型");
         }
     }
 }

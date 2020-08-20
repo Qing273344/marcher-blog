@@ -7,7 +7,6 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.context.request.RequestContextListener;
 
 /**
@@ -16,11 +15,10 @@ import org.springframework.web.context.request.RequestContextListener;
  *
  * @author marcher
  */
-//@EnableScheduling
-@ComponentScan(basePackages = "xin.marcher.*")
-@MapperScan(value = "xin.marcher.blog.dao", annotationClass = Repository.class)
+@ComponentScan(basePackages = {"xin.marcher.*", "xin.marcher.framework.*"})
+@MapperScan(basePackages = "xin.marcher.blog.mapper")
 @SpringBootApplication
-public class BlogApplication  extends SpringBootServletInitializer {
+public class BlogApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
         SpringApplication.run(BlogApplication.class, args);

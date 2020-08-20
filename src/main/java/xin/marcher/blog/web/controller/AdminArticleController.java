@@ -5,10 +5,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import xin.marcher.blog.biz.enums.RspBaseCodeEnum;
-import xin.marcher.blog.dto.request.BlogArticleReq;
-import xin.marcher.blog.entity.BlogArticle;
+import xin.marcher.blog.dto.BlogArticleDTO;
+import xin.marcher.blog.model.BlogArticle;
 import xin.marcher.blog.service.BlogArticleService;
-import xin.marcher.blog.utils.*;
+import xin.marcher.blog.utils.Assert;
+import xin.marcher.blog.utils.Query;
+import xin.marcher.blog.utils.QueryData;
+import xin.marcher.blog.utils.Result;
+import xin.marcher.framework.util.EmptyUtil;
 
 import javax.validation.constraints.NotNull;
 
@@ -31,7 +35,7 @@ public class AdminArticleController {
      */
     @PostMapping("/publish")
     @RequiresPermissions("marcher")
-    public Result publish(@Validated @RequestBody BlogArticleReq blogArticleFrom) {
+    public Result publish(@Validated @RequestBody BlogArticleDTO blogArticleFrom) {
 
         Long articleId = blogArticleService.publish(blogArticleFrom);
 
@@ -49,10 +53,10 @@ public class AdminArticleController {
     public Result getAsEdit(@NotNull(message = "请选择需要编辑的文章") Long id) {
         BlogArticle blogArticle = blogArticleService.getById(id);
         if (EmptyUtil.isEmpty(blogArticle)) {
-            return Result.error(RspBaseCodeEnum.NOT_RESOURCE.getMsg());
+            return Result.error(RspBaseCodeEnum.NOT_RESOURCE.getRealDesc());
         }
 
-        BlogArticleReq blogArticleFrom = blogArticleService.getAsEdit(id);
+        BlogArticleDTO blogArticleFrom = blogArticleService.getAsEdit(id);
         Result data = new Result().put("info", blogArticleFrom);
         return Result.success(data);
     }

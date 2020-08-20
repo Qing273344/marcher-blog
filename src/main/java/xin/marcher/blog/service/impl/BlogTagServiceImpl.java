@@ -6,15 +6,20 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import xin.marcher.blog.biz.consts.Constant;
 import xin.marcher.blog.biz.enums.RspBaseCodeEnum;
-import xin.marcher.blog.common.exception.MarcherHintException;
-import xin.marcher.blog.dao.BlogTagDao;
-import xin.marcher.blog.dto.request.BlogTagReq;
-import xin.marcher.blog.dto.response.BlogTagResp;
-import xin.marcher.blog.entity.BlogTag;
+import xin.marcher.blog.dto.BlogTagDTO;
+import xin.marcher.blog.mapper.BlogTagMapper;
+import xin.marcher.blog.model.BlogTag;
 import xin.marcher.blog.service.BlogTagService;
-import xin.marcher.blog.utils.*;
+import xin.marcher.blog.utils.PageUtil;
+import xin.marcher.blog.utils.Query;
+import xin.marcher.blog.utils.QueryData;
+import xin.marcher.blog.utils.Result;
+import xin.marcher.blog.vo.BlogTagVO;
+import xin.marcher.framework.constants.GlobalConstant;
+import xin.marcher.framework.exception.HintException;
+import xin.marcher.framework.util.EmptyUtil;
+import xin.marcher.framework.util.ObjectUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,39 +29,36 @@ import java.util.stream.Collectors;
  * @author marcher
  */
 @Service
-public class BlogTagServiceImpl extends ServiceImpl<BlogTagDao, BlogTag> implements BlogTagService {
+public class BlogTagServiceImpl extends ServiceImpl<BlogTagMapper, BlogTag> implements BlogTagService {
 
     @Autowired
-    private BlogTagDao blogTagDao;
+    private BlogTagMapper blogTagMapper;
 
     @Override
-    public BlogTagResp get(Long id) {
-        BlogTag blogTag = blogTagDao.selectById(id);
+    public BlogTagVO get(Long id) {
+        BlogTag blogTag = blogTagMapper.selectById(id);
         if (EmptyUtil.isEmpty(blogTag)) {
             return null;
         }
 
-        BlogTagResp blogTagResp = new BlogTagResp();
-        ObjectUtil.copyProperties(blogTag, blogTagResp);
+        BlogTagVO blogTagVO = new BlogTagVO();
+        ObjectUtil.copyProperties(blogTag, blogTagVO);
 
-        return blogTagResp;
+        return blogTagVO;
     }
 
     @Override
-    public List<BlogTagResp> listAll() {
-        List<BlogTag> blogTags = blogTagDao.selectList(null);
-        if (EmptyUtil.isEmpty(blogTags)) {
-            return new ArrayList<>();
-        }
+    public List<BlogTagVO> listAll() {
+        List<BlogTag> blogTags = blogTagMapper.selectList(null);
 
-        List<BlogTagResp> blogTagRespList = new ArrayList<>();
+        List<BlogTagVO> blogTagVOList = new ArrayList<>();
         for (BlogTag blogTag : blogTags) {
-            BlogTagResp blogTagResp = new BlogTagResp();
-            ObjectUtil.copyProperties(blogTag, blogTagResp);
-            blogTagRespList.add(blogTagResp);
+            BlogTagVO blogTagVO = new BlogTagVO();
+            ObjectUtil.copyProperties(blogTag, blogTagVO);
+            blogTagVOList.add(blogTagVO);
         }
 
-        return blogTagRespList;
+        return blogTagVOList;
     }
 
     @Override
@@ -69,46 +71,46 @@ public class BlogTagServiceImpl extends ServiceImpl<BlogTagDao, BlogTag> impleme
         }
         IPage<BlogTag> queryPage = new Page<>(query.getPage().getCurPage(), query.getPage().getLimit());
 
-        IPage<BlogTag> blogTagIPage = blogTagDao.selectPage(queryPage, queryWrapper);
+        IPage<BlogTag> blogTagIPage = blogTagMapper.selectPage(queryPage, queryWrapper);
 
         List<BlogTag> blogTags = blogTagIPage.getRecords();
-        List<BlogTagResp> blogTagRespList = new ArrayList<>();
+        List<BlogTagVO> blogTagVOList = new ArrayList<>();
 
         blogTags.forEach( blogTag -> {
-            BlogTagResp blogTagResp = new BlogTagResp();
-            ObjectUtil.copyProperties(blogTag, blogTagResp);
-            blogTagRespList.add(blogTagResp);
+            BlogTagVO blogTagVO = new BlogTagVO();
+            ObjectUtil.copyProperties(blogTag, blogTagVO);
+            blogTagVOList.add(blogTagVO);
         });
 
         PageUtil page = new PageUtil((int) blogTagIPage.getTotal(), query.getPage());
-        Result data = new Result().put("list", blogTagRespList);
+        Result data = new Result().put("list", blogTagVOList);
 
         return Result.successPage(data, page);
     }
 
     @Override
-    public void create(BlogTagReq blogTagReq) {
+    public void create(BlogTagDTO blogTagDTO) {
         // 校验同名标签
-        checkAlikeName(blogTagReq.getName());
+        checkAlikeName(blogTagDTO.getName());
 
-        BlogTag blogTag = toBlogTag(blogTagReq);
-        blogTagDao.insert(blogTag);
+        BlogTag blogTag = toBlogTag(blogTagDTO);
+        blogTagMapper.insert(blogTag);
     }
 
     @Override
-    public void update(BlogTagReq blogTagReq) {
+    public void update(BlogTagDTO blogTagDTO) {
         // 校验同名标签
-        checkAlikeName(blogTagReq.getTagId(), blogTagReq.getName());
+        checkAlikeName(blogTagDTO.getTagId(), blogTagDTO.getName());
 
-        BlogTag blogTag = toBlogTag(blogTagReq);
-        blogTag.setTagId(blogTagReq.getTagId());
+        BlogTag blogTag = toBlogTag(blogTagDTO);
+        blogTag.setTagId(blogTagDTO.getTagId());
 
-        blogTagDao.updateById(blogTag);
+        blogTagMapper.updateById(blogTag);
     }
 
     @Override
     public void remove(List<Long> ids) {
-        blogTagDao.deleteBatchIds(ids);
+        blogTagMapper.deleteBatchIds(ids);
     }
 
     @Override
@@ -117,19 +119,19 @@ public class BlogTagServiceImpl extends ServiceImpl<BlogTagDao, BlogTag> impleme
         return blogTags.stream().map(BlogTag::getName).distinct().collect(Collectors.toList());
     }
 
-    private BlogTag toBlogTag(BlogTagReq blogTagReq) {
+    private BlogTag toBlogTag(BlogTagDTO blogTagDTO) {
         BlogTag blogTag = new BlogTag();
-        ObjectUtil.copyProperties(blogTagReq, blogTag);
-        blogTag.setDeleted(Constant.NO_DELETED);
+        ObjectUtil.copyProperties(blogTagDTO, blogTag);
+        blogTag.setDeleted(GlobalConstant.NO_DELETED);
         return blogTag;
     }
 
     private void checkAlikeName(String name) {
         QueryWrapper<BlogTag> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().like(BlogTag::getName, name);
-        Integer rowNum = blogTagDao.selectCount(queryWrapper);
+        Integer rowNum = blogTagMapper.selectCount(queryWrapper);
         if (rowNum > 0) {
-            throw new MarcherHintException("已存在该名称标签", RspBaseCodeEnum.PARAM_ILLEGAL.getCode());
+            throw new HintException(RspBaseCodeEnum.PARAM_ILLEGAL.getRealCode(), "已存在该名称标签");
         }
     }
 
@@ -137,9 +139,9 @@ public class BlogTagServiceImpl extends ServiceImpl<BlogTagDao, BlogTag> impleme
         QueryWrapper<BlogTag> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().like(BlogTag::getName, name);
         queryWrapper.lambda().ne(BlogTag::getTagId, tagId);
-        Integer rowNum = blogTagDao.selectCount(queryWrapper);
+        Integer rowNum = blogTagMapper.selectCount(queryWrapper);
         if (rowNum > 0) {
-            throw new MarcherHintException("已存在该名称标签", RspBaseCodeEnum.PARAM_ILLEGAL.getCode());
+            throw new HintException(RspBaseCodeEnum.PARAM_ILLEGAL.getRealCode(), "已存在该名称标签");
         }
     }
 }

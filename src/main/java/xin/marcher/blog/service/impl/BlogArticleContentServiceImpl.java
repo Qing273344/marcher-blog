@@ -3,16 +3,16 @@ package xin.marcher.blog.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import xin.marcher.blog.biz.consts.Constant;
-import xin.marcher.blog.biz.property.OssProperties;
 import xin.marcher.blog.biz.property.RabbitMqProperties;
-import xin.marcher.blog.dao.BlogArticleContentDao;
-import xin.marcher.blog.entity.BlogArticleContent;
+import xin.marcher.blog.mapper.BlogArticleContentMapper;
+import xin.marcher.blog.model.BlogArticleContent;
 import xin.marcher.blog.service.BlogArticleContentService;
 import xin.marcher.blog.service.OssService;
-import xin.marcher.blog.utils.EmptyUtil;
-import xin.marcher.blog.utils.RegexUtil;
-import xin.marcher.rabbitmq.send.MqService;
+import xin.marcher.framework.constants.GlobalConstant;
+import xin.marcher.framework.oss.property.OssProperties;
+import xin.marcher.framework.rabbit.send.MqService;
+import xin.marcher.framework.util.EmptyUtil;
+import xin.marcher.framework.util.RegexUtil;
 
 import java.util.HashMap;
 import java.util.List;
@@ -23,10 +23,10 @@ import java.util.stream.Collectors;
  * @author marcher
  */
 @Service
-public class BlogArticleContentServiceImpl extends ServiceImpl<BlogArticleContentDao, BlogArticleContent> implements BlogArticleContentService {
+public class BlogArticleContentServiceImpl extends ServiceImpl<BlogArticleContentMapper, BlogArticleContent> implements BlogArticleContentService {
 
     @Autowired
-    private BlogArticleContentDao blogArticleContentDao;
+    private BlogArticleContentMapper blogArticleContentMapper;
 
     @Autowired
     private OssService ossService;
@@ -43,20 +43,19 @@ public class BlogArticleContentServiceImpl extends ServiceImpl<BlogArticleConten
     @Override
     public void save(Long articleId, String contentMd) {
         BlogArticleContent blogArticleContent = toArticleContent(articleId, contentMd);
-        blogArticleContentDao.insert(blogArticleContent);
+        blogArticleContentMapper.insert(blogArticleContent);
 
         producer(articleId);
     }
 
     @Override
     public BlogArticleContent get(Long id) {
-        return blogArticleContentDao.selectById(id);
+        return blogArticleContentMapper.selectById(id);
     }
 
     @Override
     public void update(Long articleId, String contentMd) {
         updateContent(articleId, contentMd);
-
         producer(articleId);
     }
 
@@ -68,14 +67,14 @@ public class BlogArticleContentServiceImpl extends ServiceImpl<BlogArticleConten
      */
     private void updateContent(Long articleId, String contentMd) {
         BlogArticleContent blogArticleContent = toArticleContent(articleId, contentMd);
-        blogArticleContentDao.updateById(blogArticleContent);
+        blogArticleContentMapper.updateById(blogArticleContent);
     }
 
     private BlogArticleContent toArticleContent(Long articleId, String contentMd) {
         BlogArticleContent blogArticleContent = new BlogArticleContent();
         blogArticleContent.setArticleId(articleId);
         blogArticleContent.setContentMd(contentMd);
-        blogArticleContent.setDeleted(Constant.NO_DELETED);
+        blogArticleContent.setDeleted(GlobalConstant.NO_DELETED);
         return blogArticleContent;
     }
 
@@ -102,20 +101,16 @@ public class BlogArticleContentServiceImpl extends ServiceImpl<BlogArticleConten
         }
 
         String content = articleContent.getContentMd();
-        List<String> contentImgUrls = RegexUtil.match(content, RegexUtil.URL_REGEXP);
+        List<String> contentImgUrls = RegexUtil.match(content, RegexUtil.REGEX_URL);
 
         List<String> newImgUrlList = contentImgUrls.stream()
-                .filter(url -> url.contains(ossProperties.getAliyunTempRegion()))
+                .filter(url -> url.contains(ossProperties.getTempHost()))
                 .collect(Collectors.toList());
 
-        if (EmptyUtil.isEmpty(newImgUrlList)) {
-            return;
-        }
-
-        Map<String, String> tempNewUrlMap = new HashMap<>();
+        Map<String, String> tempNewUrlMap = new HashMap<>(8);
         newImgUrlList.forEach(newUrl -> {
             String destUrl = ossService.copyOssObject(newUrl, "content", articleId.toString());
-            String destImgUrl = ossProperties.getAliyunRegion() + destUrl;
+            String destImgUrl = ossProperties.getHost() + destUrl;
             tempNewUrlMap.put(newUrl, destImgUrl);
         });
 
@@ -123,10 +118,8 @@ public class BlogArticleContentServiceImpl extends ServiceImpl<BlogArticleConten
         for (Map.Entry<String, String> entry : tempNewUrlMap.entrySet()) {
             String tempUrl = entry.getKey();
             String destUrl = entry.getValue();
-
             newContent = newContent.replace(tempUrl, destUrl);
         }
-
         updateContent(articleId, newContent);
     }
 }

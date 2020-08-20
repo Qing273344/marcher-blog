@@ -11,8 +11,9 @@ import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreato
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import xin.marcher.blog.shiro.credentials.CredentialsMatcher;
-import xin.marcher.blog.shiro.oauth2.*;
+import org.springframework.context.annotation.DependsOn;
+import xin.marcher.blog.shiro.oauth2.BlogRealm;
+import xin.marcher.blog.shiro.oauth2.JwtFilter;
 
 import javax.servlet.Filter;
 import java.util.HashMap;
@@ -28,7 +29,7 @@ import java.util.Map;
 public class ShiroConfig {
 
     @Bean
-    public SessionManager sessionManager(){
+    public SessionManager sessionManager() {
         DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
         sessionManager.setSessionValidationSchedulerEnabled(true);
         sessionManager.setSessionIdCookieEnabled(true);
@@ -61,13 +62,22 @@ public class ShiroConfig {
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         // 配置不会被拦截的链接 顺序判断
 //        filterChainDefinitionMap.put("/blog/passport/**", "anon");
-//        filterChainDefinitionMap.put("/blog/article/**", "anon");
+        filterChainDefinitionMap.put("/blog/article/**", "anon");
 //        filterChainDefinitionMap.put("/blog/**", "anon");
 //        filterChainDefinitionMap.put("/logout", "logout");
 
         filterChainDefinitionMap.put("/**", "jwt");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
+    }
+
+    @Bean
+    @DependsOn(value = "shiroFilterFactoryBean")
+    public String addFilterChainDefinition(ShiroFilterFactoryBean shiroFilterFactoryBean) {
+        Map<String, String> filterChainDefinitionMap = shiroFilterFactoryBean.getFilterChainDefinitionMap();
+        filterChainDefinitionMap.put("xxx", "annon");
+
+        return null;
     }
 
     @Bean

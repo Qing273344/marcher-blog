@@ -1,7 +1,7 @@
 package xin.marcher.blog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import xin.marcher.blog.entity.BlogArticleType;
+import xin.marcher.blog.model.BlogArticleType;
 
 /**
  * 博客文章类型关联

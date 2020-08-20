@@ -8,9 +8,9 @@ import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
-import xin.marcher.blog.common.exception.MarcherException;
-import xin.marcher.blog.utils.CookieUtil;
 import xin.marcher.blog.utils.JwtUtil;
+import xin.marcher.framework.exception.ServiceException;
+import xin.marcher.framework.util.CookieUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,12 +39,12 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
 
         //凭证为空
         if (StringUtils.isBlank(token)) {
-            throw new MarcherException(jwtUtil.getToken() + "不能为空", HttpStatus.SC_UNAUTHORIZED);
+            throw new ServiceException(HttpStatus.SC_UNAUTHORIZED, jwtUtil.getToken() + "不能为空");
         }
 
         Claims claims = jwtUtil.getClaimByToken(token);
         if (claims == null || jwtUtil.isTokenExpired(claims.getExpiration())) {
-            throw new MarcherException(jwtUtil.getToken() + "失效，请重新登录", HttpStatus.SC_UNAUTHORIZED);
+            throw new ServiceException(HttpStatus.SC_UNAUTHORIZED, jwtUtil.getToken() + "失效，请重新登录");
         }
 
         return true;

@@ -6,9 +6,9 @@ import org.apache.http.HttpStatus;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.springframework.web.bind.annotation.RequestMethod;
-import xin.marcher.blog.utils.CookieUtil;
-import xin.marcher.blog.utils.EmptyUtil;
-import xin.marcher.blog.utils.HttpContextUtil;
+import xin.marcher.framework.util.CookieUtil;
+import xin.marcher.framework.util.EmptyUtil;
+import xin.marcher.framework.util.HttpContextUtil;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -76,7 +76,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
         httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
         httpServletResponse.setHeader("Access-control-Allow-Origin", HttpContextUtil.getOrigin());
-        httpServletResponse.setHeader("Access-Control-Allow-Methods", HttpContextUtil.getMethods());
+        httpServletResponse.setHeader("Access-Control-Allow-Methods", HttpContextUtil.getAllMethods());
         httpServletResponse.setHeader("Access-Control-Allow-Headers", HttpContextUtil.getHanders());
         httpServletResponse.setHeader("Access-Control-Max-Age", "3600");
         // 跨域时会首先发送一个option请求，这里我们给option请求直接返回正常状态

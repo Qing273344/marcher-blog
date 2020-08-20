@@ -6,20 +6,24 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import xin.marcher.blog.biz.consts.Constant;
-import xin.marcher.blog.biz.consts.RedisKeyConstant;
 import xin.marcher.blog.biz.enums.RspBaseCodeEnum;
 import xin.marcher.blog.biz.enums.UserLockedEnum;
 import xin.marcher.blog.biz.enums.UserSourceEnum;
 import xin.marcher.blog.biz.enums.UserTypeEnum;
-import xin.marcher.blog.biz.property.RedisProperties;
-import xin.marcher.blog.dao.BlogUserDao;
-import xin.marcher.blog.dto.request.LoginReq;
-import xin.marcher.blog.entity.BlogUser;
-import xin.marcher.blog.common.exception.*;
-import xin.marcher.blog.dto.request.RegisterReq;
+import xin.marcher.blog.dto.LoginDTO;
+import xin.marcher.blog.dto.RegisterDTO;
+import xin.marcher.blog.mapper.BlogUserMapper;
+import xin.marcher.blog.mapper.cache.BlogUserCache;
+import xin.marcher.blog.model.BlogUser;
 import xin.marcher.blog.service.BlogUserService;
-import xin.marcher.blog.utils.*;
+import xin.marcher.blog.utils.JwtUtil;
+import xin.marcher.blog.utils.OAuthUtil;
+import xin.marcher.framework.constants.GlobalConstant;
+import xin.marcher.framework.exception.HintException;
+import xin.marcher.framework.util.CookieUtil;
+import xin.marcher.framework.util.DateUtil;
+import xin.marcher.framework.util.EmptyUtil;
+import xin.marcher.framework.util.EnumUtil;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -27,68 +31,71 @@ import javax.servlet.http.HttpServletResponse;
  * @author marcher
  */
 @Service
-public class BlogUserServiceImpl extends ServiceImpl<BlogUserDao, BlogUser> implements BlogUserService {
+public class BlogUserServiceImpl extends ServiceImpl<BlogUserMapper, BlogUser> implements BlogUserService {
 
     @Autowired
     private JwtUtil jwtUtil;
 
     @Autowired
-    private RedisProperties redisProperties;
+    private BlogUserCache blogUserCache;
+
+    @Autowired
+    private BlogUserMapper blogUserMapper;
 
     @Override
     public void checkUserNameExist(String username) {
         BlogUser blogUser = getByUsername(username);
         if (EmptyUtil.isNotEmpty(blogUser)) {
-            throw new MarcherHintException( "用户名已存在", RspBaseCodeEnum.PARAM_ILLEGAL.getCode());
+            throw new HintException(RspBaseCodeEnum.PARAM_ILLEGAL.getRealCode(), "用户名已存在");
         }
     }
 
     @Override
-    public void createUser(RegisterReq registerReq) {
-        Long now = DateUtil.getTimestamp();
-        String password = OAuthUtil.encrypt(registerReq.getPassword(), now.toString());
+    public void createUser(RegisterDTO registerDTO) {
+        Long now = DateUtil.now();
+        String password = OAuthUtil.encrypt(registerDTO.getPassword(), now.toString());
 
         BlogUser blogUser = new BlogUser();
-        blogUser.setUsername(registerReq.getUsername());
+        blogUser.setUsername(registerDTO.getUsername());
         blogUser.setPassword(password);
-        blogUser.setUserType(UserTypeEnum.USER_TYPE_MANITO.getCode());
-        blogUser.setSource(UserSourceEnum.USER_SOURCE_PC.getCode());
-        blogUser.setIsLocked(UserLockedEnum.USER_LOCKED_NORMAL.getCode());
+        blogUser.setUserType(UserTypeEnum.USER_TYPE_MANITO.getRealCode());
+        blogUser.setSource(UserSourceEnum.USER_SOURCE_PC.getRealCode());
+        blogUser.setIsLocked(UserLockedEnum.USER_LOCKED_NORMAL.getRealCode());
         blogUser.setCreateTime(now);
-        blogUser.setDeleted(Constant.NO_DELETED);
+        blogUser.setDeleted(GlobalConstant.NO_DELETED);
 
-        save(blogUser);
+        blogUserMapper.insert((blogUser));
     }
 
     @Override
     public BlogUser getByUsername(String username) {
         QueryWrapper<BlogUser> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(BlogUser::getUsername, username);
-        return getOne(queryWrapper);
+        return blogUserMapper.selectOne(queryWrapper);
     }
 
     @Override
     public void saveUserInfoToCache(BlogUser blogUser) {
-        RedisUtil.setCacheObj(RedisKeyConstant.U_INFO_KEY + blogUser.getUserId(), blogUser, redisProperties.getDefaultExpireTime() * 120L);
+        blogUserCache.saveUserInfoToCache(blogUser);
     }
 
     @Override
     public BlogUser getUserInfoFormCache(String userId) {
-        return RedisUtil.getCacheObj(RedisKeyConstant.U_INFO_KEY + userId, BlogUser.class);
+        return blogUserCache.getUserInfoFormCache(userId);
     }
 
     @Override
-    public void checkLoginInfo(HttpServletResponse response, LoginReq loginReq) {
-        BlogUser blogUser = getByUsername(loginReq.getUsername());
+    public void checkLoginInfo(HttpServletResponse response, LoginDTO loginDTO) {
+        BlogUser blogUser = getByUsername(loginDTO.getUsername());
         if (EmptyUtil.isEmpty(blogUser)) {
             throw new AuthenticationException("账号或密码错误~");
         }
-        String inPassword = OAuthUtil.encrypt(loginReq.getPassword(), blogUser.getCreateTime().toString());
+        String inPassword = OAuthUtil.encrypt(loginDTO.getPassword(), blogUser.getCreateTime().toString());
         if (!inPassword.equals(blogUser.getPassword())) {
             throw new AuthenticationException("账号或密码错误~");
         }
 
-        if (blogUser.getIsLocked() != null && UserLockedEnum.USER_LOCKED_DISABLE.getCode().equals(blogUser.getIsLocked())){
+        if (blogUser.getIsLocked() != null && EnumUtil.isEq(blogUser.getIsLocked(), UserLockedEnum.USER_LOCKED_DISABLE)){
             throw new LockedAccountException("账号已被锁定, 禁止登录!");
         }
 

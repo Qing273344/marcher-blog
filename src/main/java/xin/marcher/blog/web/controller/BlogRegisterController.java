@@ -3,7 +3,7 @@ package xin.marcher.blog.web.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import xin.marcher.blog.dto.request.RegisterReq;
+import xin.marcher.blog.dto.RegisterDTO;
 import xin.marcher.blog.service.BlogUserService;
 import xin.marcher.blog.utils.Result;
 
@@ -21,17 +21,17 @@ public class BlogRegisterController {
 
     /**
      * 注册
-     * @param registerReq  注册信息
+     * @param registerDTO  注册信息
      */
     @PostMapping("/register")
     @ResponseBody
-    public Result  register(@Validated @RequestBody RegisterReq registerReq) {
+    public Result  register(@Validated @RequestBody RegisterDTO registerDTO) {
 
         // check username
-        blogUserService.checkUserNameExist(registerReq.getUsername());
+        blogUserService.checkUserNameExist(registerDTO.getUsername());
 
         // save user
-        blogUserService.createUser(registerReq);
+        blogUserService.createUser(registerDTO);
 
         return Result.success();
     }

@@ -6,11 +6,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import xin.marcher.aliyun.oss.factory.OSSFactory;
-import xin.marcher.aliyun.oss.util.UrlPathUtil;
-import xin.marcher.blog.biz.property.OssProperties;
 import xin.marcher.blog.service.OssService;
-import xin.marcher.blog.utils.DateUtil;
+import xin.marcher.framework.oss.OSSFactory;
+import xin.marcher.framework.oss.property.OssProperties;
+import xin.marcher.framework.util.DateUtil;
+import xin.marcher.framework.util.UrlPathUtil;
 
 import java.io.IOException;
 import java.util.List;
@@ -34,16 +34,16 @@ public class OssServiceImpl implements OssService {
      */
     @Override
     public String putFile(MultipartFile file) {
-        String dateStr = DateUtil.formatDate(DateUtil.getTimestamp(), DateUtil.PATTERN_HYPHEN_DATE);
+        String dateStr = DateUtil.formatDate(DateUtil.now(), DateUtil.PATTERN_HYPHEN_DATE);
         String ossKey = UrlPathUtil.createPath(file.getOriginalFilename(), dateStr);
 
         try {
             byte[] fileByte = file.getBytes();
-            ossKey = OSSFactory.build(ossProperties).putObject(ossProperties.getAliyunTempBucketName(), ossKey, fileByte);
+            ossKey = OSSFactory.build(ossProperties).putObject(ossProperties.getTempBucketName(), ossKey, fileByte);
         } catch (OSSException | ClientException | IOException e) {
             log.error("applet put oss error!", e);
         }
-        return ossProperties.getAliyunTempRegion() + ossKey;
+        return ossProperties.getTempHost() + ossKey;
     }
 
     /**
@@ -55,13 +55,13 @@ public class OssServiceImpl implements OssService {
      */
     @Override
     public List<String> listFile(String keyPrefix) {
-        return OSSFactory.build(ossProperties).listObjects(ossProperties.getAliyunTempBucketName(), keyPrefix);
+        return OSSFactory.build(ossProperties).listObjects(ossProperties.getTempBucketName(), keyPrefix);
     }
 
     @Override
     public String copyOssObject(String srcFileUrl, String... directorys) {
-        return OSSFactory.build(ossProperties).copyOssObject(ossProperties.getAliyunTempBucketName(), srcFileUrl,
-                ossProperties.getAliyunBucketName(), directorys);
+        return OSSFactory.build(ossProperties).copyOssObject(ossProperties.getTempBucketName(), srcFileUrl,
+                ossProperties.getBucketName(), directorys);
     }
 
 }

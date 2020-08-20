@@ -1,12 +1,12 @@
 package xin.marcher.blog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import xin.marcher.blog.dto.response.BlogTagResp;
-import xin.marcher.blog.entity.BlogTag;
-import xin.marcher.blog.dto.request.BlogTagReq;
+import xin.marcher.blog.dto.BlogTagDTO;
+import xin.marcher.blog.model.BlogTag;
 import xin.marcher.blog.utils.Query;
 import xin.marcher.blog.utils.QueryData;
 import xin.marcher.blog.utils.Result;
+import xin.marcher.blog.vo.BlogTagVO;
 
 import java.util.List;
 
@@ -24,14 +24,14 @@ public interface BlogTagService extends IService<BlogTag> {
      * @return
      *      标签
      */
-    BlogTagResp get(Long id);
+    BlogTagVO get(Long id);
 
     /**
      * list 所有标签
      * @return
      *      标签
      */
-    List<BlogTagResp> listAll();
+    List<BlogTagVO> listAll();
 
     /**
      * query
@@ -45,16 +45,16 @@ public interface BlogTagService extends IService<BlogTag> {
     /**
      * 创建博客标签
      *
-     * @param blogTagReq    blogTagReq
+     * @param blogTagDTO    blogTagReq
      */
-    void create(BlogTagReq blogTagReq);
+    void create(BlogTagDTO blogTagDTO);
 
     /**
      * 编辑标签
      *
-     * @param blogTagReq 新的数据
+     * @param blogTagDTO 新的数据
      */
-    void update(BlogTagReq blogTagReq);
+    void update(BlogTagDTO blogTagDTO);
 
     /**
      * 删除标签

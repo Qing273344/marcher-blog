@@ -2,6 +2,7 @@ package xin.marcher.blog.utils;
 
 import lombok.Getter;
 import lombok.Setter;
+import xin.marcher.framework.util.EmptyUtil;
 
 import javax.validation.Valid;
 

@@ -1,12 +1,12 @@
 package xin.marcher.blog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import xin.marcher.blog.entity.BlogType;
-import xin.marcher.blog.dto.request.BlogArticleTypeReq;
+import xin.marcher.blog.dto.BlogArticleTypeDTO;
+import xin.marcher.blog.model.BlogType;
 import xin.marcher.blog.utils.Query;
 import xin.marcher.blog.utils.QueryData;
 import xin.marcher.blog.utils.Result;
-import xin.marcher.blog.dto.response.BlogArticleTypeResp;
+import xin.marcher.blog.vo.BlogArticleTypeVO;
 
 import java.util.List;
 
@@ -22,12 +22,12 @@ public interface BlogTypeService extends IService<BlogType> {
      *
      * @param id    博客类型id
      */
-    BlogArticleTypeResp get(Long id);
+    BlogArticleTypeVO get(Long id);
 
     /**
      * 获取所有博客类型
      */
-    List<BlogArticleTypeResp> listAll();
+    List<BlogArticleTypeVO> listAll();
 
     /**
      * query 类型
@@ -39,16 +39,16 @@ public interface BlogTypeService extends IService<BlogType> {
     /**
      * save 博客文章分类
      *
-     * @param blogArticleTypeReq   分类信息form
+     * @param blogArticleTypeDTO   分类信息form
      */
-    void create(BlogArticleTypeReq blogArticleTypeReq);
+    void create(BlogArticleTypeDTO blogArticleTypeDTO);
 
     /**
      * update 博客文章分类
      *
-     * @param blogArticleTypeReq   分类信息form
+     * @param blogArticleTypeDTO   分类信息form
      */
-    void update(BlogArticleTypeReq blogArticleTypeReq);
+    void update(BlogArticleTypeDTO blogArticleTypeDTO);
 
     /**
      * remove 博客文章分类

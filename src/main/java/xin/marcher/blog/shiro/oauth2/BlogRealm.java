@@ -9,11 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import xin.marcher.blog.biz.enums.RspBaseCodeEnum;
 import xin.marcher.blog.biz.enums.UserLockedEnum;
-import xin.marcher.blog.entity.BlogUser;
+import xin.marcher.blog.model.BlogUser;
 import xin.marcher.blog.service.BlogUserResourceService;
 import xin.marcher.blog.service.BlogUserService;
-import xin.marcher.blog.utils.EmptyUtil;
 import xin.marcher.blog.utils.JwtUtil;
+import xin.marcher.framework.util.EmptyUtil;
+import xin.marcher.framework.util.EnumUtil;
 
 import java.util.Set;
 
@@ -65,14 +66,14 @@ public class BlogRealm extends AuthorizingRealm {
         // 从token中获取userId
         Long userId = jwtUtil.getUserIdFromToke(accessToken);
         if (EmptyUtil.isEmpty(userId)) {
-            throw new AuthenticationException(RspBaseCodeEnum.LOGIN_TOKEN_INVALID.getMsg());
+            throw new AuthenticationException(RspBaseCodeEnum.LOGIN_TOKEN_INVALID.getRealDesc());
         }
 
         BlogUser blogUser = blogUserService.getById(userId);
         if (EmptyUtil.isEmpty(blogUser)) {
             throw new UnknownAccountException("账号不存在!");
         }
-        if (blogUser.getIsLocked() != null && UserLockedEnum.USER_LOCKED_DISABLE.getCode().equals(blogUser.getIsLocked())){
+        if (blogUser.getIsLocked() != null && EnumUtil.isEq(blogUser.getIsLocked(), UserLockedEnum.USER_LOCKED_DISABLE)){
             throw new LockedAccountException("账号已被锁定, 禁止登录!");
         }
 

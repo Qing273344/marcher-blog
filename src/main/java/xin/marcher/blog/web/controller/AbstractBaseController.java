@@ -1,7 +1,7 @@
 package xin.marcher.blog.web.controller;
 
 import org.apache.shiro.SecurityUtils;
-import xin.marcher.blog.entity.BlogUser;
+import xin.marcher.blog.model.BlogUser;
 
 /**
  * Controller base组件

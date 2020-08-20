@@ -3,11 +3,11 @@ package xin.marcher.blog.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import xin.marcher.blog.dao.BlogUserResourceDao;
-import xin.marcher.blog.entity.BlogUserResource;
+import xin.marcher.blog.mapper.BlogUserResourceMapper;
+import xin.marcher.blog.model.BlogUserResource;
 import xin.marcher.blog.service.BlogResourceService;
 import xin.marcher.blog.service.BlogUserResourceService;
-import xin.marcher.blog.utils.EmptyUtil;
+import xin.marcher.framework.util.EmptyUtil;
 
 import java.util.List;
 import java.util.Set;
@@ -16,13 +16,13 @@ import java.util.Set;
  * @author marcher
  */
 @Service
-public class BlogUserResourceServiceImpl extends ServiceImpl<BlogUserResourceDao, BlogUserResource> implements BlogUserResourceService {
+public class BlogUserResourceServiceImpl extends ServiceImpl<BlogUserResourceMapper, BlogUserResource> implements BlogUserResourceService {
 
     @Autowired
     private BlogResourceService blogResourceService;
 
     @Autowired
-    private BlogUserResourceDao blogUserResourceDao;
+    private BlogUserResourceMapper blogUserResourceMapper;
 
     @Override
     public Set<String> getByUserType(Integer userType) {
@@ -37,6 +37,6 @@ public class BlogUserResourceServiceImpl extends ServiceImpl<BlogUserResourceDao
     }
 
     private List<Long> getResourceIds(Integer userType) {
-        return blogUserResourceDao.getResourceIds(userType);
+        return blogUserResourceMapper.getResourceIds(userType);
     }
 }

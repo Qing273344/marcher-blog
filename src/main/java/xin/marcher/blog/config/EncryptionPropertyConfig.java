@@ -19,7 +19,7 @@ public class EncryptionPropertyConfig {
         return new EncryptionPropertyResolver();
     }
 
-    public class EncryptionPropertyResolver implements EncryptablePropertyResolver {
+    public static class EncryptionPropertyResolver implements EncryptablePropertyResolver {
         @Override
         public String resolvePropertyValue(String value) {
             if (StringUtils.isBlank(value)) {

@@ -1,39 +1,34 @@
 package xin.marcher.blog.biz.enums;
 
-import lombok.Getter;
-import xin.marcher.blog.utils.EmptyUtil;
+import xin.marcher.framework.core.IEnumNorm;
 
 /**
  * 用户来源
  *
  * @author marcher
  */
-@Getter
-public enum UserSourceEnum {
+public enum UserSourceEnum implements IEnumNorm {
 
     /**  */
-    ALl(0, ""),
     USER_SOURCE_PC(1, "PC"),
     USER_SOURCE_WEB_MOVE(2, "web移动"),
     ;
 
-    private Integer code;
-    private String desc;
+    private final Integer code;
+    private final String desc;
 
     UserSourceEnum(Integer code, String desc) {
         this.code = code;
         this.desc = desc;
     }
 
-    public static UserSourceEnum get(Integer code) {
-        if (EmptyUtil.isEmpty(code)) {
-            return null;
-        }
-        for (UserSourceEnum anEnum : UserSourceEnum.values()) {
-            if (anEnum.getCode().equals(code)) {
-                return anEnum;
-            }
-        }
-        return null;
+    @Override
+    public int getRealCode() {
+        return code;
+    }
+
+    @Override
+    public String getRealDesc() {
+        return desc;
     }
 }

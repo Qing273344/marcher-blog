@@ -4,17 +4,16 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import xin.marcher.blog.dto.request.BlogArticleTypeReq;
-import xin.marcher.blog.dto.response.BlogArticleTypeResp;
+import xin.marcher.blog.dto.BlogArticleTypeDTO;
 import xin.marcher.blog.service.BlogTypeService;
 import xin.marcher.blog.utils.Assert;
 import xin.marcher.blog.utils.Query;
 import xin.marcher.blog.utils.QueryData;
 import xin.marcher.blog.utils.Result;
-import xin.marcher.blog.validator.group.FirstGroup;
+import xin.marcher.blog.vo.BlogArticleTypeVO;
+import xin.marcher.framework.mvc.validation.groups.GroupUpdateOrder;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.groups.Default;
 import java.util.List;
 
 /**
@@ -40,9 +39,9 @@ public class AdminTypeController {
     public Result get(Long id) {
         Assert.isNullOrZero(id, "请选择分类");
 
-        BlogArticleTypeResp blogArticleTypeResp = blogTypeService.get(id);
+        BlogArticleTypeVO blogArticleTypeVO = blogTypeService.get(id);
 
-        Result data = new Result().put("info", blogArticleTypeResp);
+        Result data = new Result().put("info", blogArticleTypeVO);
         return Result.success(data);
     }
 
@@ -52,9 +51,9 @@ public class AdminTypeController {
     @GetMapping("/listAll")
     @RequiresPermissions("marcher")
     public Result listAll() {
-        List<BlogArticleTypeResp> blogArticleTypeRespList = blogTypeService.listAll();
+        List<BlogArticleTypeVO> blogArticleTypeVOList = blogTypeService.listAll();
 
-        Result data = new Result().put("list", blogArticleTypeRespList);
+        Result data = new Result().put("list", blogArticleTypeVOList);
         return Result.success(data);
     }
 
@@ -72,12 +71,12 @@ public class AdminTypeController {
     /**
      * save 博客文章分类
      *
-     * @param blogArticleTypeReq   分类信息form
+     * @param blogArticleTypeDTO   分类信息form
      */
     @PostMapping("/save")
     @RequiresPermissions("marcher")
-    public Result save(@Validated @RequestBody BlogArticleTypeReq blogArticleTypeReq) {
-        blogTypeService.create(blogArticleTypeReq);
+    public Result save(@Validated @RequestBody BlogArticleTypeDTO blogArticleTypeDTO) {
+        blogTypeService.create(blogArticleTypeDTO);
 
         return Result.success();
     }
@@ -85,12 +84,12 @@ public class AdminTypeController {
     /**
      * update 博客文章分类
      *
-     * @param blogArticleTypeReq   分类信息form
+     * @param blogArticleTypeDTO   分类信息form
      */
     @PostMapping("/update")
     @RequiresPermissions("marcher")
-    public Result update(@Validated({FirstGroup.class, Default.class}) @RequestBody BlogArticleTypeReq blogArticleTypeReq) {
-        blogTypeService.update(blogArticleTypeReq);
+    public Result update(@Validated(GroupUpdateOrder.class) @RequestBody BlogArticleTypeDTO blogArticleTypeDTO) {
+        blogTypeService.update(blogArticleTypeDTO);
 
         return Result.success();
     }

@@ -4,14 +4,16 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import xin.marcher.blog.dto.request.BlogTagReq;
+import xin.marcher.blog.dto.BlogTagDTO;
 import xin.marcher.blog.service.BlogTagService;
-import xin.marcher.blog.utils.*;
-import xin.marcher.blog.dto.response.BlogTagResp;
-import xin.marcher.blog.validator.group.FirstGroup;
+import xin.marcher.blog.utils.Assert;
+import xin.marcher.blog.utils.Query;
+import xin.marcher.blog.utils.QueryData;
+import xin.marcher.blog.utils.Result;
+import xin.marcher.blog.vo.BlogTagVO;
+import xin.marcher.framework.mvc.validation.groups.GroupUpdateOrder;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.groups.Default;
 import java.util.List;
 
 /**
@@ -38,9 +40,9 @@ public class AdminTagController {
     public Result get(Long id) {
         Assert.isNullOrZero(id, "请选择标签");
 
-        BlogTagResp blogTagResp = blogTagService.get(id);
+        BlogTagVO blogTagVO = blogTagService.get(id);
 
-        Result data = new Result().put("info", blogTagResp);
+        Result data = new Result().put("info", blogTagVO);
         return Result.success(data);
     }
 
@@ -50,7 +52,7 @@ public class AdminTagController {
     @GetMapping("/listAll")
     @RequiresPermissions("marcher")
     public Result listAll() {
-        List<BlogTagResp> list = blogTagService.listAll();
+        List<BlogTagVO> list = blogTagService.listAll();
 
         Result data = new Result().put("list", list);
         return Result.success(data);
@@ -72,8 +74,8 @@ public class AdminTagController {
      */
     @PostMapping("/save")
     @RequiresPermissions("marcher")
-    public Result save(@Validated @RequestBody BlogTagReq blogTagReq) {
-        blogTagService.create(blogTagReq);
+    public Result save(@Validated @RequestBody BlogTagDTO blogTagDTO) {
+        blogTagService.create(blogTagDTO);
 
         return Result.success();
     }
@@ -83,8 +85,8 @@ public class AdminTagController {
      */
     @PostMapping("/update")
     @RequiresPermissions("marcher")
-    public Result update(@Validated({FirstGroup.class, Default.class}) @RequestBody BlogTagReq blogTagReq) {
-        blogTagService.update(blogTagReq);
+    public Result update(@Validated(GroupUpdateOrder.class) @RequestBody BlogTagDTO blogTagDTO) {
+        blogTagService.update(blogTagDTO);
 
         return Result.success();
     }

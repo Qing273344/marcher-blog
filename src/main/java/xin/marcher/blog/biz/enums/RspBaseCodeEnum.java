@@ -1,15 +1,13 @@
 package xin.marcher.blog.biz.enums;
 
-import lombok.Getter;
-import xin.marcher.blog.utils.EmptyUtil;
+import xin.marcher.framework.core.IEnumNorm;
 
 /**
  * 返回code
  *
  * @author marcher
  */
-@Getter
-public enum RspBaseCodeEnum {
+public enum RspBaseCodeEnum implements IEnumNorm {
 
     /** ok */
     OK(0, "ok"),
@@ -24,23 +22,21 @@ public enum RspBaseCodeEnum {
     MARCHER_CODE(999, ""),
     ;
 
-    private Integer code;
-    private String msg;
+    private final Integer code;
+    private final String msg;
 
     RspBaseCodeEnum(Integer code, String msg) {
         this.code = code;
         this.msg = msg;
     }
 
-    public static RspBaseCodeEnum get(Integer code) {
-        if (EmptyUtil.isEmpty(code)) {
-            return null;
-        }
-        for (RspBaseCodeEnum anEnum : RspBaseCodeEnum.values()) {
-            if (anEnum.getCode().equals(code)) {
-                return anEnum;
-            }
-        }
-        return null;
+    @Override
+    public int getRealCode() {
+        return code;
+    }
+
+    @Override
+    public String getRealDesc() {
+        return msg;
     }
 }

@@ -17,3 +17,4 @@ spring:
       force: true
       # 启用http编码支持
       enabled: true
+      force-response: true

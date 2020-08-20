@@ -31,18 +31,6 @@ spring:
         wall:
           config:
             multi-statement-allow: true
-  # Redis
-  redis:
-    database: 0
-    host: ${server.host}
-    port: 6379
-    lettuce:
-      shutdown-timeout: 5000ms
-      pool:
-        max-active: 8
-        max-idle: 8
-        max-wait: -1ms
-        min-idle: 0
   cache:
     type: redis
   # 设置spring boot上传文件大小限制
@@ -63,11 +51,6 @@ spring:
       simple:
         acknowledge-mode: manual
 
-cache:
-  name: marcher
-  expire-time: 180
-  default-expire-time: 60
-
 rabbitmq:
   config:
     exchange: marcher_blog_exchange
@@ -79,12 +62,10 @@ jwt:
   token: token   # token 存在 cookie 中
   secret: AES@u9bX3ohn2rEMj4pBh/SjSlVMbQ0piluFtz/LgHDtAG2O4BFU/QmgH1h1h2MVqAMI
 
-oss:
-  aliyunEndPoint: oss-cn-shenzhen.aliyuncs.com
-  aliyunAccessKeyId: AES@IC1iNUMY0bxptfY/S+ckjI7gEVT9CaAfWHWHYxWoAwg=
-  aliyunAccessKeySecret: AES@CPDzD4mKIroozQNzwGFNZ3QhlPo/VZXIfb5zIxp7pEQ=
-  aliyunBucketName: marcher-blog
-  aliyunTempBucketName: marcher-temp
-
-logging:
-  config: classpath:logback-prod.xml
+aliyun:
+  oss:
+    end-point: oss-cn-shenzhen.aliyuncs.com
+    access-key-id: AES@IC1iNUMY0bxptfY/S+ckjI7gEVT9CaAfWHWHYxWoAwg=
+    access-key-secret: AES@CPDzD4mKIroozQNzwGFNZ3QhlPo/VZXIfb5zIxp7pEQ=
+    bucket-name: marcher-blog
+    temp-bucket-name: marcher-temp

@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import xin.marcher.blog.utils.CookieUtil;
 import xin.marcher.blog.utils.JwtUtil;
 import xin.marcher.blog.utils.Result;
+import xin.marcher.framework.util.CookieUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

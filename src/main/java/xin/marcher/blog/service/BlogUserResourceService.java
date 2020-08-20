@@ -1,7 +1,7 @@
 package xin.marcher.blog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import xin.marcher.blog.entity.BlogUserResource;
+import xin.marcher.blog.model.BlogUserResource;
 
 import java.util.Set;
 

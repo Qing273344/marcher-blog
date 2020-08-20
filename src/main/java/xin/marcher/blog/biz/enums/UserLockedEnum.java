@@ -1,38 +1,34 @@
 package xin.marcher.blog.biz.enums;
 
-import lombok.Getter;
-import xin.marcher.blog.utils.EmptyUtil;
+import xin.marcher.framework.core.IEnumNorm;
 
 /**
  * 用户锁定状态型
  *
  * @author marcher
  */
-@Getter
-public enum UserLockedEnum {
+public enum UserLockedEnum implements IEnumNorm {
 
     /**  */
     USER_LOCKED_NORMAL(0, "正常"),
     USER_LOCKED_DISABLE(1, "锁定"),
     ;
 
-    private Integer code;
-    private String desc;
+    private final Integer code;
+    private final String desc;
 
     UserLockedEnum(Integer code, String desc) {
         this.code = code;
         this.desc = desc;
     }
 
-    public static UserLockedEnum get(Integer code) {
-        if (EmptyUtil.isEmpty(code)) {
-            return null;
-        }
-        for (UserLockedEnum anEnum : UserLockedEnum.values()) {
-            if (anEnum.getCode().equals(code)) {
-                return anEnum;
-            }
-        }
-        return null;
+    @Override
+    public int getRealCode() {
+        return code;
+    }
+
+    @Override
+    public String getRealDesc() {
+        return desc;
     }
 }

@@ -6,25 +6,27 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import xin.marcher.blog.biz.consts.Constant;
 import xin.marcher.blog.biz.enums.ArticleStatusEnum;
 import xin.marcher.blog.biz.enums.RspBaseCodeEnum;
-import xin.marcher.blog.common.exception.MarcherException;
-import xin.marcher.blog.common.exception.MarcherHintException;
-import xin.marcher.blog.dao.BlogArticleDao;
-import xin.marcher.blog.dto.request.BlogArticleReq;
-import xin.marcher.blog.dto.response.AdminArticleListResp;
-import xin.marcher.blog.dto.response.BlogArticleDetailsResp;
-import xin.marcher.blog.dto.response.BlogArticleListResp;
-import xin.marcher.blog.entity.BlogArticle;
-import xin.marcher.blog.entity.BlogArticleContent;
+import xin.marcher.blog.dto.BlogArticleDTO;
+import xin.marcher.blog.mapper.BlogArticleMapper;
+import xin.marcher.blog.model.BlogArticle;
+import xin.marcher.blog.model.BlogArticleContent;
 import xin.marcher.blog.service.BlogArticleContentService;
 import xin.marcher.blog.service.BlogArticleService;
 import xin.marcher.blog.service.BlogArticleTagService;
 import xin.marcher.blog.service.BlogArticleTypeService;
 import xin.marcher.blog.utils.*;
+import xin.marcher.blog.vo.AdminArticleListVO;
+import xin.marcher.blog.vo.BlogArticleDetailsVO;
+import xin.marcher.blog.vo.BlogArticleListVO;
+import xin.marcher.framework.constants.GlobalConstant;
+import xin.marcher.framework.exception.HintException;
+import xin.marcher.framework.exception.ServiceException;
+import xin.marcher.framework.util.DateUtil;
+import xin.marcher.framework.util.EmptyUtil;
+import xin.marcher.framework.util.ObjectUtil;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,10 +34,10 @@ import java.util.List;
  * @author marcher
  */
 @Service
-public class BlogArticleServiceImpl extends ServiceImpl<BlogArticleDao, BlogArticle> implements BlogArticleService {
+public class BlogArticleServiceImpl extends ServiceImpl<BlogArticleMapper, BlogArticle> implements BlogArticleService {
 
     @Autowired
-    private BlogArticleDao blogArticleDao;
+    private BlogArticleMapper blogArticleMapper;
 
     @Autowired
     private BlogArticleContentService blogArticleContentService;
@@ -47,7 +49,7 @@ public class BlogArticleServiceImpl extends ServiceImpl<BlogArticleDao, BlogArti
     private BlogArticleTagService blogArticleTagService;
 
     @Override
-    public Long publish(BlogArticleReq blogArticleFrom) {
+    public Long publish(BlogArticleDTO blogArticleFrom) {
         // 新增
         if (EmptyUtil.isEmpty(blogArticleFrom.getArticleId())) {
             return add(blogArticleFrom);
@@ -55,10 +57,10 @@ public class BlogArticleServiceImpl extends ServiceImpl<BlogArticleDao, BlogArti
         return update(blogArticleFrom);
     }
 
-    private Long add(BlogArticleReq blogArticleFrom) {
+    private Long add(BlogArticleDTO blogArticleFrom) {
         // 文章基础信息
         BlogArticle blogArticle = toArticle(blogArticleFrom);
-        blogArticleDao.insert(blogArticle);
+        blogArticleMapper.insert(blogArticle);
         Long articleId = blogArticle.getArticleId();
 
         // 文章内容
@@ -73,11 +75,11 @@ public class BlogArticleServiceImpl extends ServiceImpl<BlogArticleDao, BlogArti
         return articleId;
     }
 
-    private Long update(BlogArticleReq blogArticleFrom) {
+    private Long update(BlogArticleDTO blogArticleFrom) {
         Long articleId = blogArticleFrom.getArticleId();
         BlogArticle blogArticle = toArticle(blogArticleFrom);
         // 文章信息
-        blogArticleDao.updateById(blogArticle);
+        blogArticleMapper.updateById(blogArticle);
         // 文章内容
         blogArticleContentService.update(articleId, blogArticleFrom.getArticleContent());
 
@@ -95,19 +97,19 @@ public class BlogArticleServiceImpl extends ServiceImpl<BlogArticleDao, BlogArti
     }
 
     @Override
-    public BlogArticleDetailsResp details(long articleId) {
+    public BlogArticleDetailsVO details(long articleId) {
         BlogArticle blogArticle = getById(articleId);
         if (EmptyUtil.isEmpty(blogArticle)) {
-            throw new MarcherHintException("我真的找不到你想要的这篇文章");
+            throw new HintException("我真的找不到你想要的这篇文章");
         }
 
         BlogArticleContent blogArticleContent = blogArticleContentService.getById(articleId);
 
-        BlogArticleDetailsResp blogArticleDetailsResp = new BlogArticleDetailsResp();
-        ObjectUtil.copyProperties(blogArticle, blogArticleDetailsResp);
-        blogArticleDetailsResp.setArticleContentMd(blogArticleContent.getContentMd());
+        BlogArticleDetailsVO blogArticleDetailsVO = new BlogArticleDetailsVO();
+        ObjectUtil.copyProperties(blogArticle, blogArticleDetailsVO);
+        blogArticleDetailsVO.setArticleContentMd(blogArticleContent.getContentMd());
 
-        return blogArticleDetailsResp;
+        return blogArticleDetailsVO;
     }
 
     @Override
@@ -121,21 +123,20 @@ public class BlogArticleServiceImpl extends ServiceImpl<BlogArticleDao, BlogArti
                 queryWrapper.lambda().like(BlogArticle::getTitle, queryData.getKeyword());
             }
         }
-        queryWrapper.lambda().eq(BlogArticle::getStatus, ArticleStatusEnum.ARTICLE_STATUS_PUBLISH.getCode());
+        queryWrapper.lambda().eq(BlogArticle::getStatus, ArticleStatusEnum.ARTICLE_STATUS_PUBLISH.getRealCode());
         queryWrapper.lambda().orderByDesc(BlogArticle::getArticleId);
         IPage<BlogArticle> pageWrapper = new Page<>(queryPage.getCurPage(), queryPage.getLimit());
-        IPage<BlogArticle> blogArticleIPage = blogArticleDao.selectPage(pageWrapper, queryWrapper);
+        IPage<BlogArticle> blogArticlePage = blogArticleMapper.selectPage(pageWrapper, queryWrapper);
 
-        List<BlogArticle> blogArticles = blogArticleIPage.getRecords();
-        List<BlogArticleListResp> blogArticleListRespList = new ArrayList<>();
-        for (BlogArticle blogArticle : blogArticles) {
-            BlogArticleListResp blogArticleListResp = new BlogArticleListResp();
-            ObjectUtil.copyProperties(blogArticle, blogArticleListResp);
-            blogArticleListResp.setTimeStr(DateUtil.formatDate(blogArticle.getCreateTime(), DateUtil.PATTERN_HYPHEN_DATE));
-            blogArticleListRespList.add(blogArticleListResp);
+        List<BlogArticleListVO> blogArticleListRespList = new ArrayList<>();
+        for (BlogArticle blogArticle : blogArticlePage.getRecords()) {
+            BlogArticleListVO blogArticleListVO = new BlogArticleListVO();
+            ObjectUtil.copyProperties(blogArticle, blogArticleListVO);
+            blogArticleListVO.setTimeStr(DateUtil.formatDate(blogArticle.getCreateTime(), DateUtil.PATTERN_HYPHEN_DATE));
+            blogArticleListRespList.add(blogArticleListVO);
         }
 
-        PageUtil page = new PageUtil((int) blogArticleIPage.getTotal(), queryPage);
+        PageUtil page = new PageUtil((int) blogArticlePage.getTotal(), queryPage);
         Result data = new Result().put("list", blogArticleListRespList);
 
         return Result.successPage(data, page);
@@ -154,15 +155,15 @@ public class BlogArticleServiceImpl extends ServiceImpl<BlogArticleDao, BlogArti
         }
         queryWrapper.lambda().orderByDesc(BlogArticle::getArticleId);
         IPage<BlogArticle> pageWrapper = new Page<>(queryPage.getCurPage(), queryPage.getLimit());
-        IPage<BlogArticle> blogArticleIPage = blogArticleDao.selectPage(pageWrapper, queryWrapper);
+        IPage<BlogArticle> blogArticleIPage = blogArticleMapper.selectPage(pageWrapper, queryWrapper);
 
         List<BlogArticle> blogArticles = blogArticleIPage.getRecords();
-        List<AdminArticleListResp> adminArticleListRespList = new ArrayList<>();
+        List<AdminArticleListVO> adminArticleListRespList = new ArrayList<>();
         for (BlogArticle blogArticle : blogArticles) {
-            AdminArticleListResp adminArticleListResp = new AdminArticleListResp();
-            ObjectUtil.copyProperties(blogArticle, adminArticleListResp);
-            adminArticleListResp.setTimeStr(DateUtil.formatDate(blogArticle.getCreateTime(), DateUtil.PATTERN_HYPHEN_MINUTE_TIME));
-            adminArticleListRespList.add(adminArticleListResp);
+            AdminArticleListVO adminArticleListVO = new AdminArticleListVO();
+            ObjectUtil.copyProperties(blogArticle, adminArticleListVO);
+            adminArticleListVO.setTimeStr(DateUtil.formatDate(blogArticle.getCreateTime(), DateUtil.PATTERN_HYPHEN_MINUTE_TIME));
+            adminArticleListRespList.add(adminArticleListVO);
         }
 
         PageUtil page = new PageUtil((int) blogArticleIPage.getTotal(), queryPage);
@@ -172,9 +173,9 @@ public class BlogArticleServiceImpl extends ServiceImpl<BlogArticleDao, BlogArti
     }
 
     @Override
-    public BlogArticleReq getAsEdit(Long id) {
+    public BlogArticleDTO getAsEdit(Long id) {
         // 文章信息
-        BlogArticle blogArticle = blogArticleDao.selectById(id);
+        BlogArticle blogArticle = blogArticleMapper.selectById(id);
         if (EmptyUtil.isEmpty(blogArticle)) {
             return null;
         }
@@ -188,7 +189,7 @@ public class BlogArticleServiceImpl extends ServiceImpl<BlogArticleDao, BlogArti
         // 文章类型id
         Long typeId = blogArticleTypeService.getId(id);
 
-        BlogArticleReq blogArticleFrom = new BlogArticleReq();
+        BlogArticleDTO blogArticleFrom = new BlogArticleDTO();
         blogArticleFrom.setArticleId(blogArticle.getArticleId());
         blogArticleFrom.setTitle(blogArticle.getTitle());
         blogArticleFrom.setStatus(blogArticle.getStatus());
@@ -202,63 +203,58 @@ public class BlogArticleServiceImpl extends ServiceImpl<BlogArticleDao, BlogArti
 
     @Override
     public void comment(Long id) {
-        BlogArticle blogArticle = blogArticleDao.selectById(id);
+        BlogArticle blogArticle = blogArticleMapper.selectById(id);
         if (EmptyUtil.isEmpty(blogArticle)) {
-            throw new MarcherException(RspBaseCodeEnum.NOT_RESOURCE.getMsg());
+            throw new ServiceException(RspBaseCodeEnum.NOT_RESOURCE.getRealDesc());
         }
 
         Integer isComment = blogArticle.getIsComment();
-        if (Constant.YES.intValue() == isComment) {
-            isComment = Constant.NO;
+        if (GlobalConstant.YES == isComment) {
+            isComment = GlobalConstant.NO;
         } else {
-            isComment = Constant.YES;
+            isComment = GlobalConstant.YES;
         }
 
         BlogArticle updateBlogArticle = new BlogArticle();
         updateBlogArticle.setArticleId(id);
         updateBlogArticle.setIsComment(isComment);
-        blogArticleDao.updateById(updateBlogArticle);
+        blogArticleMapper.updateById(updateBlogArticle);
     }
 
     @Override
     public void top(Long id) {
-        BlogArticle blogArticle = blogArticleDao.selectById(id);
+        BlogArticle blogArticle = blogArticleMapper.selectById(id);
         if (EmptyUtil.isEmpty(blogArticle)) {
-            throw new MarcherException(RspBaseCodeEnum.NOT_RESOURCE.getMsg());
+            throw new ServiceException(RspBaseCodeEnum.NOT_RESOURCE.getRealDesc());
         }
 
-        Integer isTop = blogArticle.getIsTop();
-        if (Constant.YES.intValue() == isTop) {
-            isTop = Constant.NO;
-        } else {
-            isTop = Constant.YES;
-        }
+        int isTop = GlobalConstant.YES == blogArticle.getIsTop() ? GlobalConstant.NO : GlobalConstant.YES;
 
         BlogArticle updateBlogArticle = new BlogArticle();
         updateBlogArticle.setArticleId(id);
         updateBlogArticle.setIsTop(isTop);
-        blogArticleDao.updateById(updateBlogArticle);
+        blogArticleMapper.updateById(updateBlogArticle);
     }
 
     @Override
     public Integer liked(Long id) {
-        blogArticleDao.liked(id);
+        blogArticleMapper.liked(id);
 
-        BlogArticle blogArticle = blogArticleDao.selectById(id);
+        BlogArticle blogArticle = blogArticleMapper.selectById(id);
         return blogArticle.getLikedCount();
     }
 
     @Override
     public void viewsIncrease(Long id) {
-        blogArticleDao.viewsIncrease(id);
+        blogArticleMapper.viewsIncrease(id);
     }
 
-    private BlogArticle toArticle(BlogArticleReq blogArticleFrom) {
+    private BlogArticle toArticle(BlogArticleDTO blogArticleFrom) {
         BlogArticle blogArticle = new BlogArticle();
-        blogArticle.setIsTop(Constant.NO);
-        blogArticle.setIsComment(Constant.NO);
+        blogArticle.setIsTop(GlobalConstant.NO);
+        blogArticle.setIsComment(GlobalConstant.NO);
         ObjectUtil.copyProperties(blogArticleFrom, blogArticle);
-        blogArticle.setDeleted(Constant.NO_DELETED);
+        blogArticle.setDeleted(GlobalConstant.NO_DELETED);
 
         return blogArticle;
     }
