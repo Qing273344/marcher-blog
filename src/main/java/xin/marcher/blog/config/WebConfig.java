@@ -4,15 +4,12 @@ import com.alibaba.fastjson.serializer.SerializeConfig;
 import com.alibaba.fastjson.serializer.ToStringSerializer;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import xin.marcher.blog.web.interceptor.AuthorizationInterceptor;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -28,18 +25,18 @@ import java.util.List;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    @Autowired
-    private AuthorizationInterceptor authorizationInterceptor;
+//    @Autowired
+//    private AuthorizationInterceptor authorizationInterceptor;
 
     /**
      * 配置拦截器
      */
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(authorizationInterceptor)
-                .addPathPatterns("/**")
-                .excludePathPatterns("/blog/**");
-    }
+//    @Override
+//    public void addInterceptors(InterceptorRegistry registry) {
+//        registry.addInterceptor(authorizationInterceptor)
+//                .addPathPatterns("/**")
+//                .excludePathPatterns("/blog/**");
+//    }
 
     /**
      * 将Jackson替换为fastjson (解决Long类型id在前端丢失精度问题)

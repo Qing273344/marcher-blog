@@ -1,11 +1,12 @@
 package xin.marcher.blog.shiro.oauth2;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpStatus;
+import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.springframework.web.bind.annotation.RequestMethod;
+import xin.marcher.blog.biz.enums.RspBaseCodeEnum;
 import xin.marcher.framework.util.CookieUtil;
 import xin.marcher.framework.util.EmptyUtil;
 import xin.marcher.framework.util.HttpContextUtil;
@@ -16,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * oauth2过滤器
+ * oauth2 过滤器
  *
  * @author marcher
  */
@@ -24,39 +25,33 @@ import javax.servlet.http.HttpServletResponse;
 public class JwtFilter extends BasicHttpAuthenticationFilter {
 
     /**
-     * 判断用户是否想要登入。
-     * 判断cookie中是否有token信息
-     */
-    @Override
-    protected boolean isLoginAttempt(ServletRequest request, ServletResponse response) {
-        // 获取请求token
-        String token = getRequestToken((HttpServletRequest) request);
-        return EmptyUtil.isNotEmpty(token);
-    }
-
-    /**
-     * shiro权限拦截核心方法 返回true允许访问resource
+     * shiro 权限拦截核心方法 返回 true 允许访问 resource
      */
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
-        if (isLoginAttempt(request, response)) {
-            try {
-                executeLogin(request, response);
-            } catch (Exception e) {
-                log.error("登录权限不足！", e);
-            }
-        }
-        return true;
+        return ((HttpServletRequest) request).getMethod().equals(RequestMethod.OPTIONS.name());
     }
 
     @Override
     protected AuthenticationToken createToken(ServletRequest request, ServletResponse response) {
         // 获取请求token
         String token = getRequestToken((HttpServletRequest) request);
-        if (StringUtils.isBlank(token)) {
+        if (EmptyUtil.isEmpty(token)) {
             return null;
         }
+        // 创建 JWT
         return new JwtToken(token);
+    }
+
+    @Override
+    protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
+        String token = getRequestToken((HttpServletRequest) request);
+        if (EmptyUtil.isEmpty(token)) {
+            throw new AuthenticationException(RspBaseCodeEnum.LOGIN_TOKEN_INVALID.getRealDesc());
+        }
+
+        // 执行登录逻辑, 其实会调用 Realm 的 doGetAuthenticationInfo 方法
+        return executeLogin(request, response);
     }
 
     /**

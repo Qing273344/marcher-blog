@@ -10,11 +10,13 @@ import xin.marcher.blog.biz.enums.RspBaseCodeEnum;
 import xin.marcher.blog.biz.enums.UserLockedEnum;
 import xin.marcher.blog.biz.enums.UserSourceEnum;
 import xin.marcher.blog.biz.enums.UserTypeEnum;
+import xin.marcher.blog.convert.BlogUserConvert;
 import xin.marcher.blog.dto.LoginDTO;
 import xin.marcher.blog.dto.RegisterDTO;
 import xin.marcher.blog.mapper.BlogUserMapper;
 import xin.marcher.blog.mapper.cache.BlogUserCache;
 import xin.marcher.blog.model.BlogUser;
+import xin.marcher.blog.model.cache.BlogUserCO;
 import xin.marcher.blog.service.BlogUserService;
 import xin.marcher.blog.utils.JwtUtil;
 import xin.marcher.blog.utils.OAuthUtil;
@@ -75,12 +77,12 @@ public class BlogUserServiceImpl extends ServiceImpl<BlogUserMapper, BlogUser> i
     }
 
     @Override
-    public void saveUserInfoToCache(BlogUser blogUser) {
-        blogUserCache.saveUserInfoToCache(blogUser);
+    public void saveUserInfoToCache(BlogUserCO blogUserCO) {
+        blogUserCache.saveUserInfoToCache(blogUserCO);
     }
 
     @Override
-    public BlogUser getUserInfoFormCache(String userId) {
+    public BlogUserCO getUserInfoFormCache(Long userId) {
         return blogUserCache.getUserInfoFormCache(userId);
     }
 
@@ -100,9 +102,10 @@ public class BlogUserServiceImpl extends ServiceImpl<BlogUserMapper, BlogUser> i
         }
 
         // 登录成功后用户信息存入缓存中
-//        blogUserService.saveUserInfoToCache(blogUser);
+        BlogUserCO blogUserCO = BlogUserConvert.INSTANCE.convert(blogUser);
+        blogUserCache.saveUserInfoToCache(blogUserCO);
 
-        // 通过用户id生成token, set-cookie到浏览器, 后续通过cookie获取token做校验
+        // 通过用户 id 生成 token, set-cookie 到浏览器, 后续通过 cookie 获取 token 做校验
         String jwtToken = jwtUtil.generateToken(blogUser.getUserId());
         CookieUtil.addCookie(response, jwtUtil.getToken(), jwtToken, CookieUtil.COOKIE_DOMAIN);
     }

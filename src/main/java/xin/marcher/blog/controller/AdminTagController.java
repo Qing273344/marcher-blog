@@ -1,6 +1,6 @@
-package xin.marcher.blog.web.controller;
+package xin.marcher.blog.controller;
 
-import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -36,7 +36,7 @@ public class AdminTagController {
      * @param id    标签id
      */
     @GetMapping("/get")
-    @RequiresPermissions("marcher")
+    @RequiresRoles("marcher")
     public Result get(Long id) {
         Assert.isNullOrZero(id, "请选择标签");
 
@@ -50,7 +50,7 @@ public class AdminTagController {
      * list 所有标签
      */
     @GetMapping("/listAll")
-    @RequiresPermissions("marcher")
+    @RequiresRoles("marcher")
     public Result listAll() {
         List<BlogTagVO> list = blogTagService.listAll();
 
@@ -64,7 +64,7 @@ public class AdminTagController {
      * @param query query参数
      */
     @PostMapping("/query")
-    @RequiresPermissions("marcher")
+    @RequiresRoles("marcher")
     public Result query(@RequestBody Query<QueryData> query) {
         return blogTagService.query(query);
     }
@@ -73,7 +73,7 @@ public class AdminTagController {
      * 新增标签
      */
     @PostMapping("/save")
-    @RequiresPermissions("marcher")
+    @RequiresRoles("marcher")
     public Result save(@Validated @RequestBody BlogTagDTO blogTagDTO) {
         blogTagService.create(blogTagDTO);
 
@@ -84,7 +84,7 @@ public class AdminTagController {
      * 编辑标签
      */
     @PostMapping("/update")
-    @RequiresPermissions("marcher")
+    @RequiresRoles("marcher")
     public Result update(@Validated(GroupUpdateOrder.class) @RequestBody BlogTagDTO blogTagDTO) {
         blogTagService.update(blogTagDTO);
 
@@ -97,7 +97,7 @@ public class AdminTagController {
      * @param ids   标签id
      */
     @PostMapping("/remove")
-    @RequiresPermissions("marcher")
+    @RequiresRoles("marcher")
     public Result remove(@NotEmpty(message = "请至少选择一条记录") @RequestBody List<Long> ids) {
         blogTagService.remove(ids);
 

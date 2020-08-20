@@ -8,10 +8,8 @@ import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.DependsOn;
 import xin.marcher.blog.shiro.oauth2.BlogRealm;
 import xin.marcher.blog.shiro.oauth2.JwtFilter;
 
@@ -37,11 +35,10 @@ public class ShiroConfig {
     }
 
     @Bean
-    public SecurityManager securityManager(@Qualifier("blogRealm") BlogRealm blogRealm, SessionManager sessionManager) {
+    public SecurityManager securityManager(BlogRealm blogRealm, SessionManager sessionManager) {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setRealm(blogRealm);
         securityManager.setSessionManager(sessionManager);
-
         return securityManager;
     }
 
@@ -61,30 +58,26 @@ public class ShiroConfig {
         // 拦截器.
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         // 配置不会被拦截的链接 顺序判断
-//        filterChainDefinitionMap.put("/blog/passport/**", "anon");
+        filterChainDefinitionMap.put("/blog/passport/**", "anon");
         filterChainDefinitionMap.put("/blog/article/**", "anon");
-//        filterChainDefinitionMap.put("/blog/**", "anon");
-//        filterChainDefinitionMap.put("/logout", "logout");
+        filterChainDefinitionMap.put("/logout", "anon");
 
         filterChainDefinitionMap.put("/**", "jwt");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
     }
 
-    @Bean
-    @DependsOn(value = "shiroFilterFactoryBean")
-    public String addFilterChainDefinition(ShiroFilterFactoryBean shiroFilterFactoryBean) {
-        Map<String, String> filterChainDefinitionMap = shiroFilterFactoryBean.getFilterChainDefinitionMap();
-        filterChainDefinitionMap.put("xxx", "annon");
-
-        return null;
-    }
-
+    /**
+     * shiro 生命周期
+     */
     @Bean
     public LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
         return new LifecycleBeanPostProcessor();
     }
 
+    /**
+     * 自动创建代理类
+     */
     @Bean
     public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator() {
         DefaultAdvisorAutoProxyCreator proxyCreator = new DefaultAdvisorAutoProxyCreator();
@@ -94,7 +87,7 @@ public class ShiroConfig {
 
     /**
      * 开启shiro aop注解支持.
-     * 使用代理方式;所以需要开启代码支持;
+     * 使用代理方式, 所以需要开启代码支持;
      */
     @Bean
     public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager) {

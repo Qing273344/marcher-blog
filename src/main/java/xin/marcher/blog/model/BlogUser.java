@@ -7,8 +7,6 @@ import lombok.Data;
 import lombok.ToString;
 import xin.marcher.framework.mybatis.annotation.ModifyTime;
 
-import java.io.Serializable;
-
 /**
  * 博客用户
  *
@@ -17,9 +15,7 @@ import java.io.Serializable;
 @Data
 @ToString
 @TableName("blog_user")
-public class BlogUser implements Serializable {
-
-	private static final long serialVersionUID = 7628883607894181236L;
+public class BlogUser {
 
 	/**
 	 * 用户编号

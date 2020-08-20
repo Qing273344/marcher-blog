@@ -1,6 +1,6 @@
-package xin.marcher.blog.web.controller;
+package xin.marcher.blog.controller;
 
-import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +35,7 @@ public class AdminTypeController {
      * @param id    博客类型id
      */
     @GetMapping("/get")
-    @RequiresPermissions("marcher")
+    @RequiresRoles("marcher")
     public Result get(Long id) {
         Assert.isNullOrZero(id, "请选择分类");
 
@@ -49,7 +49,7 @@ public class AdminTypeController {
      * 获取所有博客类型
      */
     @GetMapping("/listAll")
-    @RequiresPermissions("marcher")
+    @RequiresRoles("marcher")
     public Result listAll() {
         List<BlogArticleTypeVO> blogArticleTypeVOList = blogTypeService.listAll();
 
@@ -63,7 +63,7 @@ public class AdminTypeController {
      * @param query query参数
      */
     @PostMapping("/query")
-    @RequiresPermissions("marcher")
+    @RequiresRoles("marcher")
     public Result query(@RequestBody Query<QueryData> query) {
         return blogTypeService.query(query);
     }
@@ -74,7 +74,7 @@ public class AdminTypeController {
      * @param blogArticleTypeDTO   分类信息form
      */
     @PostMapping("/save")
-    @RequiresPermissions("marcher")
+    @RequiresRoles("marcher")
     public Result save(@Validated @RequestBody BlogArticleTypeDTO blogArticleTypeDTO) {
         blogTypeService.create(blogArticleTypeDTO);
 
@@ -87,7 +87,7 @@ public class AdminTypeController {
      * @param blogArticleTypeDTO   分类信息form
      */
     @PostMapping("/update")
-    @RequiresPermissions("marcher")
+    @RequiresRoles("marcher")
     public Result update(@Validated(GroupUpdateOrder.class) @RequestBody BlogArticleTypeDTO blogArticleTypeDTO) {
         blogTypeService.update(blogArticleTypeDTO);
 
@@ -100,7 +100,7 @@ public class AdminTypeController {
      * @param ids   文章分类id
      */
     @PostMapping("/remove")
-    @RequiresPermissions("marcher")
+    @RequiresRoles("marcher")
     public Result remove(@NotEmpty(message = "请至少选择一条记录") @RequestBody  List<Long> ids) {
         blogTypeService.remove(ids);
 

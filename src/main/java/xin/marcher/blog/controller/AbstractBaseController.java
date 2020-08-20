@@ -1,7 +1,7 @@
-package xin.marcher.blog.web.controller;
+package xin.marcher.blog.controller;
 
 import org.apache.shiro.SecurityUtils;
-import xin.marcher.blog.model.BlogUser;
+import xin.marcher.blog.model.cache.BlogUserCO;
 
 /**
  * Controller base组件
@@ -15,7 +15,7 @@ public abstract class AbstractBaseController {
      * @return
      *      用户信息
      */
-    BlogUser getUser() {
-        return (BlogUser) SecurityUtils.getSubject().getPrincipal();
+    BlogUserCO getUser() {
+        return (BlogUserCO) SecurityUtils.getSubject().getPrincipal();
     }
 }

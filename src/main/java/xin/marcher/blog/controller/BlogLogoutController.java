@@ -1,4 +1,4 @@
-package xin.marcher.blog.web.controller;
+package xin.marcher.blog.controller;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;

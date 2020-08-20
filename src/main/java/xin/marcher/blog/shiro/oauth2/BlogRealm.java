@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import xin.marcher.blog.biz.enums.RspBaseCodeEnum;
 import xin.marcher.blog.biz.enums.UserLockedEnum;
-import xin.marcher.blog.model.BlogUser;
+import xin.marcher.blog.model.cache.BlogUserCO;
 import xin.marcher.blog.service.BlogUserResourceService;
 import xin.marcher.blog.service.BlogUserService;
 import xin.marcher.blog.utils.JwtUtil;
@@ -45,13 +45,13 @@ public class BlogRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        BlogUser blogUser = (BlogUser) principals.getPrimaryPrincipal();
+        BlogUserCO blogUser = (BlogUserCO) principals.getPrimaryPrincipal();
 
         // 通过user_type设置对应的权限(博主可访问/粉丝可访问)
-        Set<String> permissionSet = blogUserResourceService.getByUserType(blogUser.getUserType());
+        Set<String> roleSet = blogUserResourceService.getByUserType(blogUser.getUserType());
 
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-        authorizationInfo.setStringPermissions(permissionSet);
+        authorizationInfo.setRoles(roleSet);
         return authorizationInfo;
     }
 
@@ -60,24 +60,25 @@ public class BlogRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-        // token
+        /* token */
         String accessToken = (String) token.getPrincipal();
 
-        // 从token中获取userId
+        // 从 token 中获取 userId
         Long userId = jwtUtil.getUserIdFromToke(accessToken);
         if (EmptyUtil.isEmpty(userId)) {
             throw new AuthenticationException(RspBaseCodeEnum.LOGIN_TOKEN_INVALID.getRealDesc());
         }
 
-        BlogUser blogUser = blogUserService.getById(userId);
-        if (EmptyUtil.isEmpty(blogUser)) {
-            throw new UnknownAccountException("账号不存在!");
+        BlogUserCO blogUserCO = blogUserService.getUserInfoFormCache(userId);
+        if (EmptyUtil.isEmpty(blogUserCO)) {
+            throw new AuthenticationException(RspBaseCodeEnum.LOGIN_TOKEN_INVALID.getRealDesc());
         }
-        if (blogUser.getIsLocked() != null && EnumUtil.isEq(blogUser.getIsLocked(), UserLockedEnum.USER_LOCKED_DISABLE)){
+
+        if (blogUserCO.getIsLocked() != null && EnumUtil.isEq(blogUserCO.getIsLocked(), UserLockedEnum.USER_LOCKED_DISABLE)){
             throw new LockedAccountException("账号已被锁定, 禁止登录!");
         }
 
         // --> CredentialsMatcher.doCredentialsMatch()
-        return new SimpleAuthenticationInfo(blogUser, accessToken, getName());
+        return new SimpleAuthenticationInfo(blogUserCO, accessToken, getName());
     }
 }

@@ -1,6 +1,6 @@
-package xin.marcher.blog.web.controller;
+package xin.marcher.blog.controller;
 
-import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -34,7 +34,7 @@ public class AdminArticleController {
      * @param blogArticleFrom   文章信息
      */
     @PostMapping("/publish")
-    @RequiresPermissions("marcher")
+    @RequiresRoles("marcher")
     public Result publish(@Validated @RequestBody BlogArticleDTO blogArticleFrom) {
 
         Long articleId = blogArticleService.publish(blogArticleFrom);
@@ -49,7 +49,8 @@ public class AdminArticleController {
      * @param id    文章id
      */
     @GetMapping("/getAsEdit")
-    @RequiresPermissions("marcher")
+    @RequiresRoles("marcher")
+//    @RequiresPermissions("marcher")
     public Result getAsEdit(@NotNull(message = "请选择需要编辑的文章") Long id) {
         BlogArticle blogArticle = blogArticleService.getById(id);
         if (EmptyUtil.isEmpty(blogArticle)) {
@@ -66,7 +67,7 @@ public class AdminArticleController {
      * @param query 参数
      */
     @PostMapping("/query")
-    @RequiresPermissions("marcher")
+    @RequiresRoles("marcher")
     public Result query(@RequestBody Query<QueryData> query) {
         return blogArticleService.queryAsAdmin(query);
     }
@@ -77,7 +78,8 @@ public class AdminArticleController {
      * @param id    文章id
      */
     @PostMapping("/remove")
-    @RequiresPermissions("marcher")
+    @RequiresRoles("marcher")
+//    @RequiresPermissions("marcher")
     public Result remove(Long id) {
         Assert.isNullOrZero(id, "请选择需要删除的文章");
 
@@ -92,7 +94,7 @@ public class AdminArticleController {
      * @param id    文章id
      */
     @PostMapping("/comment")
-    @RequiresPermissions("marcher")
+    @RequiresRoles("marcher")
     public Result comment(Long id) {
         Assert.isNullOrZero(id, "请选择需要点赞的文章");
 
@@ -107,7 +109,8 @@ public class AdminArticleController {
      * @param id    文章id
      */
     @PostMapping("/top")
-    @RequiresPermissions("marcher")
+    @RequiresRoles("marcher")
+//    @RequiresPermissions("marcher")
     public Result top(Long id) {
         Assert.isNullOrZero(id, "请选择需要置顶的文章");
 

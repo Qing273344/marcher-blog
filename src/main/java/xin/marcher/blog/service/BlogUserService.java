@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import xin.marcher.blog.dto.LoginDTO;
 import xin.marcher.blog.dto.RegisterDTO;
 import xin.marcher.blog.model.BlogUser;
+import xin.marcher.blog.model.cache.BlogUserCO;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -41,9 +42,9 @@ public interface BlogUserService extends IService<BlogUser> {
     /**
      * 用户登录成功后保存信息到redis缓存中
      *
-     * @param blogUser 用户信息
+     * @param blogUserCO 用户信息
      */
-    void saveUserInfoToCache(BlogUser blogUser);
+    void saveUserInfoToCache(BlogUserCO blogUserCO);
 
     /**
      * 通过用户id获取用户信息
@@ -52,7 +53,7 @@ public interface BlogUserService extends IService<BlogUser> {
      * @return
      *      用户信息
      */
-    BlogUser getUserInfoFormCache(String userId);
+    BlogUserCO getUserInfoFormCache(Long userId);
 
     /**
      * 校验登录信息

@@ -1,4 +1,4 @@
-package xin.marcher.blog.web.controller;
+package xin.marcher.blog.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

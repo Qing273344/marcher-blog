@@ -5,7 +5,7 @@ package xin.marcher.blog.biz.consts;
  *
  * @author marcher
  */
-public class RedisKeyConstant {
+public class CacheConsts {
 
     /** 用户信息 */
     public static final String U_INFO_KEY = "u_info_";
