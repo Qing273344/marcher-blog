@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import xin.marcher.blog.model.cache.BlogUserCO;
-import xin.marcher.blog.utils.Result;
 import xin.marcher.blog.vo.BlogUserVO;
+import xin.marcher.framework.mvc.response.BaseResult;
 import xin.marcher.framework.util.EmptyUtil;
 import xin.marcher.framework.util.ObjectUtil;
 
@@ -27,17 +27,15 @@ public class BlogUserController extends AbstractBaseController {
      *      用户信息
      */
     @GetMapping("/info")
-    public Result getUserInfo() {
+    public BaseResult<BlogUserVO> getUserInfo() {
         BlogUserCO blogUserCO = getUser();
         if (EmptyUtil.isEmpty(blogUserCO)) {
-            return Result.error();
+            return BaseResult.error();
         }
 
         BlogUserVO blogUserVO = new BlogUserVO();
         ObjectUtil.copyProperties(blogUserCO, blogUserVO);
 
-        Result data = new Result()
-                .put("info", blogUserVO);
-        return Result.success(data);
+        return BaseResult.success(blogUserVO);
     }
 }

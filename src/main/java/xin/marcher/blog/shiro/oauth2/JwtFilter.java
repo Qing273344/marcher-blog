@@ -7,9 +7,14 @@ import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.springframework.web.bind.annotation.RequestMethod;
 import xin.marcher.blog.biz.enums.RspBaseCodeEnum;
+import xin.marcher.framework.constants.GlobalCodeEnum;
+import xin.marcher.framework.constants.GlobalConstant;
+import xin.marcher.framework.exception.ServiceException;
+import xin.marcher.framework.mvc.response.BaseResult;
 import xin.marcher.framework.util.CookieUtil;
 import xin.marcher.framework.util.EmptyUtil;
 import xin.marcher.framework.util.HttpContextUtil;
+import xin.marcher.framework.util.JSONUtil;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -46,8 +51,20 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
         String token = getRequestToken((HttpServletRequest) request);
-        if (EmptyUtil.isEmpty(token)) {
+        try {
+            int i = 1 / 0;
+        } catch (Exception e) {
             throw new AuthenticationException(RspBaseCodeEnum.LOGIN_TOKEN_INVALID.getRealDesc());
+        }
+        if (EmptyUtil.isEmpty(token)) {
+            HttpServletResponse httpResponse = (HttpServletResponse) response;
+            httpResponse.setHeader("Access-Control-Allow-Credentials", "true");
+            httpResponse.setHeader("Access-Control-Allow-Origin", HttpContextUtil.getOrigin());
+            httpResponse.setContentType("application/json;charset=UTF-8");
+
+            httpResponse.getWriter().println(JSONUtil.obj2JsonStr(
+                    BaseResult.error(RspBaseCodeEnum.LOGIN_TOKEN_INVALID.getRealCode(), RspBaseCodeEnum.LOGIN_TOKEN_INVALID.getRealDesc())));
+            return false;
         }
 
         // 执行登录逻辑, 其实会调用 Realm 的 doGetAuthenticationInfo 方法

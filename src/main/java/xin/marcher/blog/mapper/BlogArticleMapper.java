@@ -1,11 +1,11 @@
 package xin.marcher.blog.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Component;
 import xin.marcher.blog.model.BlogArticle;
+import xin.marcher.framework.mybatis.mapper.BaseMapper;
 
 /**
  * 博客文章

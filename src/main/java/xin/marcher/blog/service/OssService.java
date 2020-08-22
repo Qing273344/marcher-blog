@@ -5,7 +5,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 /**
- * 七牛云业务
+ * OSS业务
  *
  * @author marcher
  */

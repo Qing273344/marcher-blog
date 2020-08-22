@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import xin.marcher.blog.service.BlogTagService;
-import xin.marcher.blog.utils.Result;
+import xin.marcher.framework.mvc.response.BaseResult;
 
 import java.util.List;
 
@@ -25,12 +25,11 @@ public class BlogTagController {
      * get 热门标签
      */
     @GetMapping("/getHotTag")
-    public Result getHotTag() {
+    public BaseResult<List<String>> getHotTag() {
 
         List<String> hotTagList = blogTagService.getHotTag();
 
-        Result data = new Result().put("list", hotTagList);
-        return Result.success(data);
+        return BaseResult.success(hotTagList);
     }
 
 }

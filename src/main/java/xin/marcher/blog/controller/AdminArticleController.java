@@ -8,10 +8,12 @@ import xin.marcher.blog.biz.enums.RspBaseCodeEnum;
 import xin.marcher.blog.dto.BlogArticleDTO;
 import xin.marcher.blog.model.BlogArticle;
 import xin.marcher.blog.service.BlogArticleService;
-import xin.marcher.blog.utils.Assert;
-import xin.marcher.blog.utils.Query;
 import xin.marcher.blog.utils.QueryData;
-import xin.marcher.blog.utils.Result;
+import xin.marcher.blog.vo.AdminArticleListVO;
+import xin.marcher.blog.vo.IdVO;
+import xin.marcher.framework.mvc.response.BaseResult;
+import xin.marcher.framework.mvc.response.PageResult;
+import xin.marcher.framework.util.Assert;
 import xin.marcher.framework.util.EmptyUtil;
 
 import javax.validation.constraints.NotNull;
@@ -35,12 +37,12 @@ public class AdminArticleController {
      */
     @PostMapping("/publish")
     @RequiresRoles("marcher")
-    public Result publish(@Validated @RequestBody BlogArticleDTO blogArticleFrom) {
+    public BaseResult publish(@Validated @RequestBody BlogArticleDTO blogArticleFrom) {
 
         Long articleId = blogArticleService.publish(blogArticleFrom);
-
-        Result data = new Result().put("id", articleId);
-        return Result.success(data);
+        IdVO idVO = new IdVO();
+        idVO.setId(articleId);
+        return BaseResult.success(idVO);
     }
 
     /**
@@ -50,16 +52,14 @@ public class AdminArticleController {
      */
     @GetMapping("/getAsEdit")
     @RequiresRoles("marcher")
-//    @RequiresPermissions("marcher")
-    public Result getAsEdit(@NotNull(message = "请选择需要编辑的文章") Long id) {
+    public BaseResult<BlogArticleDTO> getAsEdit(@NotNull(message = "请选择需要编辑的文章") Long id) {
         BlogArticle blogArticle = blogArticleService.getById(id);
         if (EmptyUtil.isEmpty(blogArticle)) {
-            return Result.error(RspBaseCodeEnum.NOT_RESOURCE.getRealDesc());
+            return BaseResult.error(RspBaseCodeEnum.NOT_RESOURCE.getRealDesc());
         }
 
         BlogArticleDTO blogArticleFrom = blogArticleService.getAsEdit(id);
-        Result data = new Result().put("info", blogArticleFrom);
-        return Result.success(data);
+        return BaseResult.success(blogArticleFrom);
     }
 
     /**
@@ -68,7 +68,7 @@ public class AdminArticleController {
      */
     @PostMapping("/query")
     @RequiresRoles("marcher")
-    public Result query(@RequestBody Query<QueryData> query) {
+    public BaseResult<PageResult<AdminArticleListVO>> query(@RequestBody QueryData query) {
         return blogArticleService.queryAsAdmin(query);
     }
 
@@ -79,13 +79,12 @@ public class AdminArticleController {
      */
     @PostMapping("/remove")
     @RequiresRoles("marcher")
-//    @RequiresPermissions("marcher")
-    public Result remove(Long id) {
-        Assert.isNullOrZero(id, "请选择需要删除的文章");
+    public BaseResult remove(Long id) {
+        Assert.isNullOrLtZero(id, "请选择需要删除的文章");
 
         blogArticleService.removeById(id);
 
-        return Result.success();
+        return BaseResult.success();
     }
 
     /**
@@ -95,12 +94,12 @@ public class AdminArticleController {
      */
     @PostMapping("/comment")
     @RequiresRoles("marcher")
-    public Result comment(Long id) {
-        Assert.isNullOrZero(id, "请选择需要点赞的文章");
+    public BaseResult comment(Long id) {
+        Assert.isNullOrLtZero(id, "请选择需要点赞的文章");
 
         blogArticleService.comment(id);
 
-        return Result.success();
+        return BaseResult.success();
     }
 
     /**
@@ -110,12 +109,11 @@ public class AdminArticleController {
      */
     @PostMapping("/top")
     @RequiresRoles("marcher")
-//    @RequiresPermissions("marcher")
-    public Result top(Long id) {
-        Assert.isNullOrZero(id, "请选择需要置顶的文章");
+    public BaseResult top(Long id) {
+        Assert.isNullOrLtZero(id, "请选择需要置顶的文章");
 
         blogArticleService.top(id);
 
-        return Result.success();
+        return BaseResult.success();
     }
 }

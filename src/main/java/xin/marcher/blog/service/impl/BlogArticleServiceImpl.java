@@ -23,6 +23,9 @@ import xin.marcher.blog.vo.BlogArticleListVO;
 import xin.marcher.framework.constants.GlobalConstant;
 import xin.marcher.framework.exception.HintException;
 import xin.marcher.framework.exception.ServiceException;
+import xin.marcher.framework.mvc.request.PageParam;
+import xin.marcher.framework.mvc.response.BaseResult;
+import xin.marcher.framework.mvc.response.PageResult;
 import xin.marcher.framework.util.DateUtil;
 import xin.marcher.framework.util.EmptyUtil;
 import xin.marcher.framework.util.ObjectUtil;
@@ -113,48 +116,40 @@ public class BlogArticleServiceImpl extends ServiceImpl<BlogArticleMapper, BlogA
     }
 
     @Override
-    public Result query(Query<QueryData> query) {
-        QueryPage queryPage = query.getPage();
-        QueryData queryData = query.getData();
+    public BaseResult<PageResult<BlogArticleListVO>> query(QueryData query) {
+        PageParam pageParam = new PageParam(query.getPageNo(), query.getPageSize());
 
         QueryWrapper<BlogArticle> queryWrapper = new QueryWrapper<>();
-        if (EmptyUtil.isNotEmpty(queryData)) {
-            if (EmptyUtil.isNotEmpty(queryData.getKeyword())) {
-                queryWrapper.lambda().like(BlogArticle::getTitle, queryData.getKeyword());
-            }
+        if (EmptyUtil.isNotEmpty(query.getKeyword())) {
+            queryWrapper.lambda().like(BlogArticle::getTitle, query.getKeyword());
         }
         queryWrapper.lambda().eq(BlogArticle::getStatus, ArticleStatusEnum.ARTICLE_STATUS_PUBLISH.getRealCode());
         queryWrapper.lambda().orderByDesc(BlogArticle::getArticleId);
-        IPage<BlogArticle> pageWrapper = new Page<>(queryPage.getCurPage(), queryPage.getLimit());
+        IPage<BlogArticle> pageWrapper = new Page<>(pageParam.getPageNo(), pageParam.getPageSize());
         IPage<BlogArticle> blogArticlePage = blogArticleMapper.selectPage(pageWrapper, queryWrapper);
 
-        List<BlogArticleListVO> blogArticleListRespList = new ArrayList<>();
+        List<BlogArticleListVO> blogArticleListVoList = new ArrayList<>();
         for (BlogArticle blogArticle : blogArticlePage.getRecords()) {
             BlogArticleListVO blogArticleListVO = new BlogArticleListVO();
             ObjectUtil.copyProperties(blogArticle, blogArticleListVO);
             blogArticleListVO.setTimeStr(DateUtil.formatDate(blogArticle.getCreateTime(), DateUtil.PATTERN_HYPHEN_DATE));
-            blogArticleListRespList.add(blogArticleListVO);
+            blogArticleListVoList.add(blogArticleListVO);
         }
 
-        PageUtil page = new PageUtil((int) blogArticlePage.getTotal(), queryPage);
-        Result data = new Result().put("list", blogArticleListRespList);
-
-        return Result.successPage(data, page);
+        PageResult<BlogArticleListVO> rest = PageResult.rest(blogArticleListVoList, blogArticlePage.getTotal(), pageParam);
+        return BaseResult.success(rest);
     }
 
     @Override
-    public Result queryAsAdmin(Query<QueryData> query) {
-        QueryPage queryPage = query.getPage();
-        QueryData queryData = query.getData();
+    public BaseResult<PageResult<AdminArticleListVO>> queryAsAdmin(QueryData query) {
+        PageParam pageParam = new PageParam(query.getPageNo(), query.getPageSize());
 
         QueryWrapper<BlogArticle> queryWrapper = new QueryWrapper<>();
-        if (EmptyUtil.isNotEmpty(queryData)) {
-            if (EmptyUtil.isNotEmpty(queryData.getKeyword())) {
-                queryWrapper.lambda().like(BlogArticle::getTitle, queryData.getKeyword());
-            }
+        if (EmptyUtil.isNotEmpty(query.getKeyword())) {
+            queryWrapper.lambda().like(BlogArticle::getTitle, query.getKeyword());
         }
         queryWrapper.lambda().orderByDesc(BlogArticle::getArticleId);
-        IPage<BlogArticle> pageWrapper = new Page<>(queryPage.getCurPage(), queryPage.getLimit());
+        IPage<BlogArticle> pageWrapper = new Page<>(pageParam.getPageNo(), pageParam.getPageSize());
         IPage<BlogArticle> blogArticleIPage = blogArticleMapper.selectPage(pageWrapper, queryWrapper);
 
         List<BlogArticle> blogArticles = blogArticleIPage.getRecords();
@@ -166,10 +161,8 @@ public class BlogArticleServiceImpl extends ServiceImpl<BlogArticleMapper, BlogA
             adminArticleListRespList.add(adminArticleListVO);
         }
 
-        PageUtil page = new PageUtil((int) blogArticleIPage.getTotal(), queryPage);
-        Result data = new Result().put("list", adminArticleListRespList);
-
-        return Result.successPage(data, page);
+        PageResult<AdminArticleListVO> rest = PageResult.rest(adminArticleListRespList, blogArticleIPage.getTotal(), pageParam);
+        return BaseResult.success(rest);
     }
 
     @Override

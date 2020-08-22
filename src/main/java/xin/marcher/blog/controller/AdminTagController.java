@@ -6,12 +6,12 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import xin.marcher.blog.dto.BlogTagDTO;
 import xin.marcher.blog.service.BlogTagService;
-import xin.marcher.blog.utils.Assert;
-import xin.marcher.blog.utils.Query;
 import xin.marcher.blog.utils.QueryData;
-import xin.marcher.blog.utils.Result;
 import xin.marcher.blog.vo.BlogTagVO;
+import xin.marcher.framework.mvc.response.BaseResult;
+import xin.marcher.framework.mvc.response.PageResult;
 import xin.marcher.framework.mvc.validation.groups.GroupUpdateOrder;
+import xin.marcher.framework.util.Assert;
 
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
@@ -37,13 +37,11 @@ public class AdminTagController {
      */
     @GetMapping("/get")
     @RequiresRoles("marcher")
-    public Result get(Long id) {
-        Assert.isNullOrZero(id, "请选择标签");
+    public BaseResult<BlogTagVO> get(Long id) {
+        Assert.isNullOrLtZero(id, "请选择标签");
 
         BlogTagVO blogTagVO = blogTagService.get(id);
-
-        Result data = new Result().put("info", blogTagVO);
-        return Result.success(data);
+        return BaseResult.success(blogTagVO);
     }
 
     /**
@@ -51,11 +49,9 @@ public class AdminTagController {
      */
     @GetMapping("/listAll")
     @RequiresRoles("marcher")
-    public Result listAll() {
+    public BaseResult<List<BlogTagVO>> listAll() {
         List<BlogTagVO> list = blogTagService.listAll();
-
-        Result data = new Result().put("list", list);
-        return Result.success(data);
+        return BaseResult.success(list);
     }
 
     /**
@@ -65,7 +61,7 @@ public class AdminTagController {
      */
     @PostMapping("/query")
     @RequiresRoles("marcher")
-    public Result query(@RequestBody Query<QueryData> query) {
+    public BaseResult<PageResult<BlogTagVO>> query(@RequestBody QueryData query) {
         return blogTagService.query(query);
     }
 
@@ -74,10 +70,10 @@ public class AdminTagController {
      */
     @PostMapping("/save")
     @RequiresRoles("marcher")
-    public Result save(@Validated @RequestBody BlogTagDTO blogTagDTO) {
+    public BaseResult save(@Validated @RequestBody BlogTagDTO blogTagDTO) {
         blogTagService.create(blogTagDTO);
 
-        return Result.success();
+        return BaseResult.success();
     }
 
     /**
@@ -85,10 +81,10 @@ public class AdminTagController {
      */
     @PostMapping("/update")
     @RequiresRoles("marcher")
-    public Result update(@Validated(GroupUpdateOrder.class) @RequestBody BlogTagDTO blogTagDTO) {
+    public BaseResult update(@Validated(GroupUpdateOrder.class) @RequestBody BlogTagDTO blogTagDTO) {
         blogTagService.update(blogTagDTO);
 
-        return Result.success();
+        return BaseResult.success();
     }
 
     /**
@@ -98,10 +94,10 @@ public class AdminTagController {
      */
     @PostMapping("/remove")
     @RequiresRoles("marcher")
-    public Result remove(@NotEmpty(message = "请至少选择一条记录") @RequestBody List<Long> ids) {
+    public BaseResult remove(@NotEmpty(message = "请至少选择一条记录") @RequestBody List<Long> ids) {
         blogTagService.remove(ids);
 
-        return Result.success();
+        return BaseResult.success();
     }
 
 }

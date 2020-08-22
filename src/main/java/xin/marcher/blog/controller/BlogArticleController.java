@@ -3,11 +3,12 @@ package xin.marcher.blog.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import xin.marcher.blog.service.BlogArticleService;
-import xin.marcher.blog.utils.Assert;
-import xin.marcher.blog.utils.Query;
 import xin.marcher.blog.utils.QueryData;
-import xin.marcher.blog.utils.Result;
 import xin.marcher.blog.vo.BlogArticleDetailsVO;
+import xin.marcher.blog.vo.BlogArticleListVO;
+import xin.marcher.framework.mvc.response.BaseResult;
+import xin.marcher.framework.mvc.response.PageResult;
+import xin.marcher.framework.util.Assert;
 
 /**
  * 博客类型
@@ -25,33 +26,32 @@ public class BlogArticleController {
      * 文章详情
      */
     @GetMapping("/details")
-    public Result details(Long id) {
-        Assert.isNullOrZero(id, "请选择指定文章");
+    public BaseResult<BlogArticleDetailsVO> details(Long id) {
+        Assert.isNullOrLtZero(id, "请选择指定文章");
 
         BlogArticleDetailsVO blogArticleDetailsVO = blogArticleService.details(id);
 
         // 浏览量+1
         blogArticleService.viewsIncrease(id);
 
-        Result data = new Result().put("info", blogArticleDetailsVO);
-        return Result.success(data);
+        return BaseResult.success(blogArticleDetailsVO);
+
     }
 
     /**
      * query文章
      */
     @PostMapping("/query")
-    public Result query(@RequestBody Query<QueryData> query) {
+    public BaseResult<PageResult<BlogArticleListVO>> query(@RequestBody QueryData query) {
         return blogArticleService.query(query);
     }
 
     @PostMapping("/liked")
-    public Result liked(Long id) {
-        Assert.isNullOrZero(id, "请选择指定文章");
+    public BaseResult<Integer> liked(Long id) {
+        Assert.isNullOrLtZero(id, "请选择指定文章");
 
         Integer likedCount = blogArticleService.liked(id);
 
-        Result data = new Result().put("likedCount", likedCount);
-        return Result.success(data);
+        return BaseResult.success(likedCount);
     }
 }

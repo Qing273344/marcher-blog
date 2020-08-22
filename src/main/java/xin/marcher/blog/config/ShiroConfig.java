@@ -60,6 +60,7 @@ public class ShiroConfig {
         // 配置不会被拦截的链接 顺序判断
         filterChainDefinitionMap.put("/blog/passport/**", "anon");
         filterChainDefinitionMap.put("/blog/article/**", "anon");
+        filterChainDefinitionMap.put("/blog/tag/**", "anon");
         filterChainDefinitionMap.put("/logout", "anon");
 
         filterChainDefinitionMap.put("/**", "jwt");

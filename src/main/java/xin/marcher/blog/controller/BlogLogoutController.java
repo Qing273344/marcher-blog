@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import xin.marcher.blog.utils.JwtUtil;
-import xin.marcher.blog.utils.Result;
+import xin.marcher.framework.mvc.response.BaseResult;
 import xin.marcher.framework.util.CookieUtil;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,7 +31,7 @@ public class BlogLogoutController {
      */
     @PostMapping("/logout")
     @ResponseBody
-    public Result logout(HttpServletRequest request, HttpServletResponse response) {
+    public BaseResult logout(HttpServletRequest request, HttpServletResponse response) {
         Subject subject = SecurityUtils.getSubject();
         if (subject.isAuthenticated()) {
             // session 会销毁，在SessionListener监听session销毁，清理权限缓存
@@ -41,7 +41,7 @@ public class BlogLogoutController {
         // 清除cookie信息
         CookieUtil.delCookie(request, response, jwtUtil.getToken());
 
-        return Result.success();
+        return BaseResult.success();
     }
 
 }

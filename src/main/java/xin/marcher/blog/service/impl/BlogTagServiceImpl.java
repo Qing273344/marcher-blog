@@ -11,13 +11,13 @@ import xin.marcher.blog.dto.BlogTagDTO;
 import xin.marcher.blog.mapper.BlogTagMapper;
 import xin.marcher.blog.model.BlogTag;
 import xin.marcher.blog.service.BlogTagService;
-import xin.marcher.blog.utils.PageUtil;
-import xin.marcher.blog.utils.Query;
-import xin.marcher.blog.utils.QueryData;
-import xin.marcher.blog.utils.Result;
+import xin.marcher.blog.utils.*;
 import xin.marcher.blog.vo.BlogTagVO;
 import xin.marcher.framework.constants.GlobalConstant;
 import xin.marcher.framework.exception.HintException;
+import xin.marcher.framework.mvc.request.PageParam;
+import xin.marcher.framework.mvc.response.BaseResult;
+import xin.marcher.framework.mvc.response.PageResult;
 import xin.marcher.framework.util.EmptyUtil;
 import xin.marcher.framework.util.ObjectUtil;
 
@@ -62,16 +62,16 @@ public class BlogTagServiceImpl extends ServiceImpl<BlogTagMapper, BlogTag> impl
     }
 
     @Override
-    public Result query(Query<QueryData> query) {
-        QueryData queryData = query.getData();
+    public BaseResult<PageResult<BlogTagVO>> query(QueryData query) {
+        PageParam pageParam = new PageParam(query.getPageNo(), query.getPageSize());
 
         QueryWrapper<BlogTag> queryWrapper = new QueryWrapper<>();
-        if (EmptyUtil.isNotEmpty(queryData)) {
-            queryWrapper.lambda().like(BlogTag::getName, query.getData().getKeyword());
+        if (EmptyUtil.isNotEmpty(query.getKeyword())) {
+            queryWrapper.lambda().like(BlogTag::getName, query.getKeyword());
         }
-        IPage<BlogTag> queryPage = new Page<>(query.getPage().getCurPage(), query.getPage().getLimit());
+        IPage<BlogTag> page = new Page<>(pageParam.getPageNo(), pageParam.getPageSize());
 
-        IPage<BlogTag> blogTagIPage = blogTagMapper.selectPage(queryPage, queryWrapper);
+        IPage<BlogTag> blogTagIPage = blogTagMapper.selectPage(page, queryWrapper);
 
         List<BlogTag> blogTags = blogTagIPage.getRecords();
         List<BlogTagVO> blogTagVOList = new ArrayList<>();
@@ -82,10 +82,8 @@ public class BlogTagServiceImpl extends ServiceImpl<BlogTagMapper, BlogTag> impl
             blogTagVOList.add(blogTagVO);
         });
 
-        PageUtil page = new PageUtil((int) blogTagIPage.getTotal(), query.getPage());
-        Result data = new Result().put("list", blogTagVOList);
-
-        return Result.successPage(data, page);
+        PageResult<BlogTagVO> data = PageResult.rest(blogTagVOList, blogTagIPage.getTotal(), pageParam);
+        return BaseResult.success(data);
     }
 
     @Override

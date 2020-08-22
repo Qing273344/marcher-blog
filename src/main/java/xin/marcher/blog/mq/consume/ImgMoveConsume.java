@@ -1,4 +1,4 @@
-package xin.marcher.blog.consume;
+package xin.marcher.blog.mq.consume;
 
 import com.rabbitmq.client.Channel;
 import org.springframework.amqp.core.Message;
@@ -15,7 +15,7 @@ import java.io.IOException;
  * @author marcher
  */
 @Component
-public class ImgCopyConsume {
+public class ImgMoveConsume {
 
     @Autowired
     private BlogArticleContentService blogArticleContentService;

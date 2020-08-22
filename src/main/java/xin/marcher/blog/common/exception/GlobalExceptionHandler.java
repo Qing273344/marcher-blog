@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import xin.marcher.blog.biz.enums.RspBaseCodeEnum;
-import xin.marcher.blog.utils.Result;
 import xin.marcher.framework.exception.HintException;
 import xin.marcher.framework.exception.ServiceException;
+import xin.marcher.framework.mvc.response.BaseResult;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
@@ -23,7 +23,7 @@ import javax.validation.ValidationException;
 import java.util.Set;
 
 /**
- * 统一异常处理
+ * 统一异常处理, 只能处理从 Controller 开始抛出的异常, Filter 中的异常需要另行处理
  *
  * @author marcher
  */
@@ -37,11 +37,11 @@ public class GlobalExceptionHandler {
      * @param ex 异常
      * @return 异常提示
      */
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+//    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(HintException.class)
     @ResponseBody
-    public Result handleMarcherException(HintException ex) {
-        return Result.error(ex.getCode(), ex.getMsg());
+    public BaseResult handleHintException(HintException ex) {
+        return BaseResult.error(ex.getCode(), ex.getMsg());
     }
 
     /**
@@ -52,9 +52,9 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(ServiceException.class)
     @ResponseBody
-    public Result handleMarcherException(ServiceException ex) {
+    public BaseResult handleServiceException(ServiceException ex) {
         log.error(ex.getMessage(), ex);
-        return Result.error(ex.getCode(), ex.getMessage());
+        return BaseResult.error(ex.getCode(), ex.getMessage());
     }
 
     /**
@@ -63,10 +63,10 @@ public class GlobalExceptionHandler {
      * @param ex 异常
      * @return 异常提示
      */
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+//    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(value = {MethodArgumentNotValidException.class, ValidationException.class})
     @ResponseBody
-    public Result handleMethodArgumentNotValidException(Exception ex) {
+    public BaseResult handleMethodArgumentNotValidException(Exception ex) {
         String errorMessage = "";
         if (ex instanceof MethodArgumentNotValidException) {
             MethodArgumentNotValidException methodArgumentNotValidException = (MethodArgumentNotValidException) ex;
@@ -86,7 +86,7 @@ public class GlobalExceptionHandler {
             }
         }
 
-        return Result.error(HttpStatus.BAD_REQUEST.value(), errorMessage);
+        return BaseResult.error(HttpStatus.BAD_REQUEST.value(), errorMessage);
     }
 
     /**
@@ -95,12 +95,12 @@ public class GlobalExceptionHandler {
      * @param ex 异常
      * @return 异常提示
      */
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+//    @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(NoHandlerFoundException.class)
     @ResponseBody
-    public Result handlerNoFoundException(Exception ex) {
+    public BaseResult handlerNoFoundException(Exception ex) {
         log.error(ex.getMessage(), ex);
-        return Result.error(HttpStatus.NOT_FOUND.value(), "你好像访问到了其它地方...");
+        return BaseResult.error(HttpStatus.NOT_FOUND.value(), "你好像访问到了其它地方...");
     }
 
     /**
@@ -109,12 +109,12 @@ public class GlobalExceptionHandler {
      * @param ex 异常
      * @return 异常提示
      */
-    @ResponseStatus(HttpStatus.FORBIDDEN)
+//    @ResponseStatus(HttpStatus.FORBIDDEN)
     @ExceptionHandler(AuthorizationException.class)
     @ResponseBody
-    public Result handleAuthorizationException(AuthorizationException ex) {
+    public BaseResult handleAuthorizationException(AuthorizationException ex) {
         log.error(ex.getMessage(), ex);
-        return Result.error(RspBaseCodeEnum.NOT_PERMISSION.getRealCode(), RspBaseCodeEnum.NOT_PERMISSION.getRealDesc());
+        return BaseResult.error(RspBaseCodeEnum.NOT_PERMISSION.getRealCode(), RspBaseCodeEnum.NOT_PERMISSION.getRealDesc());
     }
 
     /**
@@ -123,12 +123,12 @@ public class GlobalExceptionHandler {
      * @param ex 异常
      * @return 异常提示
      */
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+//    @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(AuthenticationException.class)
     @ResponseBody
-    public Result handleAuthenticationException(AuthenticationException ex) {
+    public BaseResult handleAuthenticationException(AuthenticationException ex) {
         log.error(ex.getMessage(), ex);
-        return Result.error(HttpStatus.UNAUTHORIZED.value(), ex.getMessage());
+        return BaseResult.error(HttpStatus.UNAUTHORIZED.value(), ex.getMessage());
     }
 
     /**
@@ -137,12 +137,12 @@ public class GlobalExceptionHandler {
      * @param ex 异常
      * @return 异常提示
      */
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+//    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
     @ResponseBody
-    public Result handleException(Exception ex) {
+    public BaseResult handleException(Exception ex) {
         log.error(ex.getMessage(), ex);
-        return Result.error();
+        return BaseResult.error();
     }
 
 }

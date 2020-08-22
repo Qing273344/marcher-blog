@@ -5,7 +5,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import xin.marcher.blog.dto.RegisterDTO;
 import xin.marcher.blog.service.BlogUserService;
-import xin.marcher.blog.utils.Result;
+import xin.marcher.framework.mvc.response.BaseResult;
 
 /**
  * 注册
@@ -25,7 +25,7 @@ public class BlogRegisterController {
      */
     @PostMapping("/register")
     @ResponseBody
-    public Result register(@Validated @RequestBody RegisterDTO registerDTO) {
+    public BaseResult register(@Validated @RequestBody RegisterDTO registerDTO) {
 
         // check username
         blogUserService.checkUserNameExist(registerDTO.getUsername());
@@ -33,6 +33,6 @@ public class BlogRegisterController {
         // save user
         blogUserService.createUser(registerDTO);
 
-        return Result.success();
+        return BaseResult.success();
     }
 }

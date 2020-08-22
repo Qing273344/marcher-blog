@@ -6,11 +6,11 @@ import org.springframework.stereotype.Service;
 import xin.marcher.blog.biz.property.RabbitMqProperties;
 import xin.marcher.blog.mapper.BlogArticleContentMapper;
 import xin.marcher.blog.model.BlogArticleContent;
+import xin.marcher.blog.mq.producer.ImgMoveProducer;
 import xin.marcher.blog.service.BlogArticleContentService;
 import xin.marcher.blog.service.OssService;
 import xin.marcher.framework.constants.GlobalConstant;
 import xin.marcher.framework.oss.property.OssProperties;
-import xin.marcher.framework.rabbit.send.MqService;
 import xin.marcher.framework.util.EmptyUtil;
 import xin.marcher.framework.util.RegexUtil;
 
@@ -26,26 +26,23 @@ import java.util.stream.Collectors;
 public class BlogArticleContentServiceImpl extends ServiceImpl<BlogArticleContentMapper, BlogArticleContent> implements BlogArticleContentService {
 
     @Autowired
-    private BlogArticleContentMapper blogArticleContentMapper;
-
-    @Autowired
     private OssService ossService;
 
     @Autowired
+    private BlogArticleContentMapper blogArticleContentMapper;
+
+    @Autowired
+    private ImgMoveProducer imgMoveProducer;
+
+    @Autowired
     private OssProperties ossProperties;
-
-    @Autowired
-    private MqService mqService;
-
-    @Autowired
-    private RabbitMqProperties rabbitMqProperties;
 
     @Override
     public void save(Long articleId, String contentMd) {
         BlogArticleContent blogArticleContent = toArticleContent(articleId, contentMd);
         blogArticleContentMapper.insert(blogArticleContent);
 
-        producer(articleId);
+        imgMoveProducer.sendMoveImgMessage(articleId);
     }
 
     @Override
@@ -56,7 +53,7 @@ public class BlogArticleContentServiceImpl extends ServiceImpl<BlogArticleConten
     @Override
     public void update(Long articleId, String contentMd) {
         updateContent(articleId, contentMd);
-        producer(articleId);
+        imgMoveProducer.sendMoveImgMessage(articleId);
     }
 
     /**
@@ -76,15 +73,6 @@ public class BlogArticleContentServiceImpl extends ServiceImpl<BlogArticleConten
         blogArticleContent.setContentMd(contentMd);
         blogArticleContent.setDeleted(GlobalConstant.NO_DELETED);
         return blogArticleContent;
-    }
-
-    /**
-     * 生产者发送消息
-     *
-     * @param articleId 文章id
-     */
-    private void producer(Long articleId) {
-        mqService.convertAndSend(rabbitMqProperties.getExchange(), rabbitMqProperties.getRoutekey(), articleId);
     }
 
     /**

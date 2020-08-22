@@ -47,7 +47,7 @@ public class BlogRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         BlogUserCO blogUser = (BlogUserCO) principals.getPrimaryPrincipal();
 
-        // 通过user_type设置对应的权限(博主可访问/粉丝可访问)
+        // 通过 user_type 设置对应的权限(博主可访问/粉丝可访问)
         Set<String> roleSet = blogUserResourceService.getByUserType(blogUser.getUserType());
 
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();

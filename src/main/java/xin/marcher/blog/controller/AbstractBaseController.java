@@ -15,7 +15,7 @@ public abstract class AbstractBaseController {
      * @return
      *      用户信息
      */
-    BlogUserCO getUser() {
+    protected BlogUserCO getUser() {
         return (BlogUserCO) SecurityUtils.getSubject().getPrincipal();
     }
 }

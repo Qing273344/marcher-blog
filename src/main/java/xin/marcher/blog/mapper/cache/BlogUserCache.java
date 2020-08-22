@@ -18,7 +18,7 @@ public class BlogUserCache {
     private RedisService redisService;
 
     public void saveUserInfoToCache(BlogUserCO blogUserCO) {
-        redisService.setObj(CacheConsts.U_INFO_KEY + blogUserCO.getUserId(), blogUserCO, 60 * 120L);
+        redisService.setObj(CacheConsts.U_INFO_KEY + blogUserCO.getUserId(), blogUserCO, 60L * 60 * 24 * 30L);
     }
 
     public BlogUserCO getUserInfoFormCache(Long userId) {

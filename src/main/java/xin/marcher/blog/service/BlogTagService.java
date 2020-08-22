@@ -3,10 +3,10 @@ package xin.marcher.blog.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import xin.marcher.blog.dto.BlogTagDTO;
 import xin.marcher.blog.model.BlogTag;
-import xin.marcher.blog.utils.Query;
 import xin.marcher.blog.utils.QueryData;
-import xin.marcher.blog.utils.Result;
 import xin.marcher.blog.vo.BlogTagVO;
+import xin.marcher.framework.mvc.response.BaseResult;
+import xin.marcher.framework.mvc.response.PageResult;
 
 import java.util.List;
 
@@ -40,7 +40,7 @@ public interface BlogTagService extends IService<BlogTag> {
      * @return
      *      tag
      */
-    Result query(Query<QueryData> query);
+    BaseResult<PageResult<BlogTagVO>> query(QueryData query);
 
     /**
      * 创建博客标签

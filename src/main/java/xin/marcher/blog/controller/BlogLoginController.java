@@ -6,7 +6,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import xin.marcher.blog.dto.LoginDTO;
 import xin.marcher.blog.service.BlogUserService;
-import xin.marcher.blog.utils.Result;
+import xin.marcher.framework.mvc.response.BaseResult;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -30,12 +30,12 @@ public class BlogLoginController {
      */
     @PostMapping("/login")
     @ResponseBody
-    public Result login(HttpServletResponse response, @Validated @RequestBody LoginDTO loginDTO) {
+    public BaseResult login(HttpServletResponse response, @Validated @RequestBody LoginDTO loginDTO) {
 
         // 验证用户输入的账号信息
         blogUserService.checkLoginInfo(response, loginDTO);
 
-        return Result.success();
+        return BaseResult.success();
     }
 
 }

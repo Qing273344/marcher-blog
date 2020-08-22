@@ -11,13 +11,13 @@ import xin.marcher.blog.dto.BlogArticleTypeDTO;
 import xin.marcher.blog.mapper.BlogTypeMapper;
 import xin.marcher.blog.model.BlogType;
 import xin.marcher.blog.service.BlogTypeService;
-import xin.marcher.blog.utils.PageUtil;
-import xin.marcher.blog.utils.Query;
 import xin.marcher.blog.utils.QueryData;
-import xin.marcher.blog.utils.Result;
 import xin.marcher.blog.vo.BlogArticleTypeVO;
 import xin.marcher.framework.constants.GlobalConstant;
 import xin.marcher.framework.exception.HintException;
+import xin.marcher.framework.mvc.request.PageParam;
+import xin.marcher.framework.mvc.response.BaseResult;
+import xin.marcher.framework.mvc.response.PageResult;
 import xin.marcher.framework.util.EmptyUtil;
 import xin.marcher.framework.util.ObjectUtil;
 
@@ -64,10 +64,14 @@ public class BlogTypeServiceImpl extends ServiceImpl<BlogTypeMapper, BlogType> i
     }
 
     @Override
-    public Result query(Query<QueryData> query) {
+    public BaseResult<PageResult<BlogArticleTypeVO>> query(QueryData query) {
         QueryWrapper<BlogType> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().like(BlogType::getName, query.getData().getKeyword());
-        IPage<BlogType> queryPage = new Page<>(query.getPage().getCurPage(), query.getPage().getLimit());
+        if (EmptyUtil.isNotEmpty(query.getKeyword())) {
+            queryWrapper.lambda().like(BlogType::getName, query.getKeyword());
+        }
+
+        PageParam pageParam = new PageParam(query.getPageNo(), query.getPageSize());
+        IPage<BlogType> queryPage = new Page<>(pageParam.getPageNo(), pageParam.getPageSize());
 
         IPage<BlogType> blogArticleTypeIPage = blogTypeMapper.selectPage(queryPage, queryWrapper);
 
@@ -79,10 +83,8 @@ public class BlogTypeServiceImpl extends ServiceImpl<BlogTypeMapper, BlogType> i
             blogArticleTypeVOList.add(blogArticleTypeVO);
         }
 
-        PageUtil page = new PageUtil((int) blogArticleTypeIPage.getTotal(), query.getPage());
-        Result data = new Result().put("list", blogArticleTypeVOList);
-
-        return Result.successPage(data, page);
+        PageResult<BlogArticleTypeVO> data = PageResult.rest(blogArticleTypeVOList, blogArticleTypeIPage.getTotal(), pageParam);
+        return BaseResult.success(data);
     }
 
     @Override

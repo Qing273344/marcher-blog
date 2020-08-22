@@ -6,12 +6,12 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import xin.marcher.blog.dto.BlogArticleTypeDTO;
 import xin.marcher.blog.service.BlogTypeService;
-import xin.marcher.blog.utils.Assert;
-import xin.marcher.blog.utils.Query;
 import xin.marcher.blog.utils.QueryData;
-import xin.marcher.blog.utils.Result;
 import xin.marcher.blog.vo.BlogArticleTypeVO;
+import xin.marcher.framework.mvc.response.BaseResult;
+import xin.marcher.framework.mvc.response.PageResult;
 import xin.marcher.framework.mvc.validation.groups.GroupUpdateOrder;
+import xin.marcher.framework.util.Assert;
 
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
@@ -36,13 +36,11 @@ public class AdminTypeController {
      */
     @GetMapping("/get")
     @RequiresRoles("marcher")
-    public Result get(Long id) {
-        Assert.isNullOrZero(id, "请选择分类");
+    public BaseResult<BlogArticleTypeVO> get(Long id) {
+        Assert.isNullOrLtZero(id, "请选择分类");
 
         BlogArticleTypeVO blogArticleTypeVO = blogTypeService.get(id);
-
-        Result data = new Result().put("info", blogArticleTypeVO);
-        return Result.success(data);
+        return BaseResult.success(blogArticleTypeVO);
     }
 
     /**
@@ -50,11 +48,10 @@ public class AdminTypeController {
      */
     @GetMapping("/listAll")
     @RequiresRoles("marcher")
-    public Result listAll() {
+    public BaseResult<List<BlogArticleTypeVO>> listAll() {
         List<BlogArticleTypeVO> blogArticleTypeVOList = blogTypeService.listAll();
 
-        Result data = new Result().put("list", blogArticleTypeVOList);
-        return Result.success(data);
+        return BaseResult.success(blogArticleTypeVOList);
     }
 
     /**
@@ -64,7 +61,7 @@ public class AdminTypeController {
      */
     @PostMapping("/query")
     @RequiresRoles("marcher")
-    public Result query(@RequestBody Query<QueryData> query) {
+    public BaseResult<PageResult<BlogArticleTypeVO>> query(@RequestBody QueryData query) {
         return blogTypeService.query(query);
     }
 
@@ -75,10 +72,10 @@ public class AdminTypeController {
      */
     @PostMapping("/save")
     @RequiresRoles("marcher")
-    public Result save(@Validated @RequestBody BlogArticleTypeDTO blogArticleTypeDTO) {
+    public BaseResult save(@Validated @RequestBody BlogArticleTypeDTO blogArticleTypeDTO) {
         blogTypeService.create(blogArticleTypeDTO);
 
-        return Result.success();
+        return BaseResult.success();
     }
 
     /**
@@ -88,10 +85,10 @@ public class AdminTypeController {
      */
     @PostMapping("/update")
     @RequiresRoles("marcher")
-    public Result update(@Validated(GroupUpdateOrder.class) @RequestBody BlogArticleTypeDTO blogArticleTypeDTO) {
+    public BaseResult update(@Validated(GroupUpdateOrder.class) @RequestBody BlogArticleTypeDTO blogArticleTypeDTO) {
         blogTypeService.update(blogArticleTypeDTO);
 
-        return Result.success();
+        return BaseResult.success();
     }
 
     /**
@@ -101,9 +98,9 @@ public class AdminTypeController {
      */
     @PostMapping("/remove")
     @RequiresRoles("marcher")
-    public Result remove(@NotEmpty(message = "请至少选择一条记录") @RequestBody  List<Long> ids) {
+    public BaseResult remove(@NotEmpty(message = "请至少选择一条记录") @RequestBody  List<Long> ids) {
         blogTypeService.remove(ids);
 
-        return Result.success();
+        return BaseResult.success();
     }
 }
