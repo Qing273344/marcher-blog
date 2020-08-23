@@ -4,11 +4,11 @@ import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import xin.marcher.blog.biz.enums.RspBaseCodeEnum;
+import xin.marcher.blog.biz.enums.RealmCodeEnum;
 import xin.marcher.blog.dto.BlogArticleDTO;
 import xin.marcher.blog.model.BlogArticle;
 import xin.marcher.blog.service.BlogArticleService;
-import xin.marcher.blog.utils.QueryData;
+import xin.marcher.blog.dto.BaseQuery;
 import xin.marcher.blog.vo.AdminArticleListVO;
 import xin.marcher.blog.vo.IdVO;
 import xin.marcher.framework.mvc.response.BaseResult;
@@ -55,7 +55,7 @@ public class AdminArticleController {
     public BaseResult<BlogArticleDTO> getAsEdit(@NotNull(message = "请选择需要编辑的文章") Long id) {
         BlogArticle blogArticle = blogArticleService.getById(id);
         if (EmptyUtil.isEmpty(blogArticle)) {
-            return BaseResult.error(RspBaseCodeEnum.NOT_RESOURCE.getRealDesc());
+            return BaseResult.error(RealmCodeEnum.NOT_RESOURCE.getRealDesc());
         }
 
         BlogArticleDTO blogArticleFrom = blogArticleService.getAsEdit(id);
@@ -68,7 +68,7 @@ public class AdminArticleController {
      */
     @PostMapping("/query")
     @RequiresRoles("marcher")
-    public BaseResult<PageResult<AdminArticleListVO>> query(@RequestBody QueryData query) {
+    public BaseResult<PageResult<AdminArticleListVO>> query(@RequestBody BaseQuery query) {
         return blogArticleService.queryAsAdmin(query);
     }
 

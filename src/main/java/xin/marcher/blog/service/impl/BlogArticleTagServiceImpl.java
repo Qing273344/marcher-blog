@@ -1,6 +1,5 @@
 package xin.marcher.blog.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,10 +7,10 @@ import xin.marcher.blog.mapper.BlogArticleTagMapper;
 import xin.marcher.blog.model.BlogArticleTag;
 import xin.marcher.blog.service.BlogArticleTagService;
 import xin.marcher.framework.constants.GlobalConstant;
+import xin.marcher.framework.util.CollectionUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * 博客文章标签关联
@@ -32,21 +31,21 @@ public class BlogArticleTagServiceImpl extends ServiceImpl<BlogArticleTagMapper,
 
     @Override
     public void removeByArticleId(Long articleId) {
-        QueryWrapper<BlogArticleTag> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(BlogArticleTag::getArticleId, articleId);
-
-        remove(queryWrapper);
+        blogArticleTagMapper.removeByArticleId(articleId);
     }
 
     @Override
     public List<Long> getIds(Long articleId) {
-        QueryWrapper<BlogArticleTag> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(BlogArticleTag::getArticleId, articleId);
+        List<BlogArticleTag> blogArticleTags = blogArticleTagMapper.listByArticleId(articleId);
+        return CollectionUtil.convertList(blogArticleTags, BlogArticleTag::getTagId);
+    }
 
-        List<BlogArticleTag> blogArticleTags = blogArticleTagMapper.selectList(queryWrapper);
-        List<Long> tagIdList = blogArticleTags.stream().map(BlogArticleTag::getTagId).distinct().collect(Collectors.toList());
-
-        return tagIdList;
+    @Override
+    public void replace(Long articleId, List<Long> tagIdList) {
+        // del 旧标签
+        removeByArticleId(articleId);
+        // add 新标签
+        addBatch(articleId, tagIdList);
     }
 
     private List<BlogArticleTag> toArticleTag(Long articleId, List<Long> tagIdList) {
@@ -58,7 +57,6 @@ public class BlogArticleTagServiceImpl extends ServiceImpl<BlogArticleTagMapper,
             blogArticleTag.setDeleted(GlobalConstant.NO_DELETED);
             blogArticleTagList.add(blogArticleTag);
         }
-
         return blogArticleTagList;
     }
 }

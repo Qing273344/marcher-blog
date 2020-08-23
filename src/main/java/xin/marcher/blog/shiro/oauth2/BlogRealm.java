@@ -7,7 +7,7 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import xin.marcher.blog.biz.enums.RspBaseCodeEnum;
+import xin.marcher.blog.biz.enums.RealmCodeEnum;
 import xin.marcher.blog.biz.enums.UserLockedEnum;
 import xin.marcher.blog.model.cache.BlogUserCO;
 import xin.marcher.blog.service.BlogUserResourceService;
@@ -66,12 +66,12 @@ public class BlogRealm extends AuthorizingRealm {
         // 从 token 中获取 userId
         Long userId = jwtUtil.getUserIdFromToke(accessToken);
         if (EmptyUtil.isEmpty(userId)) {
-            throw new AuthenticationException(RspBaseCodeEnum.LOGIN_TOKEN_INVALID.getRealDesc());
+            throw new AuthenticationException(RealmCodeEnum.LOGIN_TOKEN_INVALID.getRealDesc());
         }
 
         BlogUserCO blogUserCO = blogUserService.getUserInfoFormCache(userId);
         if (EmptyUtil.isEmpty(blogUserCO)) {
-            throw new AuthenticationException(RspBaseCodeEnum.LOGIN_TOKEN_INVALID.getRealDesc());
+            throw new AuthenticationException(RealmCodeEnum.LOGIN_TOKEN_INVALID.getRealDesc());
         }
 
         if (blogUserCO.getIsLocked() != null && EnumUtil.isEq(blogUserCO.getIsLocked(), UserLockedEnum.USER_LOCKED_DISABLE)){

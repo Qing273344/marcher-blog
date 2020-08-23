@@ -3,7 +3,7 @@ package xin.marcher.blog.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import xin.marcher.blog.dto.BlogArticleDTO;
 import xin.marcher.blog.model.BlogArticle;
-import xin.marcher.blog.utils.QueryData;
+import xin.marcher.blog.dto.BaseQuery;
 import xin.marcher.blog.vo.AdminArticleListVO;
 import xin.marcher.blog.vo.BlogArticleDetailsVO;
 import xin.marcher.blog.vo.BlogArticleListVO;
@@ -39,7 +39,7 @@ public interface BlogArticleService extends IService<BlogArticle> {
      * @param query query参数
      * @return 文章列表
      */
-    BaseResult<PageResult<BlogArticleListVO>> query(QueryData query);
+    BaseResult<PageResult<BlogArticleListVO>> query(BaseQuery query);
 
     /**
      * query 文章
@@ -47,7 +47,7 @@ public interface BlogArticleService extends IService<BlogArticle> {
      * @param query query参数
      * @return 文章列表
      */
-    BaseResult<PageResult<AdminArticleListVO>> queryAsAdmin(QueryData query);
+    BaseResult<PageResult<AdminArticleListVO>> queryAsAdmin(BaseQuery query);
 
     /**
      * get文章 - 编辑

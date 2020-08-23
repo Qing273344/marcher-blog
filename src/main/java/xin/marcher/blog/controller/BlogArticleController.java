@@ -3,7 +3,7 @@ package xin.marcher.blog.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import xin.marcher.blog.service.BlogArticleService;
-import xin.marcher.blog.utils.QueryData;
+import xin.marcher.blog.dto.BaseQuery;
 import xin.marcher.blog.vo.BlogArticleDetailsVO;
 import xin.marcher.blog.vo.BlogArticleListVO;
 import xin.marcher.framework.mvc.response.BaseResult;
@@ -42,7 +42,7 @@ public class BlogArticleController {
      * query文章
      */
     @PostMapping("/query")
-    public BaseResult<PageResult<BlogArticleListVO>> query(@RequestBody QueryData query) {
+    public BaseResult<PageResult<BlogArticleListVO>> query(@RequestBody BaseQuery query) {
         return blogArticleService.query(query);
     }
 

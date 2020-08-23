@@ -26,19 +26,6 @@ import java.util.List;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-//    @Autowired
-//    private AuthorizationInterceptor authorizationInterceptor;
-
-    /**
-     * 配置拦截器
-     */
-//    @Override
-//    public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(authorizationInterceptor)
-//                .addPathPatterns("/**")
-//                .excludePathPatterns("/blog/**");
-//    }
-
     /**
      * 将Jackson替换为fastjson (解决Long类型id在前端丢失精度问题)
      */

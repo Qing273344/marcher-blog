@@ -35,4 +35,12 @@ public interface BlogArticleTagService extends IService<BlogArticleTag> {
      *      文章标签id
      */
     List<Long> getIds(Long articleId);
+
+    /**
+     * 标签替换
+     *
+     * @param articleId 文件 id
+     * @param tagIdList 标签
+     */
+    void replace(Long articleId, List<Long> tagIdList);
 }

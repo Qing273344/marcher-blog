@@ -1,4 +1,4 @@
-package xin.marcher.blog.utils;
+package xin.marcher.blog.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -13,7 +13,7 @@ import xin.marcher.framework.mvc.request.PageParam;
 @Getter
 @Setter
 @ToString
-public class QueryData extends PageParam {
+public class BaseQuery extends PageParam {
 
     private String keyword;
 }

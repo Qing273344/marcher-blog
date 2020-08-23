@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import xin.marcher.blog.service.OssService;
+import xin.marcher.blog.manager.OssManager;
 import xin.marcher.framework.mvc.response.BaseResult;
 
 import javax.validation.constraints.NotNull;
@@ -24,7 +24,7 @@ import javax.validation.constraints.NotNull;
 public class AdminUploadController {
 
     @Autowired
-    private OssService ossService;
+    private OssManager ossManager;
 
     /**
      * 文件上传
@@ -35,7 +35,7 @@ public class AdminUploadController {
     @PostMapping("/uploadFile")
     @RequiresRoles("marcher")
     public BaseResult<String> upload(@NotNull(message = "上传文件不能为空") @RequestParam("file") MultipartFile file) {
-        String fileUlr = ossService.putFile(file);
+        String fileUlr = ossManager.putFile(file);
         return BaseResult.success(fileUlr);
     }
 

@@ -7,7 +7,7 @@ import xin.marcher.framework.core.IEnumNorm;
  *
  * @author marcher
  */
-public enum RspBaseCodeEnum implements IEnumNorm {
+public enum RealmCodeEnum implements IEnumNorm {
 
     /** ok */
     OK(0, "ok"),
@@ -25,7 +25,7 @@ public enum RspBaseCodeEnum implements IEnumNorm {
     private final Integer code;
     private final String msg;
 
-    RspBaseCodeEnum(Integer code, String msg) {
+    RealmCodeEnum(Integer code, String msg) {
         this.code = code;
         this.msg = msg;
     }

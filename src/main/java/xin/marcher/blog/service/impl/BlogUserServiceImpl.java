@@ -6,7 +6,7 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import xin.marcher.blog.biz.enums.RspBaseCodeEnum;
+import xin.marcher.blog.biz.enums.RealmCodeEnum;
 import xin.marcher.blog.biz.enums.UserLockedEnum;
 import xin.marcher.blog.biz.enums.UserSourceEnum;
 import xin.marcher.blog.biz.enums.UserTypeEnum;
@@ -48,7 +48,7 @@ public class BlogUserServiceImpl extends ServiceImpl<BlogUserMapper, BlogUser> i
     public void checkUserNameExist(String username) {
         BlogUser blogUser = getByUsername(username);
         if (EmptyUtil.isNotEmpty(blogUser)) {
-            throw new HintException(RspBaseCodeEnum.PARAM_ILLEGAL.getRealCode(), "用户名已存在");
+            throw new HintException(RealmCodeEnum.PARAM_ILLEGAL.getRealCode(), "用户名已存在");
         }
     }
 

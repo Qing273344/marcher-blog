@@ -6,7 +6,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import xin.marcher.blog.dto.BlogTagDTO;
 import xin.marcher.blog.service.BlogTagService;
-import xin.marcher.blog.utils.QueryData;
+import xin.marcher.blog.dto.BaseQuery;
 import xin.marcher.blog.vo.BlogTagVO;
 import xin.marcher.framework.mvc.response.BaseResult;
 import xin.marcher.framework.mvc.response.PageResult;
@@ -61,7 +61,7 @@ public class AdminTagController {
      */
     @PostMapping("/query")
     @RequiresRoles("marcher")
-    public BaseResult<PageResult<BlogTagVO>> query(@RequestBody QueryData query) {
+    public BaseResult<PageResult<BlogTagVO>> query(@RequestBody BaseQuery query) {
         return blogTagService.query(query);
     }
 

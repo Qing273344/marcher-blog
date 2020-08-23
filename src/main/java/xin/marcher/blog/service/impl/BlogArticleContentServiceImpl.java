@@ -3,12 +3,11 @@ package xin.marcher.blog.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import xin.marcher.blog.biz.property.RabbitMqProperties;
+import xin.marcher.blog.manager.OssManager;
 import xin.marcher.blog.mapper.BlogArticleContentMapper;
 import xin.marcher.blog.model.BlogArticleContent;
 import xin.marcher.blog.mq.producer.ImgMoveProducer;
 import xin.marcher.blog.service.BlogArticleContentService;
-import xin.marcher.blog.service.OssService;
 import xin.marcher.framework.constants.GlobalConstant;
 import xin.marcher.framework.oss.property.OssProperties;
 import xin.marcher.framework.util.EmptyUtil;
@@ -26,7 +25,7 @@ import java.util.stream.Collectors;
 public class BlogArticleContentServiceImpl extends ServiceImpl<BlogArticleContentMapper, BlogArticleContent> implements BlogArticleContentService {
 
     @Autowired
-    private OssService ossService;
+    private OssManager ossManager;
 
     @Autowired
     private BlogArticleContentMapper blogArticleContentMapper;
@@ -97,7 +96,7 @@ public class BlogArticleContentServiceImpl extends ServiceImpl<BlogArticleConten
 
         Map<String, String> tempNewUrlMap = new HashMap<>(8);
         newImgUrlList.forEach(newUrl -> {
-            String destUrl = ossService.copyOssObject(newUrl, "content", articleId.toString());
+            String destUrl = ossManager.copyOssObject(newUrl, "content", articleId.toString());
             String destImgUrl = ossProperties.getHost() + destUrl;
             tempNewUrlMap.put(newUrl, destImgUrl);
         });

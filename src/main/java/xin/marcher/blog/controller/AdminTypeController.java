@@ -6,7 +6,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import xin.marcher.blog.dto.BlogArticleTypeDTO;
 import xin.marcher.blog.service.BlogTypeService;
-import xin.marcher.blog.utils.QueryData;
+import xin.marcher.blog.dto.BaseQuery;
 import xin.marcher.blog.vo.BlogArticleTypeVO;
 import xin.marcher.framework.mvc.response.BaseResult;
 import xin.marcher.framework.mvc.response.PageResult;
@@ -61,7 +61,7 @@ public class AdminTypeController {
      */
     @PostMapping("/query")
     @RequiresRoles("marcher")
-    public BaseResult<PageResult<BlogArticleTypeVO>> query(@RequestBody QueryData query) {
+    public BaseResult<PageResult<BlogArticleTypeVO>> query(@RequestBody BaseQuery query) {
         return blogTypeService.query(query);
     }
 

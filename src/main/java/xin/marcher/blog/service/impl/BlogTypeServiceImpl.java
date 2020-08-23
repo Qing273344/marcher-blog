@@ -6,12 +6,12 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import xin.marcher.blog.biz.enums.RspBaseCodeEnum;
+import xin.marcher.blog.biz.enums.RealmCodeEnum;
 import xin.marcher.blog.dto.BlogArticleTypeDTO;
 import xin.marcher.blog.mapper.BlogTypeMapper;
 import xin.marcher.blog.model.BlogType;
 import xin.marcher.blog.service.BlogTypeService;
-import xin.marcher.blog.utils.QueryData;
+import xin.marcher.blog.dto.BaseQuery;
 import xin.marcher.blog.vo.BlogArticleTypeVO;
 import xin.marcher.framework.constants.GlobalConstant;
 import xin.marcher.framework.exception.HintException;
@@ -64,7 +64,7 @@ public class BlogTypeServiceImpl extends ServiceImpl<BlogTypeMapper, BlogType> i
     }
 
     @Override
-    public BaseResult<PageResult<BlogArticleTypeVO>> query(QueryData query) {
+    public BaseResult<PageResult<BlogArticleTypeVO>> query(BaseQuery query) {
         QueryWrapper<BlogType> queryWrapper = new QueryWrapper<>();
         if (EmptyUtil.isNotEmpty(query.getKeyword())) {
             queryWrapper.lambda().like(BlogType::getName, query.getKeyword());
@@ -126,7 +126,7 @@ public class BlogTypeServiceImpl extends ServiceImpl<BlogTypeMapper, BlogType> i
         queryWrapper.lambda().like(BlogType::getName, name);
         Integer rowNum = blogTypeMapper.selectCount(queryWrapper);
         if (rowNum > 0) {
-            throw new HintException(RspBaseCodeEnum.PARAM_ILLEGAL.getRealCode(), "已存在该名称类型");
+            throw new HintException(RealmCodeEnum.PARAM_ILLEGAL.getRealCode(), "已存在该名称类型");
         }
     }
 
@@ -136,7 +136,7 @@ public class BlogTypeServiceImpl extends ServiceImpl<BlogTypeMapper, BlogType> i
         queryWrapper.lambda().ne(BlogType::getTypeId, typeId);
         Integer rowNum = blogTypeMapper.selectCount(queryWrapper);
         if (rowNum > 0) {
-            throw new HintException(RspBaseCodeEnum.PARAM_ILLEGAL.getRealCode(), "已存在该名称类型");
+            throw new HintException(RealmCodeEnum.PARAM_ILLEGAL.getRealCode(), "已存在该名称类型");
         }
     }
 }

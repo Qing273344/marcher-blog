@@ -33,4 +33,6 @@ public interface BlogArticleTypeService extends IService<BlogArticleType> {
      *      文章类型id
      */
     Long getId(Long articleId);
+
+    void replace(Long articleId, Long typeId);
 }

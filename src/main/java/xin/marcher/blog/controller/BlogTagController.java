@@ -26,9 +26,7 @@ public class BlogTagController {
      */
     @GetMapping("/getHotTag")
     public BaseResult<List<String>> getHotTag() {
-
         List<String> hotTagList = blogTagService.getHotTag();
-
         return BaseResult.success(hotTagList);
     }
 

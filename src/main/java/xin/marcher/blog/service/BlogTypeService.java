@@ -3,7 +3,7 @@ package xin.marcher.blog.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import xin.marcher.blog.dto.BlogArticleTypeDTO;
 import xin.marcher.blog.model.BlogType;
-import xin.marcher.blog.utils.QueryData;
+import xin.marcher.blog.dto.BaseQuery;
 import xin.marcher.blog.vo.BlogArticleTypeVO;
 import xin.marcher.framework.mvc.response.BaseResult;
 import xin.marcher.framework.mvc.response.PageResult;
@@ -34,7 +34,7 @@ public interface BlogTypeService extends IService<BlogType> {
      *
      * @param query query参数
      */
-    BaseResult<PageResult<BlogArticleTypeVO>> query(QueryData query);
+    BaseResult<PageResult<BlogArticleTypeVO>> query(BaseQuery query);
 
     /**
      * save 博客文章分类

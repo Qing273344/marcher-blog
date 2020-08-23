@@ -1,27 +1,26 @@
 package xin.marcher.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import xin.marcher.blog.biz.enums.RspBaseCodeEnum;
+import xin.marcher.blog.biz.enums.RealmCodeEnum;
+import xin.marcher.blog.convert.BlogTagConvert;
 import xin.marcher.blog.dto.BlogTagDTO;
 import xin.marcher.blog.mapper.BlogTagMapper;
 import xin.marcher.blog.model.BlogTag;
 import xin.marcher.blog.service.BlogTagService;
-import xin.marcher.blog.utils.*;
+import xin.marcher.blog.dto.BaseQuery;
 import xin.marcher.blog.vo.BlogTagVO;
 import xin.marcher.framework.constants.GlobalConstant;
 import xin.marcher.framework.exception.HintException;
 import xin.marcher.framework.mvc.request.PageParam;
 import xin.marcher.framework.mvc.response.BaseResult;
 import xin.marcher.framework.mvc.response.PageResult;
+import xin.marcher.framework.mybatis.page.PageWrapper;
 import xin.marcher.framework.util.EmptyUtil;
 import xin.marcher.framework.util.ObjectUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -50,39 +49,16 @@ public class BlogTagServiceImpl extends ServiceImpl<BlogTagMapper, BlogTag> impl
     @Override
     public List<BlogTagVO> listAll() {
         List<BlogTag> blogTags = blogTagMapper.selectList(null);
-
-        List<BlogTagVO> blogTagVOList = new ArrayList<>();
-        for (BlogTag blogTag : blogTags) {
-            BlogTagVO blogTagVO = new BlogTagVO();
-            ObjectUtil.copyProperties(blogTag, blogTagVO);
-            blogTagVOList.add(blogTagVO);
-        }
-
-        return blogTagVOList;
+        return BlogTagConvert.INSTANCE.convert(blogTags);
     }
 
     @Override
-    public BaseResult<PageResult<BlogTagVO>> query(QueryData query) {
+    public BaseResult<PageResult<BlogTagVO>> query(BaseQuery query) {
         PageParam pageParam = new PageParam(query.getPageNo(), query.getPageSize());
+        PageWrapper<BlogTag> pageWrapper = blogTagMapper.query(query, pageParam);
 
-        QueryWrapper<BlogTag> queryWrapper = new QueryWrapper<>();
-        if (EmptyUtil.isNotEmpty(query.getKeyword())) {
-            queryWrapper.lambda().like(BlogTag::getName, query.getKeyword());
-        }
-        IPage<BlogTag> page = new Page<>(pageParam.getPageNo(), pageParam.getPageSize());
-
-        IPage<BlogTag> blogTagIPage = blogTagMapper.selectPage(page, queryWrapper);
-
-        List<BlogTag> blogTags = blogTagIPage.getRecords();
-        List<BlogTagVO> blogTagVOList = new ArrayList<>();
-
-        blogTags.forEach( blogTag -> {
-            BlogTagVO blogTagVO = new BlogTagVO();
-            ObjectUtil.copyProperties(blogTag, blogTagVO);
-            blogTagVOList.add(blogTagVO);
-        });
-
-        PageResult<BlogTagVO> data = PageResult.rest(blogTagVOList, blogTagIPage.getTotal(), pageParam);
+        List<BlogTagVO> blogTagVOList = BlogTagConvert.INSTANCE.convert(pageWrapper.getList());
+        PageResult<BlogTagVO> data = PageResult.rest(blogTagVOList, pageWrapper.getTotal(), pageParam);
         return BaseResult.success(data);
     }
 
@@ -129,7 +105,7 @@ public class BlogTagServiceImpl extends ServiceImpl<BlogTagMapper, BlogTag> impl
         queryWrapper.lambda().like(BlogTag::getName, name);
         Integer rowNum = blogTagMapper.selectCount(queryWrapper);
         if (rowNum > 0) {
-            throw new HintException(RspBaseCodeEnum.PARAM_ILLEGAL.getRealCode(), "已存在该名称标签");
+            throw new HintException(RealmCodeEnum.PARAM_ILLEGAL.getRealCode(), "已存在该名称标签");
         }
     }
 
@@ -139,7 +115,7 @@ public class BlogTagServiceImpl extends ServiceImpl<BlogTagMapper, BlogTag> impl
         queryWrapper.lambda().ne(BlogTag::getTagId, tagId);
         Integer rowNum = blogTagMapper.selectCount(queryWrapper);
         if (rowNum > 0) {
-            throw new HintException(RspBaseCodeEnum.PARAM_ILLEGAL.getRealCode(), "已存在该名称标签");
+            throw new HintException(RealmCodeEnum.PARAM_ILLEGAL.getRealCode(), "已存在该名称标签");
         }
     }
 }
