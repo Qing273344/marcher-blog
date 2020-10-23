@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>marcher-blog-article</artifactId>
+        <groupId>xin.marcher</groupId>
+        <version>1.0.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>marcher-blog-article-service</artifactId>
+
+
+    <dependencies>
+        <dependency>
+            <groupId>xin.marcher</groupId>
+            <artifactId>marcher-blog-article-client</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>xin.marcher</groupId>
+            <artifactId>marcher-framework-mybatis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>xin.marcher</groupId>
+            <artifactId>marcher-framework-redis</artifactId>
+            <version>${marcher.redis.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>xin.marcher</groupId>
+            <artifactId>marcher-framework-mvc</artifactId>
+            <version>${marcher.mvc.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>xin.marcher</groupId>
+            <artifactId>marcher-framework-rabbit</artifactId>
+            <version>${marcher.rabbit.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>xin.marcher</groupId>
+            <artifactId>marcher-framework-oss</artifactId>
+            <version>${marcher.oss.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>xin.marcher</groupId>
+            <artifactId>marcher-framework-swagger</artifactId>
+            <version>${marcher.swagger.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>xin.marcher</groupId>
+            <artifactId>marcher-framework-crypto</artifactId>
+            <version>${marcher.crypto.version}</version>
+        </dependency>
+
+        <!-- 构建 Web 服务 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- shiro -->
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-spring</artifactId>
+            <version>${shiro.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>${jwt.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>annotations</artifactId>
+            <version>3.0.1</version>
+        </dependency>
+    </dependencies>
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>

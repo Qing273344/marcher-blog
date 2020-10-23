@@ -6,7 +6,17 @@
 
     <groupId>xin.marcher</groupId>
     <artifactId>marcher-blog</artifactId>
+    <packaging>pom</packaging>
     <version>1.0.0</version>
+
+
+    <modules>
+        <module>marcher-blog-apps-web</module>
+        <module>marcher-blog-apps-manage</module>
+
+        <module>marcher-blog-account</module>
+        <module>marcher-blog-article</module>
+    </modules>
 
 
     <parent>
@@ -23,11 +33,14 @@
         <marcher.mvc.version>1.0.0</marcher.mvc.version>
         <marcher.rabbit.version>1.0.0</marcher.rabbit.version>
         <marcher.oss.version>1.0.0</marcher.oss.version>
+        <marcher.swagger.version>1.0.0</marcher.swagger.version>
+        <marcher.crypto.version>1.0.0</marcher.crypto.version>
 
         <spring.boot.version>2.2.5.RELEASE</spring.boot.version>
+        <spring.cloud.version>Hoxton.SR3</spring.cloud.version>
+        <spring.alibaba.version>2.2.1.RELEASE</spring.alibaba.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>1.8</java.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
 
@@ -39,106 +52,29 @@
         <mapstruct.version>1.3.1.Final</mapstruct.version>
     </properties>
 
-    <repositories>
-        <!-- github私服引用 -->
-        <repository>
-            <id>Qing273344-maven-master-repository</id>
-            <name>Qing273344-maven-master-repository</name>
-            <url>https://raw.github.com/Qing273344/marcher-maven-repository/master</url>
-        </repository>
-    </repositories>
-
     <dependencies>
-        <dependency>
-            <groupId>xin.marcher</groupId>
-            <artifactId>marcher-framework-redis</artifactId>
-            <version>${marcher.redis.version}</version>
-        </dependency>
         <dependency>
             <groupId>xin.marcher</groupId>
             <artifactId>marcher-framework-util</artifactId>
             <version>${marcher.util.version}</version>
         </dependency>
-        <dependency>
-            <groupId>xin.marcher</groupId>
-            <artifactId>marcher-framework-mybatis</artifactId>
-            <version>${marcher.mybatis.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>xin.marcher</groupId>
-            <artifactId>marcher-framework-mvc</artifactId>
-            <version>${marcher.mvc.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>xin.marcher</groupId>
-            <artifactId>marcher-framework-rabbit</artifactId>
-            <version>${marcher.rabbit.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>xin.marcher</groupId>
-            <artifactId>marcher-framework-oss</artifactId>
-            <version>${marcher.oss.version}</version>
-        </dependency>
 
-        <!-- 构建 Web 服务 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
-        </dependency>
         <!-- test -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-
-        <!-- shiro -->
         <dependency>
-            <groupId>org.apache.shiro</groupId>
-            <artifactId>shiro-spring</artifactId>
-            <version>${shiro.version}</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
         </dependency>
 
         <!-- lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-        </dependency>
-
-        <!-- HttpClient -->
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-            <version>${httpclient.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt</artifactId>
-            <version>${jwt.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
-            <version>${commons.lang.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.github.ulisesbocchio</groupId>
-            <artifactId>jasypt-spring-boot-starter</artifactId>
-            <version>${jasypt.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.google.code.findbugs</groupId>
-            <artifactId>annotations</artifactId>
-            <version>3.0.1</version>
         </dependency>
 
         <!-- bean copy -->
@@ -157,74 +93,112 @@
     </dependencies>
 
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring.cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring.alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>xin.marcher</groupId>
+                <artifactId>marcher-framework-mybatis</artifactId>
+                <version>${marcher.mybatis.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+
     <build>
-        <plugins>
-            <!-- maven编译插件 -->
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>${maven.compiler.source}</source>
-                    <target>${maven.compiler.target}</target>
-                    <encoding>${project.build.sourceEncoding}</encoding>
-                    <annotationProcessorPaths>
-                        <path>
-                            <groupId>org.mapstruct</groupId>
-                            <artifactId>mapstruct-processor</artifactId>
-                            <version>${mapstruct.version}</version>
-                        </path>
-                        <path>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                            <version>${lombok.version}</version>
-                        </path>
-                    </annotationProcessorPaths>
-                </configuration>
-            </plugin>
+        <pluginManagement>
+            <plugins>
+                <!-- maven编译插件 -->
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <source>${maven.compiler.source}</source>
+                        <target>${maven.compiler.target}</target>
+                        <encoding>${project.build.sourceEncoding}</encoding>
+                        <annotationProcessorPaths>
+                            <path>
+                                <groupId>org.mapstruct</groupId>
+                                <artifactId>mapstruct-processor</artifactId>
+                                <version>${mapstruct.version}</version>
+                            </path>
+                            <path>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok</artifactId>
+                                <version>${lombok.version}</version>
+                            </path>
+                        </annotationProcessorPaths>
+                    </configuration>
+                </plugin>
 
-            <!-- maven打包 -->
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${spring.boot.version}</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+                <!-- maven 打包跳过测试 -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.18.1</version>
+                    <configuration>
+                        <skipTests>true</skipTests>
+                    </configuration>
+                </plugin>
 
-            <!-- Docker maven plugin 注:未使用该方式 -->
-            <plugin>
-                <groupId>com.spotify</groupId>
-                <artifactId>docker-maven-plugin</artifactId>
-                <version>1.0.0</version>
-                <configuration>
-                    <!-- 镜像名称 -->
-                    <imageName>${project.artifactId}</imageName>
-                    <!-- TAG, 用工程版本号 -->
-                    <imageTags>
-                        <imageTag>${project.version}</imageTag>
-                    </imageTags>
-                    <!-- Dockerfile文件目录 -->
-                    <dockerDirectory>src/main/docker</dockerDirectory>
-                    <!-- docker远程服务器, 需docker开启远程访问 -->
-                    <dockerHost>http://127.0.0.1:2375</dockerHost>
-                    <!-- 构建镜像的配置信息 -->
-                    <resources>
-                        <resource>
-                            <targetPath>/</targetPath>
-                            <!-- 资源所在目录 -->
-                            <directory>${project.build.directory}</directory>
-                            <!-- 生成的jar文件 -->
-                            <include>${project.build.finalName}.jar</include>
-                        </resource>
-                    </resources>
-                </configuration>
-            </plugin>
-            <!-- Docker maven plugin -->
-        </plugins>
+                <!-- maven打包 -->
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring.boot.version}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>repackage</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!-- Docker maven plugin 注:未使用该方式 -->
+                <plugin>
+                    <groupId>com.spotify</groupId>
+                    <artifactId>docker-maven-plugin</artifactId>
+                    <version>1.0.0</version>
+                    <configuration>
+                        <!-- 镜像名称 -->
+                        <imageName>${project.artifactId}</imageName>
+                        <!-- TAG, 用工程版本号 -->
+                        <imageTags>
+                            <imageTag>${project.version}</imageTag>
+                        </imageTags>
+                        <!-- Dockerfile文件目录 -->
+                        <dockerDirectory>src/main/docker</dockerDirectory>
+                        <!-- docker远程服务器, 需docker开启远程访问 -->
+                        <dockerHost>http://127.0.0.1:2375</dockerHost>
+                        <!-- 构建镜像的配置信息 -->
+                        <resources>
+                            <resource>
+                                <targetPath>/</targetPath>
+                                <!-- 资源所在目录 -->
+                                <directory>${project.build.directory}</directory>
+                                <!-- 生成的jar文件 -->
+                                <include>${project.build.finalName}.jar</include>
+                            </resource>
+                        </resources>
+                    </configuration>
+                </plugin>
+                <!-- Docker maven plugin -->
+            </plugins>
+        </pluginManagement>
     </build>
 
 </project>

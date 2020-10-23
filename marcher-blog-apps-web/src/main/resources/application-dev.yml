@@ -1,0 +1,11 @@
+spring:
+  # 设置spring boot上传文件大小限制
+  servlet:
+    multipart:
+      max-file-size: 30MB
+      max-request-size: 30MB
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+        service: ${spring.application.name}
