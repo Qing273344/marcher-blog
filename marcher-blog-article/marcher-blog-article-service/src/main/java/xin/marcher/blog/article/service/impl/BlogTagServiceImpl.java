@@ -29,8 +29,12 @@ import java.util.stream.Collectors;
 @Service
 public class BlogTagServiceImpl extends ServiceImpl<BlogTagMapper, BlogTag> implements BlogTagService {
 
+    private final BlogTagMapper blogTagMapper;
+
     @Autowired
-    private BlogTagMapper blogTagMapper;
+    public BlogTagServiceImpl(BlogTagMapper blogTagMapper) {
+        this.blogTagMapper = blogTagMapper;
+    }
 
     @Override
     public BlogTagResp get(Long id) {

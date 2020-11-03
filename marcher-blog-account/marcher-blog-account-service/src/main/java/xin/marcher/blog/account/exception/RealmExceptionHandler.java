@@ -1,4 +1,4 @@
-package xin.marcher.blog.article.exception;
+package xin.marcher.blog.account.exception;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.AuthenticationException;

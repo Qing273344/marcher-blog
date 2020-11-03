@@ -36,6 +36,9 @@
         <marcher.swagger.version>1.0.0</marcher.swagger.version>
         <marcher.crypto.version>1.0.0</marcher.crypto.version>
 
+        <marcher.blog.article.client.version>1.0.0</marcher.blog.article.client.version>
+        <marcher.blog.account.client.version>1.0.0</marcher.blog.account.client.version>
+
         <spring.boot.version>2.2.5.RELEASE</spring.boot.version>
         <spring.cloud.version>Hoxton.SR3</spring.cloud.version>
         <spring.alibaba.version>2.2.1.RELEASE</spring.alibaba.version>
@@ -90,6 +93,7 @@
             <artifactId>spring-boot-devtools</artifactId>
             <optional>true</optional>
         </dependency>
+
     </dependencies>
 
 

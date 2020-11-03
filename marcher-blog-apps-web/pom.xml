@@ -16,7 +16,7 @@
         <dependency>
             <groupId>xin.marcher</groupId>
             <artifactId>marcher-blog-article-client</artifactId>
-            <version>1.0.0</version>
+            <version>${marcher.blog.article.client.version}</version>
         </dependency>
 
         <dependency>
@@ -25,15 +25,19 @@
             <version>${marcher.swagger.version}</version>
         </dependency>
 
-        <!-- nacos -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
-        <!-- openfeign -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-openfeign</artifactId>
-        </dependency>
     </dependencies>
+
+    <build>
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 </project>

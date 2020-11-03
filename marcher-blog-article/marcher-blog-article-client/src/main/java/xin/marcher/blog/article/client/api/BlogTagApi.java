@@ -1,4 +1,4 @@
-package xin.marcher.blog.article.client.feign;
+package xin.marcher.blog.article.client.api;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.validation.annotation.Validated;
@@ -21,7 +21,7 @@ import java.util.List;
  */
 @FeignClient(name = "marcher-blog-article-client", contextId = "blog-tag-feign")
 @RequestMapping(value = "/rpc/tag")
-public interface BlogTagFeign {
+public interface BlogTagApi {
 
     /**
      * get 热门标签

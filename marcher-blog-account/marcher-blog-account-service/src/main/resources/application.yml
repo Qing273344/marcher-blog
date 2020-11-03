@@ -1,6 +1,6 @@
 server:
   host: localhost
-  port: 8880
+  port: 8127
   tomcat:
     uri-encoding: utf-8
 

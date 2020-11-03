@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import xin.marcher.blog.account.domain.BlogResource;
 import xin.marcher.blog.account.mapper.BlogResourceMapper;
 import xin.marcher.blog.account.service.BlogResourceService;
+import xin.marcher.framework.util.CollectionUtil;
 import xin.marcher.framework.util.EmptyUtil;
 
 import java.util.Collection;
@@ -20,15 +21,10 @@ public class BlogResourceServiceImpl extends ServiceImpl<BlogResourceMapper, Blo
 
     @Override
     public Set<String> getNameByIds(List<Long> blogResourceIds) {
-        Collection<BlogResource> blogResources = listByIds(blogResourceIds);
-        if (EmptyUtil.isEmpty(blogResources)) {
+        if (EmptyUtil.isEmpty(blogResourceIds)) {
             return null;
         }
-
-        Set<String> permissionSet = new HashSet<>();
-        for (BlogResource blogResource : blogResources) {
-            permissionSet.add(blogResource.getPermission());
-        }
-        return permissionSet;
+        List<BlogResource> blogResources = listByIds(blogResourceIds);
+        return CollectionUtil.convertSet(blogResources, BlogResource::getPermission);
     }
 }

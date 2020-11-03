@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import xin.marcher.blog.article.client.feign.BlogTagFeign;
+import xin.marcher.blog.article.client.api.BlogTagApi;
 import xin.marcher.blog.article.client.model.request.BlogTagReqs;
 import xin.marcher.blog.article.client.model.response.BlogTagResp;
 import xin.marcher.framework.mvc.request.BaseQuery;
@@ -21,15 +21,15 @@ import java.util.List;
  * @author marcher
  */
 @RestController
-@RequestMapping(value = "/article/type", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/manage/type", produces = MediaType.APPLICATION_JSON_VALUE)
 @Api(value = "WEB - ManagerTypeController", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ManagerTypeController {
 
-    private final BlogTagFeign blogTagFeign;
+    private final BlogTagApi blogTagApi;
 
     @Autowired
-    public ManagerTypeController(BlogTagFeign blogTagFeign) {
-        this.blogTagFeign = blogTagFeign;
+    public ManagerTypeController(BlogTagApi blogTagApi) {
+        this.blogTagApi = blogTagApi;
     }
 
     /**
@@ -41,7 +41,7 @@ public class ManagerTypeController {
     @GetMapping("/get")
     @ApiOperation(httpMethod = "GET", value = "get 博客类型详情")
     public BaseResult<BlogTagResp> get(Long id) {
-        return blogTagFeign.get(id);
+        return blogTagApi.get(id);
     }
 
     /**
@@ -52,7 +52,7 @@ public class ManagerTypeController {
     @PostMapping("/query")
     @ApiOperation(httpMethod = "POST", value = "query 标签")
     public BaseResult<PageResult<BlogTagResp>> query(@RequestBody BaseQuery query) {
-        return blogTagFeign.query(query);
+        return blogTagApi.query(query);
     }
 
     /**
@@ -63,7 +63,7 @@ public class ManagerTypeController {
     @PostMapping("/save")
     @ApiOperation(httpMethod = "POST", value = "新增标签")
     public BaseResult<Boolean> save(@Validated @RequestBody BlogTagReqs reqs) {
-        blogTagFeign.save(reqs);
+        blogTagApi.save(reqs);
 
         return BaseResult.success();
     }
@@ -76,7 +76,7 @@ public class ManagerTypeController {
     @PostMapping("/update")
     @ApiOperation(httpMethod = "POST", value = "编辑标签")
     public BaseResult<Boolean> update(@Validated() @RequestBody BlogTagReqs reqs) {
-        blogTagFeign.update(reqs);
+        blogTagApi.update(reqs);
 
         return BaseResult.success();
     }
@@ -90,7 +90,7 @@ public class ManagerTypeController {
     @PostMapping("/remove")
     @ApiOperation(httpMethod = "POST", value = "删除标签")
     public BaseResult<Boolean> remove(@RequestBody List<Long> ids) {
-        blogTagFeign.remove(ids);
+        blogTagApi.remove(ids);
 
         return BaseResult.success();
     }

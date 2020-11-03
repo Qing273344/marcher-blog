@@ -28,13 +28,13 @@ public class BlogUserController extends AbstractBaseController {
      */
     @GetMapping("/info")
     public BaseResult<BlogUserVO> getUserInfo() {
-        BlogUserCO blogUserCO = getUser();
-        if (EmptyUtil.isEmpty(blogUserCO)) {
+        BlogUserCO blogUserCo = getUser();
+        if (EmptyUtil.isEmpty(blogUserCo)) {
             return BaseResult.error();
         }
 
         BlogUserVO blogUserVO = new BlogUserVO();
-        ObjectUtil.copyProperties(blogUserCO, blogUserVO);
+        ObjectUtil.copyProperties(blogUserCo, blogUserVO);
 
         return BaseResult.success(blogUserVO);
     }

@@ -20,8 +20,12 @@ import java.util.List;
 @Service
 public class BlogArticleTagServiceImpl extends ServiceImpl<BlogArticleTagMapper, BlogArticleTag> implements BlogArticleTagService {
 
+    private final BlogArticleTagMapper blogArticleTagMapper;
+
     @Autowired
-    private BlogArticleTagMapper blogArticleTagMapper;
+    public BlogArticleTagServiceImpl(BlogArticleTagMapper blogArticleTagMapper) {
+        this.blogArticleTagMapper = blogArticleTagMapper;
+    }
 
     @Override
     public void addBatch(Long articleId, List<Long> tagIdList) {

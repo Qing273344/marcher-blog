@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import xin.marcher.blog.article.client.feign.BlogTagFeign;
+import xin.marcher.blog.article.client.api.BlogTagApi;
 import xin.marcher.blog.article.client.model.request.BlogTagReqs;
 import xin.marcher.blog.article.client.model.response.BlogTagResp;
 import xin.marcher.blog.article.service.BlogTagService;
@@ -13,7 +13,9 @@ import xin.marcher.framework.mvc.request.BaseQuery;
 import xin.marcher.framework.mvc.response.BaseResult;
 import xin.marcher.framework.mvc.response.PageResult;
 import xin.marcher.framework.util.Assert;
+import xin.marcher.framework.util.UrlPathUtil;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -24,10 +26,14 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/rpc/tag")
 @Api(value = "RPC - BlogTagFeignClient", produces = MediaType.APPLICATION_JSON_VALUE)
-public class BlogTagFeignClient implements BlogTagFeign {
+public class BlogTagApiClient implements BlogTagApi {
+
+    private final BlogTagService blogTagService;
 
     @Autowired
-    private BlogTagService blogTagService;
+    public BlogTagApiClient(BlogTagService blogTagService) {
+        this.blogTagService = blogTagService;
+    }
 
     @Override
     @GetMapping("/getHotTag")

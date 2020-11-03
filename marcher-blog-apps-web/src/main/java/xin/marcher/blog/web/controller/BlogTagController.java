@@ -5,7 +5,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import xin.marcher.blog.article.client.feign.BlogTagFeign;
+import xin.marcher.blog.article.client.api.BlogTagApi;
 import xin.marcher.framework.mvc.response.BaseResult;
 
 import java.util.List;
@@ -19,19 +19,18 @@ import java.util.List;
 @RequestMapping(value = "/article/tag", produces = MediaType.APPLICATION_JSON_VALUE)
 public class BlogTagController {
 
-    private final BlogTagFeign blogTagFeign;
+    private final BlogTagApi blogTagApi;
 
     @Autowired
-    public BlogTagController(BlogTagFeign blogTagFeign) {
-        this.blogTagFeign = blogTagFeign;
+    public BlogTagController(BlogTagApi blogTagApi) {
+        this.blogTagApi = blogTagApi;
     }
 
     /**
      * 获取火热的 tag
-     * @return
      */
     @GetMapping("/getHotTag")
     public BaseResult<List<String>> getHotTag() {
-        return blogTagFeign.getHotTag();
+        return blogTagApi.getHotTag();
     }
 }

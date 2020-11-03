@@ -1,5 +1,5 @@
 server:
-  port: 8027
+  port: 9127
   tomcat:
     uri-encoding: utf-8
 

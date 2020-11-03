@@ -36,17 +36,21 @@ import java.util.List;
 @Service
 public class BlogArticleServiceImpl extends ServiceImpl<BlogArticleMapper, BlogArticle> implements BlogArticleService {
 
-    @Autowired
-    private BlogArticleMapper blogArticleMapper;
+    private final BlogArticleContentService blogArticleContentService;
+    private final BlogArticleTypeService blogArticleTypeService;
+    private final BlogArticleTagService blogArticleTagService;
+    private final BlogArticleMapper blogArticleMapper;
 
     @Autowired
-    private BlogArticleContentService blogArticleContentService;
-
-    @Autowired
-    private BlogArticleTypeService blogArticleTypeService;
-
-    @Autowired
-    private BlogArticleTagService blogArticleTagService;
+    public BlogArticleServiceImpl(BlogArticleContentService blogArticleContentService,
+                                  BlogArticleTypeService blogArticleTypeService,
+                                  BlogArticleTagService blogArticleTagService,
+                                  BlogArticleMapper blogArticleMapper) {
+        this.blogArticleContentService = blogArticleContentService;
+        this.blogArticleTypeService = blogArticleTypeService;
+        this.blogArticleTagService = blogArticleTagService;
+        this.blogArticleMapper = blogArticleMapper;
+    }
 
     @Override
     public Long publish(BlogArticleReqs reqs) {

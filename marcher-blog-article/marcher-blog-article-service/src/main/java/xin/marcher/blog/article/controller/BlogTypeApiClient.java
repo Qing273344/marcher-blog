@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import xin.marcher.blog.article.client.feign.BlogTypeFeign;
+import xin.marcher.blog.article.client.api.BlogTypeApi;
 import xin.marcher.blog.article.client.model.request.BlogTypeReqs;
 import xin.marcher.blog.article.client.model.response.BlogArticleTypeResp;
 import xin.marcher.blog.article.service.BlogTypeService;
@@ -25,10 +25,14 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/rpc/type")
 @Api(value = "RPC - BlogTypeFeignClient", produces = MediaType.APPLICATION_JSON_VALUE)
-public class BlogTypeFeignClient implements BlogTypeFeign {
+public class BlogTypeApiClient implements BlogTypeApi {
+
+    private final BlogTypeService blogTypeService;
 
     @Autowired
-    private BlogTypeService blogTypeService;
+    public BlogTypeApiClient(BlogTypeService blogTypeService) {
+        this.blogTypeService = blogTypeService;
+    }
 
     /**
      * 博客类型详情

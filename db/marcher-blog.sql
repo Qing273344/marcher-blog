@@ -7,11 +7,11 @@ CREATE TABLE `blog_article` (
   `status` tinyint(1) DEFAULT NULL COMMENT '状态',
   `is_top` tinyint(1) DEFAULT '0' COMMENT '是否置顶',
   `is_comment` tinyint(1) DEFAULT '1' COMMENT '是否开启评论',
-   `liked_count` INT(11) NOT NULL DEFAULT 1 COMMENT '点赞数量',
-   `views_count` INT(11) NOT NULL DEFAULT 1 COMMENT '浏览数量',
+  `liked_count` INT(11) NOT NULL DEFAULT 1 COMMENT '点赞数量',
+  `views_count` INT(11) NOT NULL DEFAULT 1 COMMENT '浏览数量',
 
-  `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
-  `modify_time` bigint(20) DEFAULT NULL COMMENT '修改时间',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `modify_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后更新时间',
   `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '逻辑删除(0:正常,1:删除)',
   PRIMARY KEY (`article_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='博客文章';
@@ -22,8 +22,8 @@ CREATE TABLE `blog_article_content` (
   `article_id` bigint(20) NOT NULL COMMENT '文章编号',
   `content_md` longtext COMMENT 'markdown版的文章内容',
 
-  `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
-  `modify_time` bigint(20) DEFAULT NULL COMMENT '修改时间',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `modify_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后更新时间',
   `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '逻辑删除(0:正常,1:删除)',
   PRIMARY KEY (`article_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='博客文章内容';
@@ -37,8 +37,8 @@ CREATE TABLE `blog_article_browse` (
   `user_ip` varchar(50) DEFAULT NULL COMMENT '用户IP',
   `browse_time` bigint(20) DEFAULT NULL COMMENT '浏览时间',
 
-  `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
-  `modify_time` bigint(20) DEFAULT NULL COMMENT '修改时间',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `modify_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后更新时间',
   `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '逻辑删除(0:正常,1:删除)',
   PRIMARY KEY (`browse_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='用户浏览文章';
@@ -54,8 +54,8 @@ CREATE TABLE `blog_type` (
   `icon` varchar(100) DEFAULT NULL COMMENT '图标',
   `available` tinyint(1) DEFAULT '1' COMMENT '是否可用',
 
-  `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
-  `modify_time` bigint(20) DEFAULT NULL COMMENT '修改时间',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `modify_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后更新时间',
   `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '逻辑删除(0:正常,1:删除)',
   PRIMARY KEY (`type_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='博客类型';
@@ -67,8 +67,8 @@ CREATE TABLE `blog_article_type` (
   `article_id` bigint(20) NOT NULL COMMENT '文章编号',
   `type_id` bigint(20) NOT NULL COMMENT '类型id',
 
-  `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
-  `modify_time` bigint(20) DEFAULT NULL COMMENT '修改时间',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `modify_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后更新时间',
   `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '逻辑删除(0:正常,1:删除)',
   PRIMARY KEY (`article_type_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='博客文章类型关联';
@@ -80,8 +80,8 @@ CREATE TABLE `blog_tag` (
   `name` varchar(50) NOT NULL COMMENT '标签名',
   `description` varchar(100) DEFAULT NULL COMMENT '描述',
 
-  `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
-  `modify_time` bigint(20) DEFAULT NULL COMMENT '修改时间',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `modify_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后更新时间',
   `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '逻辑删除(0:正常,1:删除)',
   PRIMARY KEY (`tag_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='标签';
@@ -93,8 +93,8 @@ CREATE TABLE `blog_article_tag` (
   `article_id` bigint(20) NOT NULL COMMENT '文章编号',
   `tag_id` bigint(20) NOT NULL COMMENT '类型id',
 
-  `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
-  `modify_time` bigint(20) DEFAULT NULL COMMENT '修改时间',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `modify_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后更新时间',
   `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '逻辑删除(0:正常,1:删除)',
   PRIMARY KEY (`article_tag_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='博客文章标签关联';
@@ -111,8 +111,8 @@ CREATE TABLE `blog_user` (
   `source` tinyint(4) NOT NULL COMMENT '用户来源, 1:PC, 2:web移动',
   `is_locked` tinyint(1) DEFAULT NULL COMMENT '状态(0:锁定,1:正常)',
 
-  `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
-  `modify_time` bigint(20) DEFAULT NULL COMMENT '修改时间',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `modify_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后更新时间',
   `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '逻辑删除(0:正常,1:删除)',
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='博客用户';
@@ -123,8 +123,9 @@ CREATE TABLE `blog_resource` (
   `resource_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '资源编号',
   `name` varchar(64) NOT NULL COMMENT '资源名称',
   `permission` varchar(128) DEFAULT NULL COMMENT '授权 栗子 user:save',
-  `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
-  `modify_time` bigint(20) DEFAULT NULL COMMENT '修改时间',
+
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `modify_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后更新时间',
   `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '逻辑删除(0:正常,1:删除)',
   PRIMARY KEY (`resource_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='博客资源';
@@ -134,8 +135,9 @@ CREATE TABLE `blog_user_resource` (
   `user_resource_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '编号',
   `user_type` tinyint(2) NOT NULL COMMENT '用户类型',
   `resource_id` bigint(20) NOT NULL COMMENT '资源编号',
-  `create_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
-  `modify_time` bigint(20) DEFAULT NULL COMMENT '修改时间',
+
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `modify_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后更新时间',
   `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '逻辑删除(0:正常,1:删除)',
   PRIMARY KEY (`user_resource_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='用户类型-资源';

@@ -31,8 +31,12 @@ import java.util.List;
 @Service
 public class BlogTypeServiceImpl extends ServiceImpl<BlogTypeMapper, BlogType> implements BlogTypeService {
 
+    private final BlogTypeMapper blogTypeMapper;
+
     @Autowired
-    private BlogTypeMapper blogTypeMapper;
+    public BlogTypeServiceImpl(BlogTypeMapper blogTypeMapper) {
+        this.blogTypeMapper = blogTypeMapper;
+    }
 
     @Override
     public BlogArticleTypeResp get(Long id) {

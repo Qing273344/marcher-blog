@@ -1,4 +1,4 @@
-package xin.marcher.blog.article.client.feign;
+package xin.marcher.blog.article.client.api;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.validation.annotation.Validated;
@@ -19,7 +19,7 @@ import xin.marcher.framework.wrapper.BaseWO;
  */
 @FeignClient(name = "marcher-blog-article-client", contextId = "blog-article-feign")
 @RequestMapping(value = "/rpc/article")
-public interface BlogArticleFeign {
+public interface BlogArticleApi {
 
     /**
      * 文章详情

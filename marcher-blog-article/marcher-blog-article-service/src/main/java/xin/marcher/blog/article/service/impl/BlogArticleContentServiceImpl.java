@@ -24,17 +24,21 @@ import java.util.stream.Collectors;
 @Service
 public class BlogArticleContentServiceImpl extends ServiceImpl<BlogArticleContentMapper, BlogArticleContent> implements BlogArticleContentService {
 
-    @Autowired
-    private OssManager ossManager;
+    private final OssProperties ossProperties;
+    private final OssManager ossManager;
+    private final ImgMoveProducer imgMoveProducer;
+    private final BlogArticleContentMapper blogArticleContentMapper;
 
     @Autowired
-    private BlogArticleContentMapper blogArticleContentMapper;
-
-    @Autowired
-    private ImgMoveProducer imgMoveProducer;
-
-    @Autowired
-    private OssProperties ossProperties;
+    public BlogArticleContentServiceImpl(OssProperties ossProperties,
+                                         OssManager ossManager,
+                                         ImgMoveProducer imgMoveProducer,
+                                         BlogArticleContentMapper blogArticleContentMapper) {
+        this.ossProperties = ossProperties;
+        this.ossManager = ossManager;
+        this.imgMoveProducer = imgMoveProducer;
+        this.blogArticleContentMapper = blogArticleContentMapper;
+    }
 
     @Override
     public void save(Long articleId, String contentMd) {

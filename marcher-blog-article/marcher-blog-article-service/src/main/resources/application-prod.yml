@@ -2,7 +2,7 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://${server.host}:3306/marcher-blog?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3306/marcher-blog?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8
     username: root
     password: MM@8TLqCgSLP/ldKx2xAGpTnw==
     druid:
@@ -36,16 +36,21 @@ spring:
     multipart:
       max-file-size: 30MB
       max-request-size: 30MB
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+        service: ${spring.application.name}
   # mq
   rabbitmq:
-    host: ${server.host}
+    host: localhost
     port: 5672
     username: guest
     password: guest
     virtual-host: /
     connection-timeout: 10000ms
     listener:
-      # 手动ACK 不开启自动ACK模式,目的是防止报错后未正确处理消息丢失 默认 为 none
+      # 手动ACK 不开启自动ACK模式,目的是防止报错后未正确处理消息丢失 默认为 none
       simple:
         acknowledge-mode: manual
 
@@ -55,10 +60,9 @@ rabbitmq:
     queue: blog_content_queue
     routekey: blog_content_routekey
 
-jwt:
-  expire: 720   # token有效时长, 单位小时
-  token: token   # token 存在 cookie 中
-  secret: MM@u9bX3ohn2rEMj4pBh/SjSlVMbQ0piluFtz/LgHDtAG2O4BFU/QmgH1h1h2MVqAMI
+crypto:
+  # http://localhost:9020/soil/application/key    http://49.232.197.51:9020/soil/application/key
+  key-url: http://localhost:9020/config/encryption/key
 
 aliyun:
   oss:

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import xin.marcher.blog.account.client.feign.AccountPassportFeign;
+import xin.marcher.blog.account.client.api.AccountPassportApi;
 import xin.marcher.blog.account.client.model.request.RegisterReqs;
 import xin.marcher.blog.account.service.BlogUserService;
 import xin.marcher.blog.account.utils.JwtUtil;
@@ -26,13 +26,13 @@ import xin.marcher.framework.util.HttpContextUtil;
 @RestController
 @RequestMapping(value = "/rpc/account", produces = MediaType.APPLICATION_JSON_VALUE)
 @Api(value = "RPC = BlogPassportController", produces = MediaType.APPLICATION_JSON_VALUE)
-public class AccountPassportFeignClient implements AccountPassportFeign {
+public class AccountPassportApiClient implements AccountPassportApi {
 
-    private final BlogUserService blogUserService;
     private final JwtUtil jwtUtil;
+    private final BlogUserService blogUserService;
 
     @Autowired
-    public AccountPassportFeignClient(BlogUserService blogUserService, JwtUtil jwtUtil) {
+    public AccountPassportApiClient(JwtUtil jwtUtil, BlogUserService blogUserService) {
         this.blogUserService = blogUserService;
         this.jwtUtil = jwtUtil;
     }

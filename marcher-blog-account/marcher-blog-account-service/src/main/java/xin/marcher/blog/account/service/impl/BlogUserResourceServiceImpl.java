@@ -18,9 +18,8 @@ import java.util.Set;
 @Service
 public class BlogUserResourceServiceImpl extends ServiceImpl<BlogUserResourceMapper, BlogUserResource> implements BlogUserResourceService {
 
-    private BlogResourceService blogResourceService;
-
-    private BlogUserResourceMapper blogUserResourceMapper;
+    private final BlogResourceService blogResourceService;
+    private final BlogUserResourceMapper blogUserResourceMapper;
 
     @Autowired
     public BlogUserResourceServiceImpl(BlogResourceService blogResourceService,
@@ -31,13 +30,13 @@ public class BlogUserResourceServiceImpl extends ServiceImpl<BlogUserResourceMap
 
     @Override
     public Set<String> getByUserType(Integer userType) {
-        // 获取用户权限id
+        // 获取用户权限 id
         List<Long> blogResourceIds = getResourceIds(userType);
         if (EmptyUtil.isEmpty(blogResourceIds)) {
             return null;
         }
 
-        // 获取资源唯一name
+        // 获取资源唯一 name
         return blogResourceService.getNameByIds(blogResourceIds);
     }
 

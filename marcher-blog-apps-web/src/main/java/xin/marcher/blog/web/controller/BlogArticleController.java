@@ -4,7 +4,7 @@ import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import xin.marcher.blog.article.client.feign.BlogArticleFeign;
+import xin.marcher.blog.article.client.api.BlogArticleApi;
 import xin.marcher.blog.article.client.model.response.BlogArticleDetailsResp;
 import xin.marcher.blog.article.client.model.response.BlogArticleListResp;
 import xin.marcher.framework.mvc.request.BaseQuery;
@@ -24,11 +24,11 @@ import javax.validation.Valid;
 @Api(value = "WEB - BlogArticleController", produces = MediaType.APPLICATION_JSON_VALUE)
 public class BlogArticleController {
 
-    private final BlogArticleFeign blogArticleFeign;
+    private final BlogArticleApi blogArticleApi;
 
     @Autowired
-    public BlogArticleController(BlogArticleFeign blogArticleFeign) {
-        this.blogArticleFeign = blogArticleFeign;
+    public BlogArticleController(BlogArticleApi blogArticleApi) {
+        this.blogArticleApi = blogArticleApi;
     }
 
     /**
@@ -39,7 +39,7 @@ public class BlogArticleController {
     @GetMapping("/detail")
     public BaseResult<BlogArticleDetailsResp> detail(@RequestParam("id") Long id) {
         Assert.isNullOrLtZero(id, "请选择指定文章");
-        return blogArticleFeign.detail(id);
+        return blogArticleApi.detail(id);
     }
 
     /**
@@ -49,7 +49,7 @@ public class BlogArticleController {
      */
     @PostMapping("/query")
     public BaseResult<PageResult<BlogArticleListResp>> query(@Valid @RequestBody BaseQuery query) {
-        return blogArticleFeign.query(query);
+        return blogArticleApi.query(query);
     }
 
     /**
@@ -60,6 +60,6 @@ public class BlogArticleController {
     @PostMapping("/liked")
     public BaseResult<Integer> liked(@RequestParam("id") Long id) {
         Assert.isNullOrLtZero(id, "请选择指定文章");
-        return blogArticleFeign.liked(id);
+        return blogArticleApi.liked(id);
     }
 }

@@ -17,8 +17,12 @@ import xin.marcher.framework.util.EmptyUtil;
 @Service
 public class BlogArticleTypeServiceImpl extends ServiceImpl<BlogArticleTypeMapper, BlogArticleType> implements BlogArticleTypeService {
 
-    @Autowired
     private BlogArticleTypeMapper blogArticleTypeMapper;
+
+    @Autowired
+    public BlogArticleTypeServiceImpl(BlogArticleTypeMapper blogArticleTypeMapper) {
+        this.blogArticleTypeMapper = blogArticleTypeMapper;
+    }
 
     @Override
     public void add(Long articleId, Long typeId) {

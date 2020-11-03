@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import xin.marcher.blog.article.client.feign.BlogArticleFeign;
+import xin.marcher.blog.article.client.api.BlogArticleApi;
 import xin.marcher.blog.article.client.model.request.BlogArticleReqs;
 import xin.marcher.blog.article.client.model.response.BlogArticleDetailsResp;
 import xin.marcher.blog.article.client.model.response.BlogArticleListResp;
@@ -28,10 +28,14 @@ import xin.marcher.framework.wrapper.BaseWO;
 @RestController
 @RequestMapping(value = "/rpc/article")
 @Api(value = "RPC - BlogArticleFeignClient", produces = MediaType.APPLICATION_JSON_VALUE)
-public class BlogArticleFeignClient implements BlogArticleFeign {
+public class BlogArticleApiClient implements BlogArticleApi {
+
+    private final BlogArticleService blogArticleService;
 
     @Autowired
-    private BlogArticleService blogArticleService;
+    public BlogArticleApiClient(BlogArticleService blogArticleService) {
+        this.blogArticleService = blogArticleService;
+    }
 
     /**
      * 文章详情
@@ -53,7 +57,7 @@ public class BlogArticleFeignClient implements BlogArticleFeign {
      * query 文章
      */
     @Override
-    @PostMapping("/query")
+    @PostMapping("/queryList")
     public BaseResult<PageResult<BlogArticleListResp>> query(@RequestBody BaseQuery query) {
         return blogArticleService.query(query);
     }
@@ -66,7 +70,6 @@ public class BlogArticleFeignClient implements BlogArticleFeign {
         Integer likedCount = blogArticleService.liked(id);
         return BaseResult.success(likedCount);
     }
-
 
     /**
      * 发布文章

@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import xin.marcher.framework.mybatis.dao.BaseDO;
+import xin.marcher.framework.mybatis.dao.DeletableDO;
 
 /**
  * 博客类型
@@ -16,7 +17,7 @@ import xin.marcher.framework.mybatis.dao.BaseDO;
 @Data
 @ToString(callSuper = true)
 @TableName("blog_type")
-public class BlogType extends BaseDO {
+public class BlogType extends DeletableDO {
 
 	/**
 	 * 类型id

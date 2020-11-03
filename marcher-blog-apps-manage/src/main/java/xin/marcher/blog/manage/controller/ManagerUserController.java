@@ -1,60 +1,32 @@
 package xin.marcher.blog.manage.controller;
 
+import cn.hutool.system.UserInfo;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import xin.marcher.blog.account.client.feign.AccountPassportFeign;
-import xin.marcher.blog.account.client.model.request.RegisterReqs;
 import xin.marcher.framework.mvc.response.BaseResult;
 
-import javax.validation.Valid;
-
 /**
- * 用户
+ * User
  *
  * @author marcher
  */
 @RestController
-@RequestMapping(value = "/article/user", produces = MediaType.APPLICATION_JSON_VALUE)
-@Api(value = "WEB - ManagerUserController", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/manage/user", produces = MediaType.APPLICATION_JSON_VALUE)
+@Api(value = "WEB - ManagerUserController", tags = "用户", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ManagerUserController {
 
-    private final AccountPassportFeign accountPassportFeign;
-
-    @Autowired
-    public ManagerUserController(AccountPassportFeign accountPassportFeign) {
-        this.accountPassportFeign = accountPassportFeign;
-    }
-
     /**
-     * 注册
-     *
-     * @param reqs  注册信息
+     * 用户信息
      */
-    @PostMapping("/register")
-    BaseResult<Boolean> register(@Valid @RequestBody RegisterReqs reqs) {
-        return accountPassportFeign.register(reqs);
-    }
+    @PostMapping("/info")
+    @ApiOperation(httpMethod = "POST", value = "用户信息")
+    public BaseResult<UserInfo> info() {
 
-    /**
-     * 登录
-     *
-     * @param reqs 登录信息
-     */
-    @PostMapping("/login")
-    BaseResult<Boolean> login(@Valid @RequestBody RegisterReqs reqs) {
-        return accountPassportFeign.login(reqs);
-    }
-
-    /**
-     * 退出
-     */
-    @PostMapping("/logout")
-    BaseResult<Boolean> logout() {
-        return accountPassportFeign.logout();
+        return null;
     }
 }

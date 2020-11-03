@@ -1,4 +1,4 @@
-package xin.marcher.blog.account.client.feign;
+package xin.marcher.blog.account.client.api;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.validation.annotation.Validated;
@@ -15,7 +15,7 @@ import xin.marcher.framework.mvc.response.BaseResult;
  */
 @FeignClient(name = "marcher-blog-account-client", contextId = "account-passport-feign")
 @RequestMapping(value = "/rpc/account")
-public interface AccountPassportFeign {
+public interface AccountPassportApi {
 
     /**
      * 注册

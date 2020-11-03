@@ -30,3 +30,8 @@ spring:
   servlet:
     multipart:
       max-file-size: 30MB
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+        service: ${spring.application.name}

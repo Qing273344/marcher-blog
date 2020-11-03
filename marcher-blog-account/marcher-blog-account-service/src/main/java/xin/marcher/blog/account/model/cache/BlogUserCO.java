@@ -14,6 +14,9 @@ public class BlogUserCO implements Serializable {
 
     private static final long serialVersionUID = -53965383960258369L;
 
+    /**
+     * 用户 id
+     */
     private Long userId;
 
     /**
@@ -21,7 +24,13 @@ public class BlogUserCO implements Serializable {
      */
     private String nickname;
 
+    /**
+     * 用户类型
+     */
     private Integer userType;
 
+    /**
+     * 是否锁定
+     */
     private Integer isLocked;
 }

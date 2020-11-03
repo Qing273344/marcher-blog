@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import xin.marcher.framework.mybatis.dao.BaseDO;
+import xin.marcher.framework.mybatis.dao.DeletableDO;
 
 /**
  * 博客文章类型管理
@@ -16,7 +17,7 @@ import xin.marcher.framework.mybatis.dao.BaseDO;
 @Data
 @ToString(callSuper = true)
 @TableName("blog_article_type")
-public class BlogArticleType extends BaseDO {
+public class BlogArticleType extends DeletableDO {
 
     /**
      * 文章类型id

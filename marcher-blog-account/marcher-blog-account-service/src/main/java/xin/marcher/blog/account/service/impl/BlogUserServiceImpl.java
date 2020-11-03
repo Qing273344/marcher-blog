@@ -59,7 +59,6 @@ public class BlogUserServiceImpl extends ServiceImpl<BlogUserMapper, BlogUser> i
         blogUser.setIsLocked(UserLockedEnum.USER_LOCKED_NORMAL.getRealCode());
         blogUser.setCreateTime(now);
         blogUser.setDeleted(GlobalConstant.NO_DELETED);
-
         blogUserMapper.insert((blogUser));
     }
 

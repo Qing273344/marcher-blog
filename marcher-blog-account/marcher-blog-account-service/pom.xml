@@ -16,7 +16,7 @@
         <dependency>
             <groupId>xin.marcher</groupId>
             <artifactId>marcher-blog-account-client</artifactId>
-            <version>1.0.0</version>
+            <version>${marcher.blog.account.client.version}</version>
         </dependency>
 
         <dependency>
@@ -25,8 +25,23 @@
         </dependency>
         <dependency>
             <groupId>xin.marcher</groupId>
+            <artifactId>marcher-framework-mvc</artifactId>
+            <version>${marcher.mvc.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>xin.marcher</groupId>
+            <artifactId>marcher-framework-redis</artifactId>
+            <version>${marcher.redis.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>xin.marcher</groupId>
             <artifactId>marcher-framework-swagger</artifactId>
             <version>${marcher.swagger.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>xin.marcher</groupId>
+            <artifactId>marcher-framework-crypto</artifactId>
+            <version>${marcher.crypto.version}</version>
         </dependency>
 
         <!-- 构建 Web 服务 -->
@@ -34,18 +49,16 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
 
         <!-- shiro -->
         <dependency>
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-spring</artifactId>
             <version>${shiro.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>xin.marcher</groupId>
-            <artifactId>marcher-framework-redis</artifactId>
-            <version>${marcher.redis.version}</version>
         </dependency>
 
         <dependency>
@@ -57,6 +70,7 @@
 
 
     <build>
+        <finalName>${project.artifactId}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

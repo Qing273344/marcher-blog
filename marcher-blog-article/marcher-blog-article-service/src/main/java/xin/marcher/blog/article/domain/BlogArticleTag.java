@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import xin.marcher.framework.mybatis.dao.BaseDO;
+import xin.marcher.framework.mybatis.dao.DeletableDO;
 
 /**
  * 博客文章标签关联
@@ -16,7 +17,7 @@ import xin.marcher.framework.mybatis.dao.BaseDO;
 @Data
 @ToString(callSuper = true)
 @TableName("blog_article_tag")
-public class BlogArticleTag extends BaseDO {
+public class BlogArticleTag extends DeletableDO {
 
     /**
      * 文章标签id
