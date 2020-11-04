@@ -20,7 +20,7 @@
     <!-- 定义日志文件 输入位置 -->
     <!--<property name="log_dir" value="/Users/marcher/workapp/marcher/logs/marcher-blog"/>-->
     <property name="log_dir" value="./logs"/>
-    <!-- 日志最大的历史 30天 -->
+    <!-- 日志最大的历史天 -->
     <property name="maxHistory" value="10"/>
     <!-- 日志文件最大存储 -->
     <property name="maxFileSize" value="20MB"/>
@@ -85,7 +85,7 @@
     <!--&lt;!&ndash; 按天回滚 daily &ndash;&gt;-->
     <!--<fileNamePattern>${log_dir}/%d{yyyy-MM-dd}/info-log.log-->
     <!--</fileNamePattern>-->
-    <!--&lt;!&ndash; 日志最大的历史 60天 &ndash;&gt;-->
+    <!--&lt;!&ndash; 日志最大的历史天 &ndash;&gt;-->
     <!--<maxHistory>${maxHistory}</maxHistory>-->
     <!--</rollingPolicy>-->
     <!--<encoder>-->

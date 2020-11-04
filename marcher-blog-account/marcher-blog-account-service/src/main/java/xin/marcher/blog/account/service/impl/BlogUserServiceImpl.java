@@ -19,7 +19,6 @@ import xin.marcher.blog.account.model.cache.BlogUserCO;
 import xin.marcher.blog.account.service.BlogUserService;
 import xin.marcher.blog.account.utils.JwtUtil;
 import xin.marcher.blog.account.utils.OAuthUtil;
-import xin.marcher.framework.constants.GlobalConstant;
 import xin.marcher.framework.constants.GlobalErrorCodeEnum;
 import xin.marcher.framework.util.*;
 
@@ -57,8 +56,6 @@ public class BlogUserServiceImpl extends ServiceImpl<BlogUserMapper, BlogUser> i
         blogUser.setUserType(UserTypeEnum.USER_TYPE_MANITO.getRealCode());
         blogUser.setSource(UserSourceEnum.USER_SOURCE_PC.getRealCode());
         blogUser.setIsLocked(UserLockedEnum.USER_LOCKED_NORMAL.getRealCode());
-        blogUser.setCreateTime(now);
-        blogUser.setDeleted(GlobalConstant.NO_DELETED);
         blogUserMapper.insert((blogUser));
     }
 

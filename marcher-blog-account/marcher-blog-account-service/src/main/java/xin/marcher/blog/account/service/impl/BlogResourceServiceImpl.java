@@ -8,8 +8,6 @@ import xin.marcher.blog.account.service.BlogResourceService;
 import xin.marcher.framework.util.CollectionUtil;
 import xin.marcher.framework.util.EmptyUtil;
 
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 

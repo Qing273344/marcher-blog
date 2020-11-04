@@ -5,7 +5,7 @@ server:
 
 spring:
   application:
-    name: marcher-blog-apps-web
+    name: marcher-blog-web
   # 环境 dev|test|prod
   profiles:
     active: dev

@@ -20,7 +20,7 @@
     <!-- 定义日志文件 输入位置 -->
     <!--<property name="log_dir" value="/Users/marcher/workapp/marcher/logs/marcher-blog"/>-->
     <property name="log_dir" value="./logs"/>
-    <!-- 日志最大的历史 30天 -->
+    <!-- 日志最大的历史天 -->
     <property name="maxHistory" value="10"/>
     <!-- 日志文件最大存储 -->
     <property name="maxFileSize" value="20MB"/>
@@ -85,7 +85,7 @@
     <!--&lt;!&ndash; 按天回滚 daily &ndash;&gt;-->
     <!--<fileNamePattern>${log_dir}/%d{yyyy-MM-dd}/info-log.log-->
     <!--</fileNamePattern>-->
-    <!--&lt;!&ndash; 日志最大的历史 60天 &ndash;&gt;-->
+    <!--&lt;!&ndash; 日志最大的历史天 &ndash;&gt;-->
     <!--<maxHistory>${maxHistory}</maxHistory>-->
     <!--</rollingPolicy>-->
     <!--<encoder>-->
@@ -95,6 +95,9 @@
 
     <!-- SQL日志, 使用mybatis的时候，sql语句是debug下才会打印 -->
     <appender name="SQL_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 正在记录的日志文件的路径及文件名 -->
+        <file>${log_dir}/sql.log</file>
+        <append>true</append>
         <!-- 过滤器，只记录DEBUG级别的日志 -->
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>DEBUG</level>
@@ -104,8 +107,8 @@
         <!-- 日志记录器的滚动策略, 按日期, 按大小记录 -->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- 按天回滚 daily -->
-            <fileNamePattern>${log_dir}/sql/%d{yyyy-MM-dd}/sql_log.%d{yyyy-MM-dd_HH}.log</fileNamePattern>
-            <!-- 日志最大的历史 60天 -->
+            <fileNamePattern>${log_dir}/sql/sql.%d{yyyy-MM-dd_HH}.log</fileNamePattern>
+            <!-- 日志最大的历史天 -->
             <maxHistory>${maxHistory}</maxHistory>
         </rollingPolicy>
         <encoder>

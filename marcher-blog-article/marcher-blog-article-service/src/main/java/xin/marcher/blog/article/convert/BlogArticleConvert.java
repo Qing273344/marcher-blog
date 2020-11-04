@@ -21,11 +21,11 @@ public interface BlogArticleConvert {
 
     BlogArticleDetailsResp convertResp(BlogArticle info);
 
-    @Mappings({
-            @Mapping(target = "timeStr",
-                    expression = "java(xin.marcher.framework.util.DateUtil.formatDate(info.getCreateTime()," +
-                            " xin.marcher.framework.util.DateUtil.PATTERN_HYPHEN_DATE))")
-    })
+//    @Mappings({
+//            @Mapping(target = "timeStr",
+//                    expression = "java(xin.marcher.framework.util.DateUtil.formatDate(info.getCreateTime()," +
+//                            " xin.marcher.framework.util.DateUtil.PATTERN_HYPHEN_DATE))")
+//    })
     BlogArticleListResp convertListResp(BlogArticle info);
     List<BlogArticleListResp> convertListResp(List<BlogArticle> list);
 

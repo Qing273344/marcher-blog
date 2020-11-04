@@ -1,12 +1,11 @@
 server:
-  host: localhost
   port: 8127
   tomcat:
     uri-encoding: utf-8
 
 spring:
   application:
-    name: marcher-blog
+    name: marcher-blog-account-service
   # 环境 dev|test|prod
   profiles:
     active: dev
