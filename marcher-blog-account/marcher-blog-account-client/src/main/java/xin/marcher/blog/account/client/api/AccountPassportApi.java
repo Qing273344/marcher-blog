@@ -13,7 +13,7 @@ import xin.marcher.framework.mvc.response.BaseResult;
  *
  * @author marcher
  */
-@FeignClient(name = "marcher-blog-account-client", contextId = "account-passport-feign")
+@FeignClient(name = "marcher-blog-account-service", contextId = "account-passport-feign")
 @RequestMapping(value = "/rpc/account")
 public interface AccountPassportApi {
 

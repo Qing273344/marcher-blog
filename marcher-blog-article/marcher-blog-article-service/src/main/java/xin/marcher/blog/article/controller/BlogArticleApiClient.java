@@ -1,6 +1,8 @@
 package xin.marcher.blog.article.controller;
 
+import com.aliyun.oss.common.utils.HttpUtil;
 import io.swagger.annotations.Api;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
@@ -18,6 +20,7 @@ import xin.marcher.framework.mvc.response.BaseResult;
 import xin.marcher.framework.mvc.response.PageResult;
 import xin.marcher.framework.util.Assert;
 import xin.marcher.framework.util.EmptyUtil;
+import xin.marcher.framework.util.HttpContextUtil;
 import xin.marcher.framework.wrapper.BaseWO;
 
 /**
@@ -25,6 +28,7 @@ import xin.marcher.framework.wrapper.BaseWO;
  *
  * @author marcher
  */
+@Slf4j
 @RestController
 @RequestMapping(value = "/rpc/article")
 @Api(value = "RPC - BlogArticleFeignClient", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -92,7 +96,7 @@ public class BlogArticleApiClient implements BlogArticleApi {
      */
     @Override
     @GetMapping("/getAsEdit")
-    public BaseResult<BlogArticleResp> getAsEdit(Long id) {
+    public BaseResult<BlogArticleResp> getAsEdit(@RequestParam("id") Long id) {
         Assert.isNullOrLtZero(id, "请选择需要编辑的文章");
 
         BlogArticle blogArticle = blogArticleService.getById(id);
@@ -121,7 +125,7 @@ public class BlogArticleApiClient implements BlogArticleApi {
      */
     @Override
     @PostMapping("/remove")
-    public BaseResult<Boolean> remove(Long id) {
+    public BaseResult<Boolean> remove(@RequestParam("id") Long id) {
         Assert.isNullOrLtZero(id, "请选择需要删除的文章");
 
         blogArticleService.removeById(id);
@@ -136,7 +140,7 @@ public class BlogArticleApiClient implements BlogArticleApi {
      */
     @Override
     @PostMapping("/comment")
-    public BaseResult<Boolean> comment(Long id) {
+    public BaseResult<Boolean> comment(@RequestParam("id") Long id) {
         Assert.isNullOrLtZero(id, "请选择需要点赞的文章");
 
         blogArticleService.comment(id);
@@ -150,7 +154,7 @@ public class BlogArticleApiClient implements BlogArticleApi {
      */
     @Override
     @PostMapping("/top")
-    public BaseResult<Boolean> top(Long id) {
+    public BaseResult<Boolean> top(@RequestParam("id") Long id) {
         Assert.isNullOrLtZero(id, "请选择需要置顶的文章");
 
         blogArticleService.top(id);

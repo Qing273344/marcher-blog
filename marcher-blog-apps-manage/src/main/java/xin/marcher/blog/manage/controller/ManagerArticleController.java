@@ -2,6 +2,7 @@ package xin.marcher.blog.manage.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +24,7 @@ import javax.validation.Valid;
  *
  * @author marcher
  */
+@Slf4j
 @RestController
 @RequestMapping(value = "/manage/article", produces = MediaType.APPLICATION_JSON_VALUE)
 @Api(value = "WEB - ManagerArticleController", tags = "文章", produces = MediaType.APPLICATION_JSON_VALUE)

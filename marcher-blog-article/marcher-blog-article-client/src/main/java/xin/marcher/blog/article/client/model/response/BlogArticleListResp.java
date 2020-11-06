@@ -17,4 +17,13 @@ public class BlogArticleListResp {
     private String timeStr;
 
     private Integer likedCount;
+
+    private Integer viewsCount;
+
+    private Integer isTop;
+
+    private Integer isComment;
+
+
+
 }

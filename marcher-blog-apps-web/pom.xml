@@ -21,13 +21,27 @@
 
         <dependency>
             <groupId>xin.marcher</groupId>
+            <artifactId>marcher-framework-mvc</artifactId>
+            <version>${marcher.mvc.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>xin.marcher</groupId>
             <artifactId>marcher-framework-swagger</artifactId>
             <version>${marcher.swagger.version}</version>
         </dependency>
 
+        <!-- 构建 Web 服务 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
     </dependencies>
 

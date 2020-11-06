@@ -40,7 +40,7 @@ public class ManagerTagController {
      */
     @GetMapping("/get")
     @ApiOperation(httpMethod = "GET", value = "get 标签详情")
-    public BaseResult<BlogTagResp> get(Long id) {
+    public BaseResult<BlogTagResp> get(@RequestParam("id") Long id) {
         return blogTagApi.get(id);
     }
 

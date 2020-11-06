@@ -23,7 +23,7 @@ import java.util.Map;
  *
  * @author marcher
  */
-@Configuration
+//@Configuration
 public class ShiroConfig {
 
     @Bean
@@ -58,10 +58,9 @@ public class ShiroConfig {
         // 拦截器.
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         // 配置不会被拦截的链接 顺序判断
-        filterChainDefinitionMap.put("/blog/passport/**", "anon");
-        filterChainDefinitionMap.put("/blog/article/**", "anon");
-        filterChainDefinitionMap.put("/blog/tag/**", "anon");
-        filterChainDefinitionMap.put("/logout", "anon");
+        filterChainDefinitionMap.put("/rpc/**", "anon");
+//        filterChainDefinitionMap.put("/manage/article/**", "anon");
+//        filterChainDefinitionMap.put("/manage/tag/**", "anon");
 
         filterChainDefinitionMap.put("/**", "jwt");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);

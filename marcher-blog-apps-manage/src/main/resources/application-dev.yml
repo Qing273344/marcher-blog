@@ -9,3 +9,9 @@ spring:
       discovery:
         server-addr: localhost:8848
         service: ${spring.application.name}
+
+# actuator 监控
+management:
+  endpoint:
+    health:
+      show-details: always

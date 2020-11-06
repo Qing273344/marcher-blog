@@ -17,7 +17,7 @@ import xin.marcher.framework.wrapper.BaseWO;
  *
  * @author marcher
  */
-@FeignClient(name = "marcher-blog-article-client", contextId = "blog-article-feign")
+@FeignClient(name = "marcher-blog-article-service", contextId = "blog-article-feign")
 @RequestMapping(value = "/rpc/article")
 public interface BlogArticleApi {
 
@@ -62,7 +62,7 @@ public interface BlogArticleApi {
      * @param id    文章id
      */
     @GetMapping("/getAsEdit")
-    BaseResult<BlogArticleResp> getAsEdit(Long id);
+    BaseResult<BlogArticleResp> getAsEdit(@RequestParam("id") Long id);
 
     /**
      * query 文章
@@ -78,7 +78,7 @@ public interface BlogArticleApi {
      * @return result
      */
     @PostMapping("/remove")
-    BaseResult<Boolean> remove(Long id);
+    BaseResult<Boolean> remove(@RequestParam("id") Long id);
 
     /**
      * update 评论设置
@@ -87,7 +87,7 @@ public interface BlogArticleApi {
      * @return result
      */
     @PostMapping("/comment")
-    BaseResult<Boolean> comment(Long id);
+    BaseResult<Boolean> comment(@RequestParam("id") Long id);
 
     /**
      * update 置顶设置
@@ -96,5 +96,5 @@ public interface BlogArticleApi {
      * @return result
      */
     @PostMapping("/top")
-    BaseResult<Boolean> top(Long id);
+    BaseResult<Boolean> top(@RequestParam("id") Long id);
 }

@@ -2,10 +2,7 @@ package xin.marcher.blog.article.client.api;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import xin.marcher.blog.article.client.model.request.BlogTypeReqs;
 import xin.marcher.blog.article.client.model.response.BlogArticleTypeResp;
 import xin.marcher.framework.mvc.request.BaseQuery;
@@ -19,7 +16,7 @@ import java.util.List;
  *
  * @author marcher
  */
-@FeignClient(name = "marcher-blog-article-client", contextId = "blog-type-feign")
+@FeignClient(name = "marcher-blog-article-service", contextId = "blog-type-feign")
 @RequestMapping(value = "/rpc/type")
 public interface BlogTypeApi {
 
@@ -30,7 +27,7 @@ public interface BlogTypeApi {
      * @return result
      */
     @GetMapping("/get")
-    BaseResult<BlogArticleTypeResp> get(Long id);
+    BaseResult<BlogArticleTypeResp> get(@RequestParam("id") Long id);
 
     /**
      * 获取所有博客类型
@@ -71,5 +68,5 @@ public interface BlogTypeApi {
      * @param ids   文章分类id
      */
     @PostMapping("/remove")
-    BaseResult<Boolean> remove(@RequestBody  List<Long> ids);
+    BaseResult<Boolean> remove(@RequestBody List<Long> ids);
 }

@@ -41,7 +41,7 @@ public class BlogTypeApiClient implements BlogTypeApi {
      */
     @Override
     @GetMapping("/get")
-    public BaseResult<BlogArticleTypeResp> get(Long id) {
+    public BaseResult<BlogArticleTypeResp> get(@RequestParam("id") Long id) {
         Assert.isNullOrLtZero(id, "请选择分类");
 
         BlogArticleTypeResp blogArticleTypeVO = blogTypeService.get(id);
@@ -103,7 +103,7 @@ public class BlogTypeApiClient implements BlogTypeApi {
      */
     @Override
     @PostMapping("/remove")
-    public BaseResult<Boolean> remove(@RequestBody  List<Long> ids) {
+    public BaseResult<Boolean> remove(@RequestBody List<Long> ids) {
         Assert.isEmpty(ids, "请至少选择一条记录");
 
         blogTypeService.remove(ids);

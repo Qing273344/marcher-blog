@@ -44,7 +44,7 @@ public class BlogTagApiClient implements BlogTagApi {
 
     @Override
     @GetMapping("/get")
-    public BaseResult<BlogTagResp> get(Long id) {
+    public BaseResult<BlogTagResp> get(@RequestParam("id") Long id) {
         Assert.isNullOrLtZero(id, "请选择标签");
 
         BlogTagResp resp = blogTagService.get(id);

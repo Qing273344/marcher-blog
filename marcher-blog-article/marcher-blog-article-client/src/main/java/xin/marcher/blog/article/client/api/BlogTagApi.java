@@ -2,10 +2,7 @@ package xin.marcher.blog.article.client.api;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import xin.marcher.blog.article.client.model.request.BlogTagReqs;
 import xin.marcher.blog.article.client.model.response.BlogTagResp;
 import xin.marcher.framework.mvc.request.BaseQuery;
@@ -19,7 +16,7 @@ import java.util.List;
  *
  * @author marcher
  */
-@FeignClient(name = "marcher-blog-article-client", contextId = "blog-tag-feign")
+@FeignClient(name = "marcher-blog-article-service", contextId = "blog-tag-feign")
 @RequestMapping(value = "/rpc/tag")
 public interface BlogTagApi {
 
@@ -37,7 +34,7 @@ public interface BlogTagApi {
      * @return result
      */
     @GetMapping("/get")
-    BaseResult<BlogTagResp> get(Long id);
+    BaseResult<BlogTagResp> get(@RequestParam("id") Long id);
 
     /**
      * list 所有标签

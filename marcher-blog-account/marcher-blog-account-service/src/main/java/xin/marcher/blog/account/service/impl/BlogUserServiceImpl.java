@@ -1,5 +1,7 @@
 package xin.marcher.blog.account.service.impl;
 
+import cn.hutool.core.date.DateTime;
+import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.shiro.authc.AuthenticationException;
@@ -47,8 +49,9 @@ public class BlogUserServiceImpl extends ServiceImpl<BlogUserMapper, BlogUser> i
 
     @Override
     public void createUser(RegisterReqs reqs) {
-        Long now = DateUtil.now();
-        String password = OAuthUtil.encrypt(reqs.getPassword(), now.toString());
+        DateTime date = DateUtil.date();
+//        String salt = DateUtil.formatDateTime(date);
+        String password = OAuthUtil.encrypt(reqs.getPassword(), reqs.getUsername());
 
         BlogUser blogUser = new BlogUser();
         blogUser.setUsername(reqs.getUsername());
@@ -56,6 +59,7 @@ public class BlogUserServiceImpl extends ServiceImpl<BlogUserMapper, BlogUser> i
         blogUser.setUserType(UserTypeEnum.USER_TYPE_MANITO.getRealCode());
         blogUser.setSource(UserSourceEnum.USER_SOURCE_PC.getRealCode());
         blogUser.setIsLocked(UserLockedEnum.USER_LOCKED_NORMAL.getRealCode());
+        blogUser.setCreateTime(date);
         blogUserMapper.insert((blogUser));
     }
 
@@ -82,7 +86,9 @@ public class BlogUserServiceImpl extends ServiceImpl<BlogUserMapper, BlogUser> i
         if (EmptyUtil.isEmpty(blogUser)) {
             throw new AuthenticationException("账号或密码错误~");
         }
-        String inPassword = OAuthUtil.encrypt(reqs.getPassword(), blogUser.getCreateTime().toString());
+
+//        String salt = DateUtil.formatDateTime(blogUser.getCreateTime());
+        String inPassword = OAuthUtil.encrypt(reqs.getPassword(), reqs.getUsername());
         if (!inPassword.equals(blogUser.getPassword())) {
             throw new AuthenticationException("账号或密码错误~");
         }
