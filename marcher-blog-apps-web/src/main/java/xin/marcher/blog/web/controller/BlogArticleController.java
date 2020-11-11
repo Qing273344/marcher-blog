@@ -1,6 +1,7 @@
 package xin.marcher.blog.web.controller;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -37,6 +38,7 @@ public class BlogArticleController {
      * @return  result
      */
     @GetMapping("/detail")
+    @ApiOperation("文章详情")
     public BaseResult<BlogArticleDetailsResp> detail(@RequestParam("id") Long id) {
         Assert.isNullOrLtZero(id, "请选择指定文章");
         return blogArticleApi.detail(id);
@@ -48,6 +50,7 @@ public class BlogArticleController {
      * @return  result
      */
     @PostMapping("/query")
+    @ApiOperation("文章列表")
     public BaseResult<PageResult<BlogArticleListResp>> query(@Valid @RequestBody BaseQuery query) {
         return blogArticleApi.query(query);
     }
@@ -58,6 +61,7 @@ public class BlogArticleController {
      * @return  result
      */
     @PostMapping("/liked")
+    @ApiOperation("喜欢")
     public BaseResult<Integer> liked(@RequestParam("id") Long id) {
         Assert.isNullOrLtZero(id, "请选择指定文章");
         return blogArticleApi.liked(id);

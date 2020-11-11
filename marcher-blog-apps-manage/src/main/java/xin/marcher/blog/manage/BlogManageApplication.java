@@ -18,7 +18,8 @@ import org.springframework.web.context.request.RequestContextListener;
 @EnableDiscoveryClient
 @EnableFeignClients({
         "xin.marcher.blog.article.client.*",
-        "xin.marcher.blog.account.client.*"
+        "xin.marcher.blog.account.client.*",
+        "xin.marcher.oss.client.*"
 })
 @ComponentScan(basePackages = {"xin.marcher.framework.*", "xin.marcher.*"})
 @SpringBootApplication

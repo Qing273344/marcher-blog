@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import xin.marcher.blog.account.client.model.request.RegisterReqs;
+import xin.marcher.blog.account.client.model.response.BlogUserResp;
 import xin.marcher.framework.mvc.response.BaseResult;
 
 /**
@@ -13,7 +14,7 @@ import xin.marcher.framework.mvc.response.BaseResult;
  *
  * @author marcher
  */
-@FeignClient(name = "marcher-blog-account-service", contextId = "account-passport-feign")
+@FeignClient(name = "marcher-blog-account-service", contextId = "account-passport-api")
 @RequestMapping(value = "/rpc/account")
 public interface AccountPassportApi {
 
@@ -31,12 +32,6 @@ public interface AccountPassportApi {
      * @param reqs 登录信息
      */
     @PostMapping("/login")
-    BaseResult<Boolean> login(@Validated @RequestBody RegisterReqs reqs);
-
-    /**
-     * 退出
-     */
-    @PostMapping("/logout")
-    BaseResult<Boolean> logout();
+    BaseResult<BlogUserResp> login(@Validated @RequestBody RegisterReqs reqs);
 
 }

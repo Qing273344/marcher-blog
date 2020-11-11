@@ -18,7 +18,7 @@ import xin.marcher.blog.article.service.BlogArticleService;
 import xin.marcher.blog.article.service.BlogArticleTagService;
 import xin.marcher.blog.article.service.BlogArticleTypeService;
 import xin.marcher.framework.constants.GlobalConstant;
-import xin.marcher.framework.constants.GlobalErrorCodeEnum;
+import xin.marcher.framework.constants.GlobalCodeEnum;
 import xin.marcher.framework.exception.BusinessException;
 import xin.marcher.framework.mvc.request.BaseQuery;
 import xin.marcher.framework.mvc.request.PageParam;
@@ -27,6 +27,7 @@ import xin.marcher.framework.mvc.response.PageResult;
 import xin.marcher.framework.mybatis.page.PageWrapper;
 import xin.marcher.framework.util.EmptyUtil;
 import xin.marcher.framework.util.ObjectUtil;
+import xin.marcher.framework.util.OrikaMapperUtil;
 
 import java.util.List;
 
@@ -121,12 +122,12 @@ public class BlogArticleServiceImpl extends ServiceImpl<BlogArticleMapper, BlogA
     }
 
     @Override
-    public BaseResult<PageResult<BlogArticleResp>> queryAsAdmin(BaseQuery query) {
+    public BaseResult<PageResult<BlogArticleListResp>> queryAsAdmin(BaseQuery query) {
         PageParam pageParam = new PageParam(query.getPageNo(), query.getPageSize());
         PageWrapper<BlogArticle> pageWrapper = blogArticleMapper.query(query, null, pageParam);
 
-        List<BlogArticleResp> adminArticleListRespList = BlogArticleConvert.INSTANCE.convertRespManage(pageWrapper.getList());
-        PageResult<BlogArticleResp> rest = PageResult.rest(adminArticleListRespList, pageWrapper.getTotal(), pageParam);
+        List<BlogArticleListResp> adminArticleListRespList = BlogArticleConvert.INSTANCE.convertListResp(pageWrapper.getList());
+        PageResult<BlogArticleListResp> rest = PageResult.rest(adminArticleListRespList, pageWrapper.getTotal(), pageParam);
         return BaseResult.success(rest);
     }
 
@@ -163,7 +164,7 @@ public class BlogArticleServiceImpl extends ServiceImpl<BlogArticleMapper, BlogA
     public void comment(Long id) {
         BlogArticle blogArticle = blogArticleMapper.selectById(id);
         if (EmptyUtil.isEmpty(blogArticle)) {
-            throw new BusinessException(GlobalErrorCodeEnum.GL_404.getRealDesc());
+            throw new BusinessException(GlobalCodeEnum.GL_404.getRealDesc());
         }
 
         Integer isComment = blogArticle.getIsComment();
@@ -179,7 +180,7 @@ public class BlogArticleServiceImpl extends ServiceImpl<BlogArticleMapper, BlogA
     public void top(Long id) {
         BlogArticle blogArticle = blogArticleMapper.selectById(id);
         if (EmptyUtil.isEmpty(blogArticle)) {
-            throw new BusinessException(GlobalErrorCodeEnum.GL_404.getRealDesc());
+            throw new BusinessException(GlobalCodeEnum.GL_404.getRealDesc());
         }
 
         int isTop = GlobalConstant.YES == blogArticle.getIsTop() ? GlobalConstant.NO : GlobalConstant.YES;

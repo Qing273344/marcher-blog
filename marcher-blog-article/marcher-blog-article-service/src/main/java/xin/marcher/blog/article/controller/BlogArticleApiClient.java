@@ -1,6 +1,5 @@
 package xin.marcher.blog.article.controller;
 
-import com.aliyun.oss.common.utils.HttpUtil;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,13 +13,12 @@ import xin.marcher.blog.article.client.model.response.BlogArticleListResp;
 import xin.marcher.blog.article.client.model.response.BlogArticleResp;
 import xin.marcher.blog.article.domain.BlogArticle;
 import xin.marcher.blog.article.service.BlogArticleService;
-import xin.marcher.framework.constants.GlobalErrorCodeEnum;
+import xin.marcher.framework.constants.GlobalCodeEnum;
 import xin.marcher.framework.mvc.request.BaseQuery;
 import xin.marcher.framework.mvc.response.BaseResult;
 import xin.marcher.framework.mvc.response.PageResult;
 import xin.marcher.framework.util.Assert;
 import xin.marcher.framework.util.EmptyUtil;
-import xin.marcher.framework.util.HttpContextUtil;
 import xin.marcher.framework.wrapper.BaseWO;
 
 /**
@@ -61,7 +59,7 @@ public class BlogArticleApiClient implements BlogArticleApi {
      * query 文章
      */
     @Override
-    @PostMapping("/queryList")
+    @PostMapping("/query")
     public BaseResult<PageResult<BlogArticleListResp>> query(@RequestBody BaseQuery query) {
         return blogArticleService.query(query);
     }
@@ -101,7 +99,7 @@ public class BlogArticleApiClient implements BlogArticleApi {
 
         BlogArticle blogArticle = blogArticleService.getById(id);
         if (EmptyUtil.isEmpty(blogArticle)) {
-            return BaseResult.error(GlobalErrorCodeEnum.GL_OBJECT_NOT_EXISTS.getRealDesc());
+            return BaseResult.error(GlobalCodeEnum.GL_OBJECT_NOT_EXISTS.getRealDesc());
         }
 
         BlogArticleResp blogArticleFrom = blogArticleService.getAsEdit(id);
@@ -113,8 +111,8 @@ public class BlogArticleApiClient implements BlogArticleApi {
      * @param query 参数
      */
     @Override
-    @PostMapping("/query")
-    public BaseResult<PageResult<BlogArticleResp>> queryFromManage(@RequestBody BaseQuery query) {
+    @PostMapping("/queryFromManage")
+    public BaseResult<PageResult<BlogArticleListResp>> queryFromManage(@RequestBody BaseQuery query) {
         return blogArticleService.queryAsAdmin(query);
     }
 

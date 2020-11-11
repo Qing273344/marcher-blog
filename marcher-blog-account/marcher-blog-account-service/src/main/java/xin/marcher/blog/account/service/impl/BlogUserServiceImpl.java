@@ -8,20 +8,16 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import xin.marcher.blog.account.biz.enums.UserLockedEnum;
-import xin.marcher.blog.account.biz.enums.UserSourceEnum;
-import xin.marcher.blog.account.biz.enums.UserTypeEnum;
+import xin.marcher.blog.account.client.enums.UserLockedEnum;
+import xin.marcher.blog.account.client.enums.UserSourceEnum;
+import xin.marcher.blog.account.client.enums.UserTypeEnum;
 import xin.marcher.blog.account.client.model.request.RegisterReqs;
-import xin.marcher.blog.account.convert.BlogUserConvert;
 import xin.marcher.blog.account.domain.BlogUser;
 import xin.marcher.blog.account.exception.RealmAccountException;
 import xin.marcher.blog.account.mapper.BlogUserMapper;
-import xin.marcher.blog.account.mapper.cache.BlogUserCache;
-import xin.marcher.blog.account.model.cache.BlogUserCO;
 import xin.marcher.blog.account.service.BlogUserService;
-import xin.marcher.blog.account.utils.JwtUtil;
-import xin.marcher.blog.account.utils.OAuthUtil;
-import xin.marcher.framework.constants.GlobalErrorCodeEnum;
+import xin.marcher.blog.account.utils.CryptoUtil;
+import xin.marcher.framework.constants.GlobalCodeEnum;
 import xin.marcher.framework.util.*;
 
 /**
@@ -31,27 +27,20 @@ import xin.marcher.framework.util.*;
 public class BlogUserServiceImpl extends ServiceImpl<BlogUserMapper, BlogUser> implements BlogUserService {
 
     @Autowired
-    private JwtUtil jwtUtil;
-
-    @Autowired
-    private BlogUserCache blogUserCache;
-
-    @Autowired
     private BlogUserMapper blogUserMapper;
 
     @Override
     public void checkUserNameExist(String username) {
         BlogUser blogUser = getByUsername(username);
         if (EmptyUtil.isNotEmpty(blogUser)) {
-            throw new RealmAccountException(GlobalErrorCodeEnum.GL_PARAMETER_ERROR.getRealCode(), "用户名已存在");
+            throw new RealmAccountException(GlobalCodeEnum.GL_PARAMETER_ERROR.getRealCode(), "用户名已存在");
         }
     }
 
     @Override
     public void createUser(RegisterReqs reqs) {
         DateTime date = DateUtil.date();
-//        String salt = DateUtil.formatDateTime(date);
-        String password = OAuthUtil.encrypt(reqs.getPassword(), reqs.getUsername());
+        String password = CryptoUtil.encrypt(reqs.getPassword(), reqs.getUsername());
 
         BlogUser blogUser = new BlogUser();
         blogUser.setUsername(reqs.getUsername());
@@ -71,24 +60,13 @@ public class BlogUserServiceImpl extends ServiceImpl<BlogUserMapper, BlogUser> i
     }
 
     @Override
-    public void saveUserInfoToCache(BlogUserCO blogUserCo) {
-        blogUserCache.saveUserInfoToCache(blogUserCo);
-    }
-
-    @Override
-    public BlogUserCO getUserInfoFormCache(Long userId) {
-        return blogUserCache.getUserInfoFormCache(userId);
-    }
-
-    @Override
-    public void checkLoginInfo(RegisterReqs reqs) {
+    public BlogUser checkLoginInfo(RegisterReqs reqs) {
         BlogUser blogUser = getByUsername(reqs.getUsername());
         if (EmptyUtil.isEmpty(blogUser)) {
             throw new AuthenticationException("账号或密码错误~");
         }
 
-//        String salt = DateUtil.formatDateTime(blogUser.getCreateTime());
-        String inPassword = OAuthUtil.encrypt(reqs.getPassword(), reqs.getUsername());
+        String inPassword = CryptoUtil.encrypt(reqs.getPassword(), reqs.getUsername());
         if (!inPassword.equals(blogUser.getPassword())) {
             throw new AuthenticationException("账号或密码错误~");
         }
@@ -97,13 +75,7 @@ public class BlogUserServiceImpl extends ServiceImpl<BlogUserMapper, BlogUser> i
             throw new LockedAccountException("账号已被锁定, 禁止登录!");
         }
 
-        // 登录成功后用户信息存入缓存中
-        BlogUserCO blogUserCo = BlogUserConvert.INSTANCE.convert(blogUser);
-        blogUserCache.saveUserInfoToCache(blogUserCo);
-
-        // 通过用户 id 生成 token, set-cookie 到浏览器, 后续通过 cookie 获取 token 做校验
-        String jwtToken = jwtUtil.generateToken(blogUser.getUserId());
-        CookieUtil.addCookie(HttpContextUtil.getResponse(), jwtUtil.getToken(), jwtToken, CookieUtil.COOKIE_DOMAIN);
+        return blogUser;
     }
 
 }

@@ -69,7 +69,7 @@ public interface BlogArticleApi {
      * @param query 参数
      */
     @PostMapping("/queryFromManage")
-    BaseResult<PageResult<BlogArticleResp>> queryFromManage(@RequestBody BaseQuery query);
+    BaseResult<PageResult<BlogArticleListResp>> queryFromManage(@RequestBody BaseQuery query);
 
     /**
      * remove 指定文章

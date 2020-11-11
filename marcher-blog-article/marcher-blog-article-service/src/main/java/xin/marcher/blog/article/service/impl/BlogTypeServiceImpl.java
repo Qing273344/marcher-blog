@@ -14,7 +14,7 @@ import xin.marcher.blog.article.exception.RealmArticleException;
 import xin.marcher.blog.article.mapper.BlogTypeMapper;
 import xin.marcher.blog.article.service.BlogTypeService;
 import xin.marcher.framework.constants.GlobalConstant;
-import xin.marcher.framework.constants.GlobalErrorCodeEnum;
+import xin.marcher.framework.constants.GlobalCodeEnum;
 import xin.marcher.framework.mvc.request.BaseQuery;
 import xin.marcher.framework.mvc.request.PageParam;
 import xin.marcher.framework.mvc.response.BaseResult;
@@ -110,7 +110,7 @@ public class BlogTypeServiceImpl extends ServiceImpl<BlogTypeMapper, BlogType> i
         queryWrapper.lambda().like(BlogType::getName, name);
         Integer rowNum = blogTypeMapper.selectCount(queryWrapper);
         if (rowNum > 0) {
-            throw new RealmArticleException(GlobalErrorCodeEnum.GL_PARAMETER_ERROR.getRealCode(), "已存在该名称类型");
+            throw new RealmArticleException(GlobalCodeEnum.GL_PARAMETER_ERROR.getRealCode(), "已存在该名称类型");
         }
     }
 
@@ -120,7 +120,7 @@ public class BlogTypeServiceImpl extends ServiceImpl<BlogTypeMapper, BlogType> i
         queryWrapper.lambda().ne(BlogType::getTypeId, typeId);
         Integer rowNum = blogTypeMapper.selectCount(queryWrapper);
         if (rowNum > 0) {
-            throw new RealmArticleException(GlobalErrorCodeEnum.GL_PARAMETER_ERROR.getRealCode(), "已存在该名称类型");
+            throw new RealmArticleException(GlobalCodeEnum.GL_PARAMETER_ERROR.getRealCode(), "已存在该名称类型");
         }
     }
 }

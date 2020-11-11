@@ -12,11 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import xin.marcher.blog.account.client.api.AccountPassportApi;
 import xin.marcher.blog.account.client.model.request.RegisterReqs;
+import xin.marcher.blog.account.client.model.response.BlogUserResp;
+import xin.marcher.blog.account.domain.BlogUser;
 import xin.marcher.blog.account.service.BlogUserService;
-import xin.marcher.blog.account.utils.JwtUtil;
 import xin.marcher.framework.mvc.response.BaseResult;
 import xin.marcher.framework.util.CookieUtil;
 import xin.marcher.framework.util.HttpContextUtil;
+import xin.marcher.framework.util.OrikaMapperUtil;
 
 /**
  * passport 相关
@@ -28,13 +30,11 @@ import xin.marcher.framework.util.HttpContextUtil;
 @Api(value = "RPC = BlogPassportController", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AccountPassportApiClient implements AccountPassportApi {
 
-    private final JwtUtil jwtUtil;
     private final BlogUserService blogUserService;
 
     @Autowired
-    public AccountPassportApiClient(JwtUtil jwtUtil, BlogUserService blogUserService) {
+    public AccountPassportApiClient(BlogUserService blogUserService) {
         this.blogUserService = blogUserService;
-        this.jwtUtil = jwtUtil;
     }
 
     /**
@@ -61,28 +61,11 @@ public class AccountPassportApiClient implements AccountPassportApi {
      */
     @Override
     @PostMapping("/login")
-    public BaseResult<Boolean> login(@Validated @RequestBody RegisterReqs reqs) {
+    public BaseResult<BlogUserResp> login(@Validated @RequestBody RegisterReqs reqs) {
         // 验证用户输入的账号信息
-        blogUserService.checkLoginInfo(reqs);
-
-        return BaseResult.success(true);
+        BlogUser blogUser = blogUserService.checkLoginInfo(reqs);
+        BlogUserResp userResp = OrikaMapperUtil.INSTANCE.map(blogUser, BlogUserResp.class);
+        return BaseResult.success(userResp);
     }
 
-    /**
-     * 退出
-     */
-    @Override
-    @PostMapping("/logout")
-    public BaseResult<Boolean> logout() {
-        Subject subject = SecurityUtils.getSubject();
-        if (subject.isAuthenticated()) {
-            // session 会销毁，在SessionListener监听session销毁，清理权限缓存
-            subject.logout();
-        }
-
-        // 清除cookie信息
-        CookieUtil.delCookie(HttpContextUtil.getRequest(), HttpContextUtil.getResponse(), jwtUtil.getToken());
-
-        return BaseResult.success();
-    }
 }

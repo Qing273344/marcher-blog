@@ -47,7 +47,7 @@ public interface BlogArticleService extends IService<BlogArticle> {
      * @param query query参数
      * @return 文章列表
      */
-    BaseResult<PageResult<BlogArticleResp>> queryAsAdmin(BaseQuery query);
+    BaseResult<PageResult<BlogArticleListResp>> queryAsAdmin(BaseQuery query);
 
     /**
      * get文章 - 编辑

@@ -24,6 +24,6 @@ public class BlogArticleListResp {
 
     private Integer isComment;
 
-
+    private Integer status;
 
 }

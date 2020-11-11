@@ -1,5 +1,7 @@
 package xin.marcher.blog.web.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +19,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(value = "/article/tag", produces = MediaType.APPLICATION_JSON_VALUE)
+@Api(value = "WEB - BlogTagController", produces = MediaType.APPLICATION_JSON_VALUE)
 public class BlogTagController {
 
     private final BlogTagApi blogTagApi;
@@ -30,6 +33,7 @@ public class BlogTagController {
      * 获取火热的 tag
      */
     @GetMapping("/getHotTag")
+    @ApiOperation("获取火热的 tag")
     public BaseResult<List<String>> getHotTag() {
         return blogTagApi.getHotTag();
     }

@@ -12,7 +12,7 @@ import xin.marcher.blog.article.exception.RealmArticleException;
 import xin.marcher.blog.article.mapper.BlogTagMapper;
 import xin.marcher.blog.article.service.BlogTagService;
 import xin.marcher.framework.constants.GlobalConstant;
-import xin.marcher.framework.constants.GlobalErrorCodeEnum;
+import xin.marcher.framework.constants.GlobalCodeEnum;
 import xin.marcher.framework.mvc.request.BaseQuery;
 import xin.marcher.framework.mvc.request.PageParam;
 import xin.marcher.framework.mvc.response.BaseResult;
@@ -103,7 +103,7 @@ public class BlogTagServiceImpl extends ServiceImpl<BlogTagMapper, BlogTag> impl
         queryWrapper.lambda().like(BlogTag::getName, name);
         Integer rowNum = blogTagMapper.selectCount(queryWrapper);
         if (rowNum > 0) {
-            throw new RealmArticleException(GlobalErrorCodeEnum.GL_PARAMETER_ERROR.getRealCode(), "已存在该名称标签");
+            throw new RealmArticleException(GlobalCodeEnum.GL_PARAMETER_ERROR.getRealCode(), "已存在该名称标签");
         }
     }
 
@@ -113,7 +113,7 @@ public class BlogTagServiceImpl extends ServiceImpl<BlogTagMapper, BlogTag> impl
         queryWrapper.lambda().ne(BlogTag::getTagId, tagId);
         Integer rowNum = blogTagMapper.selectCount(queryWrapper);
         if (rowNum > 0) {
-            throw new RealmArticleException(GlobalErrorCodeEnum.GL_PARAMETER_ERROR.getRealCode(), "已存在该名称标签");
+            throw new RealmArticleException(GlobalCodeEnum.GL_PARAMETER_ERROR.getRealCode(), "已存在该名称标签");
         }
     }
 }
