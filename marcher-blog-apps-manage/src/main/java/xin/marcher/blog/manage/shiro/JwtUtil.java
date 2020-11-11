@@ -3,6 +3,7 @@ package xin.marcher.blog.manage.shiro;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -18,8 +19,7 @@ import java.util.Date;
  *
  * @author marcher
  */
-@Setter
-@Getter
+@Data
 @Slf4j
 @ConfigurationProperties(prefix = "jwt")
 @Component
@@ -81,7 +81,7 @@ public class JwtUtil {
     }
 
     /**
-     * token是否过期
+     * token 是否过期
      *
      * @param expiration    过期时间
      * @return

@@ -2,6 +2,7 @@ package xin.marcher.blog.manage.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +21,7 @@ import xin.marcher.framework.util.OrikaMapperUtil;
  *
  * @author marcher
  */
+@RequiresRoles("marcher")
 @RestController
 @RequestMapping(value = "/manage/user", produces = MediaType.APPLICATION_JSON_VALUE)
 @Api(value = "WEB - ManagerUserController", tags = "用户", produces = MediaType.APPLICATION_JSON_VALUE)

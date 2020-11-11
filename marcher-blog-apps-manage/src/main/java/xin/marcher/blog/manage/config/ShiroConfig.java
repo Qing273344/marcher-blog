@@ -9,6 +9,7 @@ import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import xin.marcher.blog.manage.shiro.oauth2.BlogRealm;
 import xin.marcher.blog.manage.shiro.oauth2.JwtFilter;
 
@@ -22,7 +23,7 @@ import java.util.Map;
  *
  * @author marcher
  */
-//@Configuration
+@Configuration
 public class ShiroConfig {
 
     @Bean
@@ -42,7 +43,7 @@ public class ShiroConfig {
     }
 
     /**
-     * shiro拦截器
+     * shiro 拦截器
      */
     @Bean
     public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager) {
@@ -50,15 +51,14 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setSecurityManager(securityManager);
 
         // oauth过滤
-        Map<String, Filter> filters = new HashMap<>();
+        Map<String, Filter> filters = new HashMap<>(1);
         filters.put("jwt", new JwtFilter());
         shiroFilterFactoryBean.setFilters(filters);
 
         // 拦截器.
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         // 配置不会被拦截的链接 顺序判断
-        filterChainDefinitionMap.put("/rpc/**", "anon");
-//        filterChainDefinitionMap.put("/manage/article/**", "anon");
+        filterChainDefinitionMap.put("/manage/passport/**", "anon");
 //        filterChainDefinitionMap.put("/manage/tag/**", "anon");
 
         filterChainDefinitionMap.put("/**", "jwt");
@@ -85,8 +85,8 @@ public class ShiroConfig {
     }
 
     /**
-     * 开启shiro aop注解支持.
-     * 使用代理方式, 所以需要开启代码支持;
+     * 开启 shiro aop 注解支持
+     * 使用代理方式, 所以需要开启代码支持
      */
     @Bean
     public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager) {

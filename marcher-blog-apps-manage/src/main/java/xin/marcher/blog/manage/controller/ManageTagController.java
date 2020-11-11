@@ -2,6 +2,7 @@ package xin.marcher.blog.manage.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
@@ -20,6 +21,7 @@ import java.util.List;
  *
  * @author marcher
  */
+@RequiresRoles("marcher")
 @RestController
 @RequestMapping(value = "/manage/tag", produces = MediaType.APPLICATION_JSON_VALUE)
 @Api(value = "WEB - ManagerTagController", produces = MediaType.APPLICATION_JSON_VALUE)

@@ -1,22 +1,22 @@
-package xin.marcher.blog.account.client.exception;
+package xin.marcher.blog.manage.exception;
 
 import xin.marcher.framework.core.IEnumNorm;
 
 /**
- * 账号系统，使用 1-001-000-000 段
+ * 管理系统，使用 1-080-000-000 段
  *
  * @author marcher
  */
-public enum RealmAccountErrorCodeEnum implements IEnumNorm {
+public enum RealmManageErrorCodeEnum implements IEnumNorm {
 
     /** ==========  模块 ========== */
-    TEMP(1001001001, "temp")
+    LOGIN_TOKEN_INVALID(1080000001, "登录失效咯, 再登一次吧!")
     ;
 
     private final Integer code;
     private final String message;
 
-    RealmAccountErrorCodeEnum(Integer code, String message) {
+    RealmManageErrorCodeEnum(Integer code, String message) {
         this.code = code;
         this.message = message;
     }

@@ -7,6 +7,7 @@ import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.springframework.web.bind.annotation.RequestMethod;
 import xin.marcher.blog.account.client.exception.RealmAccountErrorCodeEnum;
+import xin.marcher.blog.manage.exception.RealmManageErrorCodeEnum;
 import xin.marcher.framework.util.CookieUtil;
 import xin.marcher.framework.util.EmptyUtil;
 import xin.marcher.framework.util.HttpContextUtil;
@@ -47,7 +48,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
         String token = getRequestToken((HttpServletRequest) request);
         if (EmptyUtil.isEmpty(token)) {
-            throw new AuthenticationException(RealmAccountErrorCodeEnum.LOGIN_TOKEN_INVALID.getRealDesc());
+            throw new AuthenticationException(RealmManageErrorCodeEnum.LOGIN_TOKEN_INVALID.getRealDesc());
         }
 
         // 执行登录逻辑, 其实会调用 Realm 的 doGetAuthenticationInfo 方法

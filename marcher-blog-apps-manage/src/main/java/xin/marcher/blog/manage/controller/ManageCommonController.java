@@ -3,6 +3,7 @@ package xin.marcher.blog.manage.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,6 +26,7 @@ import java.io.IOException;
  * @author marcher
  */
 @Slf4j
+@RequiresRoles("marcher")
 @RestController
 @RequestMapping(value = "/manage/common")
 @Api(value = "WEB - ManagerCommonController", tags = "通用")

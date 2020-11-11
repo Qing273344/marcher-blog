@@ -1,6 +1,9 @@
 package xin.marcher.blog.manage.shiro.oauth2;
 
-import org.apache.shiro.authc.*;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.AuthenticationInfo;
+import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
@@ -8,15 +11,12 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import xin.marcher.blog.account.client.api.BlogUserApi;
-import xin.marcher.blog.account.client.enums.UserLockedEnum;
-import xin.marcher.blog.account.client.exception.RealmAccountErrorCodeEnum;
-import xin.marcher.blog.account.client.model.response.BlogUserResp;
+import xin.marcher.blog.manage.exception.RealmManageErrorCodeEnum;
+import xin.marcher.blog.manage.manage.BlogUserCache;
 import xin.marcher.blog.manage.model.cache.BlogUserCO;
 import xin.marcher.blog.manage.shiro.JwtUtil;
 import xin.marcher.framework.mvc.response.BaseResult;
 import xin.marcher.framework.util.EmptyUtil;
-import xin.marcher.framework.util.EnumUtil;
-import xin.marcher.framework.util.OrikaMapperUtil;
 
 import java.util.Set;
 
@@ -33,6 +33,8 @@ public class BlogRealm extends AuthorizingRealm {
 
     @Autowired
     private BlogUserApi blogUserApi;
+    @Autowired
+    private BlogUserCache blogUserCache;
 
 
     @Override
@@ -59,21 +61,20 @@ public class BlogRealm extends AuthorizingRealm {
      * 认证(登录时调用)
      */
     @Override
-    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-        /* token */
-        String accessToken = (String) token.getPrincipal();
+    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
+        String token = (String) authenticationToken.getPrincipal();
 
         // 从 token 中获取 userId
-        Long userId = jwtUtil.getUserIdFromToke(accessToken);
+        Long userId = jwtUtil.getUserIdFromToke(token);
         if (EmptyUtil.isEmpty(userId)) {
-            throw new AuthenticationException(RealmAccountErrorCodeEnum.LOGIN_TOKEN_INVALID.getRealDesc());
+            throw new AuthenticationException(RealmManageErrorCodeEnum.LOGIN_TOKEN_INVALID.getRealDesc());
+        }
+        BlogUserCO blogUserCo = blogUserCache.getUserInfoFormCache(userId);
+        if (EmptyUtil.isEmpty(blogUserCo)) {
+            throw new AuthenticationException(RealmManageErrorCodeEnum.LOGIN_TOKEN_INVALID.getRealDesc());
         }
 
-        BaseResult<BlogUserResp> apiResult = blogUserApi.getUserInfo(userId);
-        BlogUserResp blogUserResp = apiResult.getData();
-
-        BlogUserCO blogUserCO = OrikaMapperUtil.INSTANCE.map(blogUserResp, BlogUserCO.class);
-        // --> CredentialsMatcher.doCredentialsMatch()
-        return new SimpleAuthenticationInfo(blogUserCO, accessToken, getName());
+        // --> 若配置了, 此处也可调用自定义的解密 CredentialsMatcher.doCredentialsMatch()
+        return new SimpleAuthenticationInfo(blogUserCo, token, getName());
     }
 }
