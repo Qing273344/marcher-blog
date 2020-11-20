@@ -2,12 +2,12 @@ package xin.marcher.blog.manage.shiro.oauth2;
 
 import cn.hutool.http.HttpStatus;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.springframework.web.bind.annotation.RequestMethod;
-import xin.marcher.blog.account.client.exception.RealmAccountErrorCodeEnum;
 import xin.marcher.blog.manage.exception.RealmManageErrorCodeEnum;
+import xin.marcher.blog.manage.exception.RealmManageException;
+import xin.marcher.framework.constants.GlobalConstant;
 import xin.marcher.framework.util.CookieUtil;
 import xin.marcher.framework.util.EmptyUtil;
 import xin.marcher.framework.util.HttpContextUtil;
@@ -38,7 +38,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
         // 获取请求token
         String token = getRequestToken((HttpServletRequest) request);
         if (EmptyUtil.isEmpty(token)) {
-            return null;
+            return new JwtToken(null);
         }
         // 创建 JWT
         return new JwtToken(token);
@@ -48,7 +48,9 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
         String token = getRequestToken((HttpServletRequest) request);
         if (EmptyUtil.isEmpty(token)) {
-            throw new AuthenticationException(RealmManageErrorCodeEnum.LOGIN_TOKEN_INVALID.getRealDesc());
+            // 业务状态, 用于 Filter 异常拦截返回特定的状态码
+            request.setAttribute(GlobalConstant.BUSINESS_STATUS, RealmManageErrorCodeEnum.LOGIN_TOKEN_INVALID.getRealCode());
+            throw new RealmManageException(RealmManageErrorCodeEnum.LOGIN_TOKEN_INVALID);
         }
 
         // 执行登录逻辑, 其实会调用 Realm 的 doGetAuthenticationInfo 方法
@@ -80,6 +82,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
             httpServletResponse.setStatus(HttpStatus.HTTP_OK);
             return false;
         }
+
         return super.preHandle(request, response);
     }
 

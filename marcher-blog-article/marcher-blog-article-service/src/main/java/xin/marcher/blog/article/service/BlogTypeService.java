@@ -1,12 +1,12 @@
 package xin.marcher.blog.article.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import xin.marcher.blog.article.client.model.request.BlogTypeReqs;
 import xin.marcher.blog.article.client.model.response.BlogArticleTypeResp;
 import xin.marcher.blog.article.domain.BlogType;
 import xin.marcher.framework.mvc.request.BaseQuery;
 import xin.marcher.framework.mvc.response.BaseResult;
-import xin.marcher.framework.mvc.response.PageResult;
+import xin.marcher.framework.mybatis.service.BaseService;
+import xin.marcher.framework.wrapper.PageWO;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ import java.util.List;
  *
  * @author marcher
  */
-public interface BlogTypeService extends IService<BlogType> {
+public interface BlogTypeService extends BaseService<BlogType> {
 
     /**
      * 博客类型详情
@@ -34,7 +34,7 @@ public interface BlogTypeService extends IService<BlogType> {
      *
      * @param query query参数
      */
-    BaseResult<PageResult<BlogArticleTypeResp>> query(BaseQuery query);
+    BaseResult<PageWO<BlogArticleTypeResp>> query(BaseQuery query);
 
     /**
      * save 博客文章分类

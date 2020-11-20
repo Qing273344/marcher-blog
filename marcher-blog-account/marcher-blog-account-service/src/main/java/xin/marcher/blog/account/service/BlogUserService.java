@@ -38,6 +38,7 @@ public interface BlogUserService extends IService<BlogUser> {
      * 校验登录信息
      *
      * @param reqs      用户输入的信息
+     * @return result
      */
     BlogUser checkLoginInfo(RegisterReqs reqs);
 

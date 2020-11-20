@@ -13,6 +13,7 @@ import xin.marcher.blog.article.client.model.response.BlogTagResp;
 import xin.marcher.framework.mvc.request.BaseQuery;
 import xin.marcher.framework.mvc.response.BaseResult;
 import xin.marcher.framework.mvc.response.PageResult;
+import xin.marcher.framework.wrapper.PageWO;
 
 import java.util.List;
 
@@ -54,7 +55,8 @@ public class ManageTagController {
     @PostMapping("/query")
     @ApiOperation(httpMethod = "POST", value = "query 标签")
     public BaseResult<PageResult<BlogTagResp>> query(@RequestBody BaseQuery query) {
-        return blogTagApi.query(query);
+        BaseResult<PageWO<BlogTagResp>> result = blogTagApi.query(query);
+        return BaseResult.success(result.getData(), query);
     }
 
     /**

@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import xin.marcher.blog.account.client.api.BlogUserApi;
@@ -39,7 +39,7 @@ public class ManageUserController {
     /**
      * 用户信息
      */
-    @PostMapping("/info")
+    @GetMapping("/info")
     @ApiOperation(httpMethod = "POST", value = "用户信息")
     public BaseResult<BlogUserVO> info() {
         BlogUserCO blogUserCo = blogUserCache.getUserInfoFormCache(UserService.getUser().getUserId());

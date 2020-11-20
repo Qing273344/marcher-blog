@@ -1,8 +1,6 @@
 package xin.marcher.blog.account.controller;
 
 import io.swagger.annotations.Api;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
@@ -16,8 +14,6 @@ import xin.marcher.blog.account.client.model.response.BlogUserResp;
 import xin.marcher.blog.account.domain.BlogUser;
 import xin.marcher.blog.account.service.BlogUserService;
 import xin.marcher.framework.mvc.response.BaseResult;
-import xin.marcher.framework.util.CookieUtil;
-import xin.marcher.framework.util.HttpContextUtil;
 import xin.marcher.framework.util.OrikaMapperUtil;
 
 /**

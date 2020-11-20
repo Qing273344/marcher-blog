@@ -14,6 +14,8 @@ import lombok.ToString;
 @ToString
 public class BlogUserVO {
 
+    private Long userId;
+
     private String username;
 
     private String  nickName;

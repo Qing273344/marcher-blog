@@ -19,7 +19,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * shiro配置
+ * shiro 配置
  *
  * @author marcher
  */
@@ -56,13 +56,18 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setFilters(filters);
 
         // 拦截器.
-        Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
+        Map<String, String> filterMap = new LinkedHashMap<>();
         // 配置不会被拦截的链接 顺序判断
-        filterChainDefinitionMap.put("/manage/passport/**", "anon");
-//        filterChainDefinitionMap.put("/manage/tag/**", "anon");
+        filterMap.put("/manage/passport/**", "anon");
+        // swagger 文档
+        filterMap.put("/doc.html", "anon");
+        filterMap.put("/swagger-ui.html**", "anon");
+        filterMap.put("/swagger-resources/**", "anon");
+        filterMap.put("/v2/api-docs", "anon");
+        filterMap.put("/webjars/**", "anon");
 
-        filterChainDefinitionMap.put("/**", "jwt");
-        shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
+        filterMap.put("/**", "jwt");
+        shiroFilterFactoryBean.setFilterChainDefinitionMap(filterMap);
         return shiroFilterFactoryBean;
     }
 

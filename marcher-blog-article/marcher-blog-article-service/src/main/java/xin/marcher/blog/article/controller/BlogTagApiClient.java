@@ -11,11 +11,9 @@ import xin.marcher.blog.article.client.model.response.BlogTagResp;
 import xin.marcher.blog.article.service.BlogTagService;
 import xin.marcher.framework.mvc.request.BaseQuery;
 import xin.marcher.framework.mvc.response.BaseResult;
-import xin.marcher.framework.mvc.response.PageResult;
 import xin.marcher.framework.util.Assert;
-import xin.marcher.framework.util.UrlPathUtil;
+import xin.marcher.framework.wrapper.PageWO;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -60,7 +58,7 @@ public class BlogTagApiClient implements BlogTagApi {
 
     @Override
     @PostMapping("/query")
-    public BaseResult<PageResult<BlogTagResp>> query(@RequestBody BaseQuery query) {
+    public BaseResult<PageWO<BlogTagResp>> query(@RequestBody BaseQuery query) {
         return blogTagService.query(query);
     }
 

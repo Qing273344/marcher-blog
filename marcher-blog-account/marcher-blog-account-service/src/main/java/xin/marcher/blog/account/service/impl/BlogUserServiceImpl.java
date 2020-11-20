@@ -2,7 +2,6 @@ package xin.marcher.blog.account.service.impl;
 
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.LockedAccountException;
@@ -18,7 +17,8 @@ import xin.marcher.blog.account.mapper.BlogUserMapper;
 import xin.marcher.blog.account.service.BlogUserService;
 import xin.marcher.blog.account.utils.CryptoUtil;
 import xin.marcher.framework.constants.GlobalCodeEnum;
-import xin.marcher.framework.util.*;
+import xin.marcher.framework.util.EmptyUtil;
+import xin.marcher.framework.util.EnumUtil;
 
 /**
  * @author marcher
@@ -54,9 +54,7 @@ public class BlogUserServiceImpl extends ServiceImpl<BlogUserMapper, BlogUser> i
 
     @Override
     public BlogUser getByUsername(String username) {
-        QueryWrapper<BlogUser> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(BlogUser::getUsername, username);
-        return blogUserMapper.selectOne(queryWrapper);
+        return blogUserMapper.getByUsername(username);
     }
 
     @Override

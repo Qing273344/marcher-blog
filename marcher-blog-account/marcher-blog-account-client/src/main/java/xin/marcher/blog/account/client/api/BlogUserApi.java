@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import xin.marcher.blog.account.client.model.response.BlogUserResp;
 import xin.marcher.framework.mvc.response.BaseResult;
 
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -19,6 +18,13 @@ import java.util.Set;
 @RequestMapping(value = "/rpc/user")
 public interface BlogUserApi {
 
+    /**
+     * 获取用户权限
+     *
+     * @param type  用户类型
+     * @return
+     *      资源
+     */
     @GetMapping("getResource")
     BaseResult<Set<String>> getResource(@RequestParam("type") Integer type);
 

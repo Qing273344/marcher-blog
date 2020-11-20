@@ -1,12 +1,12 @@
 package xin.marcher.blog.article.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import xin.marcher.blog.article.client.model.request.BlogTagReqs;
 import xin.marcher.blog.article.client.model.response.BlogTagResp;
 import xin.marcher.blog.article.domain.BlogTag;
 import xin.marcher.framework.mvc.request.BaseQuery;
 import xin.marcher.framework.mvc.response.BaseResult;
-import xin.marcher.framework.mvc.response.PageResult;
+import xin.marcher.framework.mybatis.service.BaseService;
+import xin.marcher.framework.wrapper.PageWO;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ import java.util.List;
  *
  * @author marcher
  */
-public interface BlogTagService extends IService<BlogTag> {
+public interface BlogTagService extends BaseService<BlogTag> {
 
     /**
      * get标签详情
@@ -40,7 +40,7 @@ public interface BlogTagService extends IService<BlogTag> {
      * @return
      *      tag
      */
-    BaseResult<PageResult<BlogTagResp>> query(BaseQuery query);
+    BaseResult<PageWO<BlogTagResp>> query(BaseQuery query);
 
     /**
      * 创建博客标签

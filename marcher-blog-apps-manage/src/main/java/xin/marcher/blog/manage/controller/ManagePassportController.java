@@ -1,6 +1,7 @@
 package xin.marcher.blog.manage.controller;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ import javax.validation.Valid;
  */
 @RestController
 @RequestMapping(value = "/manage/passport", produces = MediaType.APPLICATION_JSON_VALUE)
-@Api(value = "WEB - ManagerUserController", produces = MediaType.APPLICATION_JSON_VALUE)
+@Api(value = "WEB - ManagePassportController", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ManagePassportController {
 
     private final AccountPassportApi accountPassportApi;
@@ -51,6 +52,7 @@ public class ManagePassportController {
      * @param reqs  注册信息
      */
     @PostMapping("/register")
+    @ApiOperation(httpMethod = "POST", value = "注册")
     BaseResult<Boolean> register(@Valid @RequestBody RegisterReqs reqs) {
         return accountPassportApi.register(reqs);
     }
@@ -61,6 +63,7 @@ public class ManagePassportController {
      * @param reqs 登录信息
      */
     @PostMapping("/login")
+    @ApiOperation(httpMethod = "POST", value = "登录")
     BaseResult<Boolean> login(@Valid @RequestBody RegisterReqs reqs) {
         BaseResult<BlogUserResp> apiResult = accountPassportApi.login(reqs);
         if (apiResult.isFail()) {
@@ -83,6 +86,7 @@ public class ManagePassportController {
      * 退出
      */
     @PostMapping("/logout")
+    @ApiOperation(httpMethod = "POST", value = "退出")
     BaseResult<Boolean> logout() {
         Subject subject = SecurityUtils.getSubject();
         if (subject.isAuthenticated()) {

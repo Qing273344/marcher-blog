@@ -1,7 +1,7 @@
 package xin.marcher.blog.manage.consts;
 
 /**
- * Redis key常量
+ * Redis key 常量
  *
  * @author marcher
  */

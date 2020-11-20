@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import xin.marcher.framework.mybatis.dao.BaseDO;
 import xin.marcher.framework.mybatis.dao.DeletableDO;
 
 /**

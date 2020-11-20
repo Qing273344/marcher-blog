@@ -7,7 +7,7 @@ import xin.marcher.blog.article.client.model.request.BlogTypeReqs;
 import xin.marcher.blog.article.client.model.response.BlogArticleTypeResp;
 import xin.marcher.framework.mvc.request.BaseQuery;
 import xin.marcher.framework.mvc.response.BaseResult;
-import xin.marcher.framework.mvc.response.PageResult;
+import xin.marcher.framework.wrapper.PageWO;
 
 import java.util.List;
 
@@ -43,7 +43,7 @@ public interface BlogTypeApi {
      * @return result
      */
     @PostMapping("/query")
-    BaseResult<PageResult<BlogArticleTypeResp>> query(@RequestBody BaseQuery query);
+    BaseResult<PageWO<BlogArticleTypeResp>> query(@RequestBody BaseQuery query);
 
     /**
      * save 博客文章分类

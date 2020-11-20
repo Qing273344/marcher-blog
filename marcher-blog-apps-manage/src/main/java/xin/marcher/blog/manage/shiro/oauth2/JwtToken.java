@@ -5,7 +5,7 @@ import org.apache.shiro.authc.AuthenticationToken;
 /**
  * token
  *
- * @author marcher
+ * @author marcherCorsConfig
  */
 public class JwtToken implements AuthenticationToken {
 
@@ -24,4 +24,5 @@ public class JwtToken implements AuthenticationToken {
     public Object getCredentials() {
         return token;
     }
+
 }

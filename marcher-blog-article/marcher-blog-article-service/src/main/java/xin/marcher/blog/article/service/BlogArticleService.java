@@ -9,13 +9,15 @@ import xin.marcher.blog.article.domain.BlogArticle;
 import xin.marcher.framework.mvc.request.BaseQuery;
 import xin.marcher.framework.mvc.response.BaseResult;
 import xin.marcher.framework.mvc.response.PageResult;
+import xin.marcher.framework.mybatis.service.BaseService;
+import xin.marcher.framework.wrapper.PageWO;
 
 /**
  * 博客文章
  *
  * @author marcher
  */
-public interface BlogArticleService extends IService<BlogArticle> {
+public interface BlogArticleService extends BaseService<BlogArticle> {
 
     /**
      * 发布文章
@@ -39,7 +41,7 @@ public interface BlogArticleService extends IService<BlogArticle> {
      * @param query query参数
      * @return 文章列表
      */
-    BaseResult<PageResult<BlogArticleListResp>> query(BaseQuery query);
+    BaseResult<PageWO<BlogArticleListResp>> query(BaseQuery query);
 
     /**
      * query 文章
@@ -47,7 +49,7 @@ public interface BlogArticleService extends IService<BlogArticle> {
      * @param query query参数
      * @return 文章列表
      */
-    BaseResult<PageResult<BlogArticleListResp>> queryAsAdmin(BaseQuery query);
+    BaseResult<PageWO<BlogArticleListResp>> queryAsAdmin(BaseQuery query);
 
     /**
      * get文章 - 编辑

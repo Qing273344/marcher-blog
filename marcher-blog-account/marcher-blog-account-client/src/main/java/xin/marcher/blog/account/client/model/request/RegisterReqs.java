@@ -1,8 +1,6 @@
 package xin.marcher.blog.account.client.model.request;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 
@@ -11,9 +9,7 @@ import javax.validation.constraints.NotBlank;
  *
  * @author marcher
  */
-@Setter
-@Getter
-@ToString
+@Data
 public class RegisterReqs {
 
     @NotBlank(message = "请输入用户名")

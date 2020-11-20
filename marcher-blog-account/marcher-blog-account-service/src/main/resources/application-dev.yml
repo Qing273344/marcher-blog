@@ -2,7 +2,7 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/marcher-blog?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8
+    url: jdbc:mysql://49.232.197.51:3306/marcher-blog?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8
     username: root
     password: MM@8TLqCgSLP/ldKx2xAGpTnw==
     druid:
@@ -33,14 +33,8 @@ spring:
   cloud:
     nacos:
       discovery:
-#        server-addr: localhost:8848
+        server-addr: localhost:8848
         service: ${spring.application.name}
-        server-addr: 134.175.157.117:8848,49.232.197.51:8848,49.232.197.35:8848
-#        ip: 49.232.197.35
-#        port: ${server.port}
-
-  redis:
-    host: 134.175.157.117
 
 crypto:
   key-url: http://localhost:9020/config/encryption/key

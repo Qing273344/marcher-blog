@@ -5,7 +5,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * BlogUser
+ * BlogUserCO
  *
  * @author marcher
  */
@@ -18,6 +18,11 @@ public class BlogUserCO implements Serializable {
      * 用户 id
      */
     private Long userId;
+
+    /**
+     * 用户 name
+     */
+    private String username;
 
     /**
      * 昵称

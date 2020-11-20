@@ -19,8 +19,6 @@ import xin.marcher.framework.util.EmptyUtil;
 import xin.marcher.framework.util.EnumUtil;
 import xin.marcher.framework.util.OrikaMapperUtil;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -44,17 +42,12 @@ public class BlogUserApiClient implements BlogUserApi {
     }
 
     @Override
+    @GetMapping("getResource")
     public BaseResult<Set<String>> getResource(@RequestParam("type") Integer type) {
         Set<String> userResourceSet = blogUserResourceService.getByUserType(type);
         return BaseResult.success(userResourceSet);
     }
 
-    /**
-     * 获取用户信息
-     *
-     * @return
-     *      用户信息
-     */
     @Override
     @GetMapping("/info")
     public BaseResult<BlogUserResp> getUserInfo(@RequestParam("id") Long id) {

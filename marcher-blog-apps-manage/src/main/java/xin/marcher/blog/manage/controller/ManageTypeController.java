@@ -7,15 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import xin.marcher.blog.article.client.api.BlogTagApi;
 import xin.marcher.blog.article.client.api.BlogTypeApi;
-import xin.marcher.blog.article.client.model.request.BlogTagReqs;
 import xin.marcher.blog.article.client.model.request.BlogTypeReqs;
 import xin.marcher.blog.article.client.model.response.BlogArticleTypeResp;
-import xin.marcher.blog.article.client.model.response.BlogTagResp;
 import xin.marcher.framework.mvc.request.BaseQuery;
 import xin.marcher.framework.mvc.response.BaseResult;
 import xin.marcher.framework.mvc.response.PageResult;
+import xin.marcher.framework.wrapper.PageWO;
 
 import java.util.List;
 
@@ -57,7 +55,8 @@ public class ManageTypeController {
     @PostMapping("/query")
     @ApiOperation(httpMethod = "POST", value = "query 类型")
     public BaseResult<PageResult<BlogArticleTypeResp>> query(@RequestBody BaseQuery query) {
-        return blogTypeApi.query(query);
+        BaseResult<PageWO<BlogArticleTypeResp>> result = blogTypeApi.query(query);
+        return BaseResult.success(result.getData(), query);
     }
 
     /**

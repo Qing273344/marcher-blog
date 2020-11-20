@@ -7,10 +7,9 @@ import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Component;
 import xin.marcher.blog.article.domain.BlogArticle;
 import xin.marcher.framework.mvc.request.BaseQuery;
-import xin.marcher.framework.mvc.request.PageParam;
 import xin.marcher.framework.mybatis.mapper.BaseMapper;
-import xin.marcher.framework.mybatis.page.PageWrapper;
 import xin.marcher.framework.mybatis.query.BaseQueryWrapper;
+import xin.marcher.framework.wrapper.PageWO;
 
 /**
  * 博客文章
@@ -36,12 +35,14 @@ public interface BlogArticleMapper extends BaseMapper<BlogArticle> {
     @Update("UPDATE blog_article SET views_count = views_count + 1 WHERE article_id = #{articleId};")
     void viewsIncrease(@Param("articleId") Long id);
 
-    default PageWrapper<BlogArticle> query(BaseQuery query, Integer status, PageParam pageParam) {
+    default PageWO<BlogArticle> query(BaseQuery query, Integer status) {
         BaseQueryWrapper<BlogArticle> queryWrapper = new BaseQueryWrapper<>();
         queryWrapper.likeIfPresent(BlogArticle::getTitle, query.getKeyword());
         queryWrapper.eqIfPresent(BlogArticle::getStatus, status);
         queryWrapper.lambda().orderByDesc(BlogArticle::getArticleId);
-        IPage<BlogArticle> blogArticlePage = selectPage(pageWrapper(pageParam), queryWrapper);
+
+        IPage<BlogArticle> blogArticlePage = selectPage(pageWrapper(query), queryWrapper);
+
         return convert(blogArticlePage);
     }
 }

@@ -1,7 +1,6 @@
 package xin.marcher.blog.account.client.api;
 
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,16 +21,18 @@ public interface AccountPassportApi {
      * 注册
      *
      * @param reqs  注册信息
+     * @return result
      */
     @PostMapping("/register")
-    BaseResult<Boolean> register(@Validated @RequestBody RegisterReqs reqs);
+    BaseResult<Boolean> register(@RequestBody RegisterReqs reqs);
 
     /**
      * 登录
      *
      * @param reqs 登录信息
+     * @return result
      */
     @PostMapping("/login")
-    BaseResult<BlogUserResp> login(@Validated @RequestBody RegisterReqs reqs);
+    BaseResult<BlogUserResp> login(@RequestBody RegisterReqs reqs);
 
 }

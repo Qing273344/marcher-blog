@@ -17,6 +17,7 @@ import xin.marcher.framework.mvc.response.BaseResult;
 import xin.marcher.framework.mvc.response.PageResult;
 import xin.marcher.framework.util.OrikaMapperUtil;
 import xin.marcher.framework.wrapper.BaseWO;
+import xin.marcher.framework.wrapper.PageWO;
 
 import javax.validation.Valid;
 
@@ -44,7 +45,8 @@ public class ManageArticleController {
     @PostMapping("/query")
     @ApiOperation(httpMethod = "POST", value = "查询文章")
     BaseResult<PageResult<BlogArticleListResp>> query(@RequestBody BaseQuery query) {
-        return blogArticleApi.queryFromManage(query);
+        BaseResult<PageWO<BlogArticleListResp>> result = blogArticleApi.queryFromManage(query);
+        return BaseResult.success(result.getData(), query);
     }
 
     /**

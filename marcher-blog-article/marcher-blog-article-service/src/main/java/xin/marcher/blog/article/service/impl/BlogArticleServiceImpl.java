@@ -17,17 +17,14 @@ import xin.marcher.blog.article.service.BlogArticleContentService;
 import xin.marcher.blog.article.service.BlogArticleService;
 import xin.marcher.blog.article.service.BlogArticleTagService;
 import xin.marcher.blog.article.service.BlogArticleTypeService;
-import xin.marcher.framework.constants.GlobalConstant;
 import xin.marcher.framework.constants.GlobalCodeEnum;
+import xin.marcher.framework.constants.GlobalConstant;
 import xin.marcher.framework.exception.BusinessException;
 import xin.marcher.framework.mvc.request.BaseQuery;
-import xin.marcher.framework.mvc.request.PageParam;
 import xin.marcher.framework.mvc.response.BaseResult;
-import xin.marcher.framework.mvc.response.PageResult;
-import xin.marcher.framework.mybatis.page.PageWrapper;
 import xin.marcher.framework.util.EmptyUtil;
 import xin.marcher.framework.util.ObjectUtil;
-import xin.marcher.framework.util.OrikaMapperUtil;
+import xin.marcher.framework.wrapper.PageWO;
 
 import java.util.List;
 
@@ -112,23 +109,27 @@ public class BlogArticleServiceImpl extends ServiceImpl<BlogArticleMapper, BlogA
     }
 
     @Override
-    public BaseResult<PageResult<BlogArticleListResp>> query(BaseQuery query) {
-        PageParam pageParam = new PageParam(query.getPageNo(), query.getPageSize());
-        PageWrapper<BlogArticle> pageWrapper = blogArticleMapper.query(query, ArticleStatusEnum.ARTICLE_STATUS_PUBLISH.getRealCode(), pageParam);
+    public BaseResult<PageWO<BlogArticleListResp>> query(BaseQuery query) {
+        PageWO<BlogArticle> pageWO = blogArticleMapper.query(query, ArticleStatusEnum.ARTICLE_STATUS_PUBLISH.getRealCode());
+        if (pageWO.hashEmpty()) {
+            return pageEmpty();
+        }
 
-        List<BlogArticleListResp> resps = BlogArticleConvert.INSTANCE.convertListResp(pageWrapper.getList());
-        PageResult<BlogArticleListResp> rest = PageResult.rest(resps, pageWrapper.getTotal(), pageParam);
-        return BaseResult.success(rest);
+        List<BlogArticleListResp> respList = BlogArticleConvert.INSTANCE.convertListResp(pageWO.getList());
+        PageWO<BlogArticleListResp> respPageWO = PageWO.rest(respList, pageWO.getTotal());
+        return BaseResult.success(respPageWO);
     }
 
     @Override
-    public BaseResult<PageResult<BlogArticleListResp>> queryAsAdmin(BaseQuery query) {
-        PageParam pageParam = new PageParam(query.getPageNo(), query.getPageSize());
-        PageWrapper<BlogArticle> pageWrapper = blogArticleMapper.query(query, null, pageParam);
+    public BaseResult<PageWO<BlogArticleListResp>> queryAsAdmin(BaseQuery query) {
+        PageWO<BlogArticle> pageWO = blogArticleMapper.query(query, null);
+        if (pageWO.hashEmpty()) {
+            return pageEmpty();
+        }
 
-        List<BlogArticleListResp> adminArticleListRespList = BlogArticleConvert.INSTANCE.convertListResp(pageWrapper.getList());
-        PageResult<BlogArticleListResp> rest = PageResult.rest(adminArticleListRespList, pageWrapper.getTotal(), pageParam);
-        return BaseResult.success(rest);
+        List<BlogArticleListResp> respList = BlogArticleConvert.INSTANCE.convertListResp(pageWO.getList());
+        PageWO<BlogArticleListResp> respPageWO = PageWO.rest(respList, pageWO.getTotal());
+        return BaseResult.success(respPageWO);
     }
 
     @Override

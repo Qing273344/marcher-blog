@@ -1,8 +1,6 @@
 package xin.marcher.blog.article.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,14 +11,12 @@ import xin.marcher.blog.article.domain.BlogType;
 import xin.marcher.blog.article.exception.RealmArticleException;
 import xin.marcher.blog.article.mapper.BlogTypeMapper;
 import xin.marcher.blog.article.service.BlogTypeService;
-import xin.marcher.framework.constants.GlobalConstant;
 import xin.marcher.framework.constants.GlobalCodeEnum;
+import xin.marcher.framework.constants.GlobalConstant;
 import xin.marcher.framework.mvc.request.BaseQuery;
-import xin.marcher.framework.mvc.request.PageParam;
 import xin.marcher.framework.mvc.response.BaseResult;
-import xin.marcher.framework.mvc.response.PageResult;
-import xin.marcher.framework.mybatis.query.BaseQueryWrapper;
 import xin.marcher.framework.util.EmptyUtil;
+import xin.marcher.framework.wrapper.PageWO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,10 +37,6 @@ public class BlogTypeServiceImpl extends ServiceImpl<BlogTypeMapper, BlogType> i
     @Override
     public BlogArticleTypeResp get(Long id) {
         BlogType blogType = blogTypeMapper.selectById(id);
-        if (EmptyUtil.isEmpty(blogType)) {
-            return null;
-        }
-
         return BlogTypeConvert.INSTANCE.convertResp(blogType);
     }
 
@@ -58,19 +50,15 @@ public class BlogTypeServiceImpl extends ServiceImpl<BlogTypeMapper, BlogType> i
     }
 
     @Override
-    public BaseResult<PageResult<BlogArticleTypeResp>> query(BaseQuery query) {
-        BaseQueryWrapper<BlogType> queryWrapper = new BaseQueryWrapper<>();
-        queryWrapper.likeIfPresent(BlogType::getName, query.getKeyword());
+    public BaseResult<PageWO<BlogArticleTypeResp>> query(BaseQuery query) {
+        PageWO<BlogType> blogTypePageWo = blogTypeMapper.pageQuery(query);
+        if (blogTypePageWo.hashEmpty()) {
+            return pageEmpty();
+        }
 
-        PageParam pageParam = new PageParam(query.getPageNo(), query.getPageSize());
-        IPage<BlogType> queryPage = new Page<>(pageParam.getPageNo(), pageParam.getPageSize());
-
-        IPage<BlogType> blogArticleTypeIPage = blogTypeMapper.selectPage(queryPage, queryWrapper);
-        List<BlogType> blogTypes = blogArticleTypeIPage.getRecords();
-
-        List<BlogArticleTypeResp> respList = BlogTypeConvert.INSTANCE.convertResp(blogTypes);
-        PageResult<BlogArticleTypeResp> data = PageResult.rest(respList, blogArticleTypeIPage.getTotal(), pageParam);
-        return BaseResult.success(data);
+        List<BlogArticleTypeResp> respList = BlogTypeConvert.INSTANCE.convertResp(blogTypePageWo.getList());
+        PageWO<BlogArticleTypeResp> pageWo = PageWO.rest(respList, blogTypePageWo.getTotal());
+        return BaseResult.success(pageWo);
     }
 
     @Override

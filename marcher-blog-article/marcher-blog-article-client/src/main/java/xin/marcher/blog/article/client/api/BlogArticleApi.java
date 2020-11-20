@@ -11,6 +11,7 @@ import xin.marcher.framework.mvc.request.BaseQuery;
 import xin.marcher.framework.mvc.response.BaseResult;
 import xin.marcher.framework.mvc.response.PageResult;
 import xin.marcher.framework.wrapper.BaseWO;
+import xin.marcher.framework.wrapper.PageWO;
 
 /**
  * 文章 Feign
@@ -37,7 +38,7 @@ public interface BlogArticleApi {
      * @return  result
      */
     @PostMapping("/query")
-    BaseResult<PageResult<BlogArticleListResp>> query(@RequestBody BaseQuery query);
+    BaseResult<PageWO<BlogArticleListResp>> query(@RequestBody BaseQuery query);
 
     /**
      * 喜欢
@@ -69,7 +70,7 @@ public interface BlogArticleApi {
      * @param query 参数
      */
     @PostMapping("/queryFromManage")
-    BaseResult<PageResult<BlogArticleListResp>> queryFromManage(@RequestBody BaseQuery query);
+    BaseResult<PageWO<BlogArticleListResp>> queryFromManage(@RequestBody BaseQuery query);
 
     /**
      * remove 指定文章

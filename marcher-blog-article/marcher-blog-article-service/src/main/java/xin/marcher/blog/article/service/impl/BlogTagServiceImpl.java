@@ -11,14 +11,12 @@ import xin.marcher.blog.article.domain.BlogTag;
 import xin.marcher.blog.article.exception.RealmArticleException;
 import xin.marcher.blog.article.mapper.BlogTagMapper;
 import xin.marcher.blog.article.service.BlogTagService;
-import xin.marcher.framework.constants.GlobalConstant;
 import xin.marcher.framework.constants.GlobalCodeEnum;
+import xin.marcher.framework.constants.GlobalConstant;
 import xin.marcher.framework.mvc.request.BaseQuery;
-import xin.marcher.framework.mvc.request.PageParam;
 import xin.marcher.framework.mvc.response.BaseResult;
-import xin.marcher.framework.mvc.response.PageResult;
-import xin.marcher.framework.mybatis.page.PageWrapper;
 import xin.marcher.framework.util.EmptyUtil;
+import xin.marcher.framework.wrapper.PageWO;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -52,13 +50,15 @@ public class BlogTagServiceImpl extends ServiceImpl<BlogTagMapper, BlogTag> impl
     }
 
     @Override
-    public BaseResult<PageResult<BlogTagResp>> query(BaseQuery query) {
-        PageParam pageParam = new PageParam(query.getPageNo(), query.getPageSize());
-        PageWrapper<BlogTag> pageWrapper = blogTagMapper.query(query, pageParam);
+    public BaseResult<PageWO<BlogTagResp>> query(BaseQuery query) {
+        PageWO<BlogTag> blogTagPageWo = blogTagMapper.pageQuery(query);
+        if (blogTagPageWo.hashEmpty()) {
+            return pageEmpty();
+        }
 
-        List<BlogTagResp> blogTagVOList = BlogTagConvert.INSTANCE.convertResp(pageWrapper.getList());
-        PageResult<BlogTagResp> data = PageResult.rest(blogTagVOList, pageWrapper.getTotal(), pageParam);
-        return BaseResult.success(data);
+        List<BlogTagResp> respList = BlogTagConvert.INSTANCE.convertResp(blogTagPageWo.getList());
+        PageWO<BlogTagResp> pageWO = PageWO.rest(respList, blogTagPageWo.getTotal());
+        return BaseResult.success(pageWO);
     }
 
     @Override

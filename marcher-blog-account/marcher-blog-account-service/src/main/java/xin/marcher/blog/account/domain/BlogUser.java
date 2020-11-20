@@ -45,12 +45,12 @@ public class BlogUser extends DeletableDO {
 	private String avatar;
 
 	/**
-	 * 用户类型, 1:本帅, 2普通用户
+	 * 用户类型, 10-本帅 20-普通用户
 	 */
 	private Integer userType;
 
 	/**
-	 * 用户来源
+	 * 用户来源, 10-PC 20-WEB移动
 	 */
 	private Integer source;
 

@@ -1,18 +1,24 @@
 package xin.marcher.blog.account.client.enums;
 
-import xin.marcher.framework.core.IEnumNorm;
+import xin.marcher.framework.core.IEnumCodeWithIntro;
+
+import java.util.Arrays;
 
 /**
  * 用户类型
  *
  * @author marcher
  */
-public enum UserTypeEnum implements IEnumNorm {
+public enum UserTypeEnum implements IEnumCodeWithIntro {
 
     /**  */
-    USER_TYPE_ME(1, "本帅"),
-    USER_TYPE_MANITO(2, "大神"),
+    USER_TYPE_ME(10, "本帅"),
+    USER_TYPE_MANITO(20, "大神"),
     ;
+
+    public static final String  INTRO = "用户类型";
+
+    public static final int[] ARRAYS = Arrays.stream(values()).mapToInt(UserTypeEnum::getRealCode).toArray();
 
     private final Integer code;
     private final String desc;
@@ -30,5 +36,15 @@ public enum UserTypeEnum implements IEnumNorm {
     @Override
     public String getRealDesc() {
         return desc;
+    }
+
+    @Override
+    public int[] array() {
+        return ARRAYS;
+    }
+
+    @Override
+    public String intro() {
+        return INTRO;
     }
 }

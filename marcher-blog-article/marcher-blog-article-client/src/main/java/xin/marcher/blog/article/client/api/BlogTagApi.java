@@ -7,7 +7,7 @@ import xin.marcher.blog.article.client.model.request.BlogTagReqs;
 import xin.marcher.blog.article.client.model.response.BlogTagResp;
 import xin.marcher.framework.mvc.request.BaseQuery;
 import xin.marcher.framework.mvc.response.BaseResult;
-import xin.marcher.framework.mvc.response.PageResult;
+import xin.marcher.framework.wrapper.PageWO;
 
 import java.util.List;
 
@@ -49,7 +49,7 @@ public interface BlogTagApi {
      * @param query query 参数
      */
     @PostMapping("/query")
-    BaseResult<PageResult<BlogTagResp>> query(@RequestBody BaseQuery query);
+    BaseResult<PageWO<BlogTagResp>> query(@RequestBody BaseQuery query);
 
     /**
      * 新增标签

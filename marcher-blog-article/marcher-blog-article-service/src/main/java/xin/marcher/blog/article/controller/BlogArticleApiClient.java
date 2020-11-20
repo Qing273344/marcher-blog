@@ -20,6 +20,7 @@ import xin.marcher.framework.mvc.response.PageResult;
 import xin.marcher.framework.util.Assert;
 import xin.marcher.framework.util.EmptyUtil;
 import xin.marcher.framework.wrapper.BaseWO;
+import xin.marcher.framework.wrapper.PageWO;
 
 /**
  * 博客类型
@@ -60,7 +61,7 @@ public class BlogArticleApiClient implements BlogArticleApi {
      */
     @Override
     @PostMapping("/query")
-    public BaseResult<PageResult<BlogArticleListResp>> query(@RequestBody BaseQuery query) {
+    public BaseResult<PageWO<BlogArticleListResp>> query(@RequestBody BaseQuery query) {
         return blogArticleService.query(query);
     }
 
@@ -112,7 +113,7 @@ public class BlogArticleApiClient implements BlogArticleApi {
      */
     @Override
     @PostMapping("/queryFromManage")
-    public BaseResult<PageResult<BlogArticleListResp>> queryFromManage(@RequestBody BaseQuery query) {
+    public BaseResult<PageWO<BlogArticleListResp>> queryFromManage(@RequestBody BaseQuery query) {
         return blogArticleService.queryAsAdmin(query);
     }
 

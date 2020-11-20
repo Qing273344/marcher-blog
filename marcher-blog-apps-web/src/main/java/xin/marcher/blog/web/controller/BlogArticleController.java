@@ -12,6 +12,7 @@ import xin.marcher.framework.mvc.request.BaseQuery;
 import xin.marcher.framework.mvc.response.BaseResult;
 import xin.marcher.framework.mvc.response.PageResult;
 import xin.marcher.framework.util.Assert;
+import xin.marcher.framework.wrapper.PageWO;
 
 import javax.validation.Valid;
 
@@ -52,7 +53,8 @@ public class BlogArticleController {
     @PostMapping("/query")
     @ApiOperation("文章列表")
     public BaseResult<PageResult<BlogArticleListResp>> query(@Valid @RequestBody BaseQuery query) {
-        return blogArticleApi.query(query);
+        BaseResult<PageWO<BlogArticleListResp>> result = blogArticleApi.query(query);
+        return BaseResult.success(result.getData(), query);
     }
 
     /**
