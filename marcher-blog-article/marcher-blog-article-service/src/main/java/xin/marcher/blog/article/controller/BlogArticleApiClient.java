@@ -16,7 +16,6 @@ import xin.marcher.blog.article.service.BlogArticleService;
 import xin.marcher.framework.constants.GlobalCodeEnum;
 import xin.marcher.framework.mvc.request.BaseQuery;
 import xin.marcher.framework.mvc.response.BaseResult;
-import xin.marcher.framework.mvc.response.PageResult;
 import xin.marcher.framework.util.Assert;
 import xin.marcher.framework.util.EmptyUtil;
 import xin.marcher.framework.wrapper.BaseWO;

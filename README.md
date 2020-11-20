@@ -2,12 +2,15 @@
 > 嘿嘿嘿... 暂时不想说些什么
 
 #### 技术
-- spring boot 2.x
-- mybatis-plus 3.x
-- redis
-- shiro
+- Spring Cloud Alibaba 2.x
+- Spring Boot 2.x
+- MyBatis-Plus 3.x
+- Redis
+- RabbitMQ
+- Shiro
 - jwt
 - AES(配置信息加密)
+- OSS
 
 ## 界面
 ![WechatIMG371.png](https://marcher-temp.oss-cn-shenzhen.aliyuncs.com/2019-05-09/e2e82a4cb74346879a2dc2e06230405a.png)  

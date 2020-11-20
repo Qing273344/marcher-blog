@@ -107,8 +107,8 @@ CREATE TABLE `blog_user` (
   `password` varchar(32) NOT NULL COMMENT '密码',
   `nickname` varchar(32) DEFAULT '' COMMENT '昵称',
   `avatar` varchar(256) DEFAULT NULL COMMENT '头像',
-  `user_type` tinyint(2) NOT NULL COMMENT '用户类型, 1:本帅, 2:大神',
-  `source` tinyint(4) NOT NULL COMMENT '用户来源, 1:PC, 2:web移动',
+  `user_type` tinyint(2) NOT NULL COMMENT '用户类型, 10:本帅, 20:大神',
+  `source` tinyint(4) NOT NULL COMMENT '用户来源, 10:PC, 20:web移动',
   `is_locked` tinyint(1) DEFAULT NULL COMMENT '状态(0:锁定,1:正常)',
 
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',

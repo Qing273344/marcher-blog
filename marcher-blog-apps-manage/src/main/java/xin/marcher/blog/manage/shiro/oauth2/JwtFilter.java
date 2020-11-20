@@ -35,7 +35,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
 
     @Override
     protected AuthenticationToken createToken(ServletRequest request, ServletResponse response) {
-        // 获取请求token
+        // 获取请求 token
         String token = getRequestToken((HttpServletRequest) request);
         if (EmptyUtil.isEmpty(token)) {
             return new JwtToken(null);
@@ -61,7 +61,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
      * 获取请求的token
      */
     private String getRequestToken(HttpServletRequest request) {
-        // 从cookie中获取token
+        // 从 cookie 中获取 token
         return CookieUtil.getCookieValue(request, "token");
     }
 
@@ -77,7 +77,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
         httpServletResponse.setHeader("Access-Control-Allow-Methods", HttpContextUtil.getAllMethods());
         httpServletResponse.setHeader("Access-Control-Allow-Headers", HttpContextUtil.getHeaders());
         httpServletResponse.setHeader("Access-Control-Max-Age", "3600");
-        // 跨域时会首先发送一个option请求，这里我们给option请求直接返回正常状态
+        // 跨域时会首先发送一个 option 请求，这里我们给 option 请求直接返回正常状态
         if (httpServletRequest.getMethod().equals(RequestMethod.OPTIONS.name())) {
             httpServletResponse.setStatus(HttpStatus.HTTP_OK);
             return false;

@@ -9,7 +9,6 @@ import xin.marcher.blog.article.client.model.response.BlogArticleListResp;
 import xin.marcher.blog.article.client.model.response.BlogArticleResp;
 import xin.marcher.framework.mvc.request.BaseQuery;
 import xin.marcher.framework.mvc.response.BaseResult;
-import xin.marcher.framework.mvc.response.PageResult;
 import xin.marcher.framework.wrapper.BaseWO;
 import xin.marcher.framework.wrapper.PageWO;
 
