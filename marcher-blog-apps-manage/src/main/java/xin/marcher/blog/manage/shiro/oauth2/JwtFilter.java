@@ -40,6 +40,10 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
         if (EmptyUtil.isEmpty(token)) {
             return new JwtToken(null);
         }
+        token = token.substring(7);
+        if ("null".equals(token)) {
+            return new JwtToken(null);
+        }
         // 创建 JWT
         return new JwtToken(token);
     }
@@ -62,7 +66,8 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
      */
     private String getRequestToken(HttpServletRequest request) {
         // 从 cookie 中获取 token
-        return CookieUtil.getCookieValue(request, "token");
+        return request.getHeader("Authorization");
+//        return CookieUtil.getCookieValue(request, "token");
     }
 
     /**

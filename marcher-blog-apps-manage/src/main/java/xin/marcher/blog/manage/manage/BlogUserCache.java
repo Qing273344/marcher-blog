@@ -24,4 +24,8 @@ public class BlogUserCache {
     public BlogUserCO getUserInfoFormCache(Long userId) {
         return redisService.getObj(CacheConst.U_INFO_KEY + userId, BlogUserCO.class);
     }
+
+    public void remove(Long userId) {
+        redisService.delete(CacheConst.U_INFO_KEY + userId);
+    }
 }

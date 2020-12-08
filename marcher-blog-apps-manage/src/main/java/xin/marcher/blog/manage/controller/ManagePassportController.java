@@ -15,13 +15,17 @@ import xin.marcher.blog.account.client.model.request.RegisterReqs;
 import xin.marcher.blog.account.client.model.response.BlogUserResp;
 import xin.marcher.blog.manage.manage.BlogUserCache;
 import xin.marcher.blog.manage.model.cache.BlogUserCO;
+import xin.marcher.blog.manage.model.vo.PassportVO;
 import xin.marcher.blog.manage.shiro.JwtUtil;
 import xin.marcher.framework.mvc.response.BaseResult;
 import xin.marcher.framework.util.CookieUtil;
 import xin.marcher.framework.util.HttpContextUtil;
 import xin.marcher.framework.util.OrikaMapperUtil;
+import xin.marcher.framework.wrapper.CodeNameWO;
 
 import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Passport 通行凭证相关
@@ -64,7 +68,7 @@ public class ManagePassportController {
      */
     @PostMapping("/login")
     @ApiOperation(httpMethod = "POST", value = "登录")
-    BaseResult<Boolean> login(@Valid @RequestBody RegisterReqs reqs) {
+    BaseResult<PassportVO> login(@Valid @RequestBody RegisterReqs reqs) {
         BaseResult<BlogUserResp> apiResult = accountPassportApi.login(reqs);
         if (apiResult.isFail()) {
             return BaseResult.error(apiResult.getMessage());
@@ -78,8 +82,10 @@ public class ManagePassportController {
 
         // 通过用户 id 生成 token, set-cookie 到浏览器, 后续通过 cookie 获取 token 做校验
         String jwtToken = jwtUtil.generateToken(blogUserCo.getUserId());
-        CookieUtil.addCookie(HttpContextUtil.getResponse(), jwtUtil.getToken(), jwtToken, CookieUtil.COOKIE_DOMAIN);
-        return BaseResult.success();
+
+        PassportVO passportVO = new PassportVO();
+        passportVO.setToken(jwtToken);
+        return BaseResult.success(passportVO);
     }
 
     /**
@@ -89,13 +95,16 @@ public class ManagePassportController {
     @ApiOperation(httpMethod = "POST", value = "退出")
     BaseResult<Boolean> logout() {
         Subject subject = SecurityUtils.getSubject();
+        BlogUserCO blogUserCo = (BlogUserCO) subject.getPrincipal();
         if (subject.isAuthenticated()) {
-            // session 会销毁，在SessionListener监听session销毁，清理权限缓存
+            // session 会销毁，在 SessionListener 监听 session 销毁，清理权限缓存
             subject.logout();
         }
 
+        // 清除缓存数据
+        blogUserCache.remove(blogUserCo.getUserId());
+
         // 清除cookie信息
-        CookieUtil.delCookie(HttpContextUtil.getRequest(), HttpContextUtil.getResponse(), jwtUtil.getToken());
         return BaseResult.success();
     }
 }

@@ -17,7 +17,7 @@ import xin.marcher.framework.util.EmptyUtil;
 @Service
 public class BlogArticleTypeServiceImpl extends ServiceImpl<BlogArticleTypeMapper, BlogArticleType> implements BlogArticleTypeService {
 
-    private BlogArticleTypeMapper blogArticleTypeMapper;
+    private final BlogArticleTypeMapper blogArticleTypeMapper;
 
     @Autowired
     public BlogArticleTypeServiceImpl(BlogArticleTypeMapper blogArticleTypeMapper) {
@@ -53,8 +53,6 @@ public class BlogArticleTypeServiceImpl extends ServiceImpl<BlogArticleTypeMappe
         BlogArticleType blogArticleType = new BlogArticleType();
         blogArticleType.setArticleId(articleId);
         blogArticleType.setTypeId(typeId);
-        blogArticleType.setDeleted(GlobalConstant.NO_DELETED);
-
         return blogArticleType;
     }
 }

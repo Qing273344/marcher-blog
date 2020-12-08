@@ -74,7 +74,6 @@ public class BlogArticleContentServiceImpl extends ServiceImpl<BlogArticleConten
         BlogArticleContent blogArticleContent = new BlogArticleContent();
         blogArticleContent.setArticleId(articleId);
         blogArticleContent.setContentMd(contentMd);
-        blogArticleContent.setDeleted(GlobalConstant.NO_DELETED);
         return blogArticleContent;
     }
 

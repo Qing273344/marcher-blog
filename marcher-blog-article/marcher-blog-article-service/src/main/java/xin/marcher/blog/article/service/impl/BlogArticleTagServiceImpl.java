@@ -58,7 +58,6 @@ public class BlogArticleTagServiceImpl extends ServiceImpl<BlogArticleTagMapper,
             BlogArticleTag blogArticleTag = new BlogArticleTag();
             blogArticleTag.setArticleId(articleId);
             blogArticleTag.setTagId(tagId);
-            blogArticleTag.setDeleted(GlobalConstant.NO_DELETED);
             blogArticleTagList.add(blogArticleTag);
         }
         return blogArticleTagList;

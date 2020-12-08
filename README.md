@@ -5,6 +5,7 @@
 - Spring Cloud Alibaba 2.x
 - Spring Boot 2.x
 - MyBatis-Plus 3.x
+- Nacos 注册中心/配置中心
 - Redis
 - RabbitMQ
 - Shiro

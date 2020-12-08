@@ -40,7 +40,7 @@ public class ManageUserController {
      * 用户信息
      */
     @GetMapping("/info")
-    @ApiOperation(httpMethod = "POST", value = "用户信息")
+    @ApiOperation(httpMethod = "GET", value = "用户信息")
     public BaseResult<BlogUserVO> info() {
         BlogUserCO blogUserCo = blogUserCache.getUserInfoFormCache(UserService.getUser().getUserId());
 
