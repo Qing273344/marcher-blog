@@ -14,11 +14,13 @@ import xin.marcher.framework.redis.RedisService;
 @Component
 public class BlogUserCache {
 
+    private static final long USER_TOKEN_EXPIRE = 60L * 60 * 24 * 30;
+
     @Autowired
     private RedisService redisService;
 
     public void saveUserInfoToCache(BlogUserCO blogUserCo) {
-        redisService.setObj(CacheConst.U_INFO_KEY + blogUserCo.getUserId(), blogUserCo, 60L * 60 * 24 * 30L);
+        redisService.setObj(CacheConst.U_INFO_KEY + blogUserCo.getUserId(), blogUserCo, USER_TOKEN_EXPIRE);
     }
 
     public BlogUserCO getUserInfoFormCache(Long userId) {
