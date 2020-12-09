@@ -7,8 +7,8 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
-import xin.marcher.framework.util.DateUtil;
-import xin.marcher.framework.util.EmptyUtil;
+import xin.marcher.framework.common.util.DateUtil;
+import xin.marcher.framework.common.util.EmptyUtil;
 
 import java.util.Date;
 
@@ -55,14 +55,14 @@ public class JwtUtil {
                 .setHeaderParam("type", "JWT")
                 .setSubject(userId + "")
                 .setIssuedAt(nowDate)
-                .setExpiration(expireDate)
+//                .setExpiration(expireDate)
                 .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();
     }
 
     /**
-     * 解析token
-     * jjwt提供的parser传入秘钥
+     * 解析 token
+     * jjwt 提供的 parser 传入秘钥
      *
      * @param token token
      */

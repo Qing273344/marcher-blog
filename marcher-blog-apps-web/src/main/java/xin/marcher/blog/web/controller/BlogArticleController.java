@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.*;
 import xin.marcher.blog.article.client.api.BlogArticleApi;
 import xin.marcher.blog.article.client.model.response.BlogArticleDetailsResp;
 import xin.marcher.blog.article.client.model.response.BlogArticleListResp;
-import xin.marcher.framework.mvc.request.BaseQuery;
-import xin.marcher.framework.mvc.response.BaseResult;
-import xin.marcher.framework.mvc.response.PageResult;
-import xin.marcher.framework.util.Assert;
-import xin.marcher.framework.wrapper.PageWO;
+import xin.marcher.framework.common.mvc.request.BaseQuery;
+import xin.marcher.framework.common.mvc.response.BaseResult;
+import xin.marcher.framework.common.mvc.response.PageResult;
+import xin.marcher.framework.common.util.Assert;
+import xin.marcher.framework.common.wrapper.PageWO;
 
 import javax.validation.Valid;
 

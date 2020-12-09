@@ -15,8 +15,8 @@ import xin.marcher.blog.manage.exception.RealmManageErrorCodeEnum;
 import xin.marcher.blog.manage.manage.BlogUserCache;
 import xin.marcher.blog.manage.model.cache.BlogUserCO;
 import xin.marcher.blog.manage.shiro.JwtUtil;
-import xin.marcher.framework.mvc.response.BaseResult;
-import xin.marcher.framework.util.EmptyUtil;
+import xin.marcher.framework.common.mvc.response.BaseResult;
+import xin.marcher.framework.common.util.EmptyUtil;
 
 import java.util.Set;
 

@@ -11,12 +11,12 @@ import xin.marcher.blog.article.domain.BlogType;
 import xin.marcher.blog.article.exception.RealmArticleException;
 import xin.marcher.blog.article.mapper.BlogTypeMapper;
 import xin.marcher.blog.article.service.BlogTypeService;
-import xin.marcher.framework.constants.GlobalCodeEnum;
-import xin.marcher.framework.constants.GlobalConstant;
-import xin.marcher.framework.mvc.request.BaseQuery;
-import xin.marcher.framework.mvc.response.BaseResult;
-import xin.marcher.framework.util.EmptyUtil;
-import xin.marcher.framework.wrapper.PageWO;
+import xin.marcher.framework.common.constants.GlobalCodeEnum;
+import xin.marcher.framework.common.constants.GlobalConstant;
+import xin.marcher.framework.common.mvc.request.BaseQuery;
+import xin.marcher.framework.common.mvc.response.BaseResult;
+import xin.marcher.framework.common.util.EmptyUtil;
+import xin.marcher.framework.common.wrapper.PageWO;
 
 import java.util.ArrayList;
 import java.util.List;

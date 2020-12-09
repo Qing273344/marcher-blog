@@ -14,10 +14,10 @@ import xin.marcher.blog.account.client.model.response.BlogUserResp;
 import xin.marcher.blog.account.domain.BlogUser;
 import xin.marcher.blog.account.service.BlogUserResourceService;
 import xin.marcher.blog.account.service.BlogUserService;
-import xin.marcher.framework.mvc.response.BaseResult;
-import xin.marcher.framework.util.EmptyUtil;
-import xin.marcher.framework.util.EnumUtil;
-import xin.marcher.framework.util.OrikaMapperUtil;
+import xin.marcher.framework.common.mvc.response.BaseResult;
+import xin.marcher.framework.common.util.EmptyUtil;
+import xin.marcher.framework.common.util.EnumUtil;
+import xin.marcher.framework.common.util.OrikaMapperUtil;
 
 import java.util.Set;
 

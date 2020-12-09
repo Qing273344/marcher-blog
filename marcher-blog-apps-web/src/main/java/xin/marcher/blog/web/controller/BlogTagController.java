@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import xin.marcher.blog.article.client.api.BlogTagApi;
-import xin.marcher.framework.mvc.response.BaseResult;
+import xin.marcher.framework.common.mvc.response.BaseResult;
 
 import java.util.List;
 

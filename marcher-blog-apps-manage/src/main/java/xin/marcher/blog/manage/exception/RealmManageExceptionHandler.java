@@ -7,9 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
-import xin.marcher.framework.constants.GlobalCodeEnum;
+import xin.marcher.framework.common.constants.GlobalCodeEnum;
+import xin.marcher.framework.common.mvc.response.BaseResult;
 import xin.marcher.framework.mvc.exception.GlobalExceptionHandler;
-import xin.marcher.framework.mvc.response.BaseResult;
 
 /**
  * 模块统一异常处理

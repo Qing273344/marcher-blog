@@ -7,10 +7,9 @@ import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.springframework.web.bind.annotation.RequestMethod;
 import xin.marcher.blog.manage.exception.RealmManageErrorCodeEnum;
 import xin.marcher.blog.manage.exception.RealmManageException;
-import xin.marcher.framework.constants.GlobalConstant;
-import xin.marcher.framework.util.CookieUtil;
-import xin.marcher.framework.util.EmptyUtil;
-import xin.marcher.framework.util.HttpContextUtil;
+import xin.marcher.framework.common.constants.GlobalConstant;
+import xin.marcher.framework.common.util.EmptyUtil;
+import xin.marcher.framework.common.util.HttpContextUtil;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -62,10 +61,10 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
     }
 
     /**
-     * 获取请求的token
+     * 获取请求的 token
      */
     private String getRequestToken(HttpServletRequest request) {
-        // 从 cookie 中获取 token
+        // 从 header 中获取 token
         return request.getHeader("Authorization");
 //        return CookieUtil.getCookieValue(request, "token");
     }

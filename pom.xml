@@ -27,14 +27,14 @@
 
 
     <properties>
-        <marcher.redis.version>1.0.0</marcher.redis.version>
-        <marcher.util.version>1.0.0</marcher.util.version>
-        <marcher.mybatis.version>1.0.0</marcher.mybatis.version>
-        <marcher.mvc.version>1.0.0</marcher.mvc.version>
-        <marcher.rabbit.version>1.0.0</marcher.rabbit.version>
-        <marcher.oss.version>1.0.0</marcher.oss.version>
-        <marcher.swagger.version>1.0.0</marcher.swagger.version>
-        <marcher.crypto.version>1.0.0</marcher.crypto.version>
+        <marcher-framework-redis.version>1.0.0</marcher-framework-redis.version>
+        <marcher-framework-common.version>1.0.0</marcher-framework-common.version>
+        <marcher-framework-mybatis.version>1.0.0</marcher-framework-mybatis.version>
+        <marcher-framework-mvc.version>1.0.0</marcher-framework-mvc.version>
+        <marcher-framework-rabbit.version>1.0.0</marcher-framework-rabbit.version>
+        <marcher-framework-oss.version>1.0.0</marcher-framework-oss.version>
+        <marcher-framework-swagger.version>1.0.0</marcher-framework-swagger.version>
+        <marcher-framework-crypto.version>1.0.0</marcher-framework-crypto.version>
 
         <marcher.blog.article.client.version>1.0.0</marcher.blog.article.client.version>
         <marcher.blog.account.client.version>1.0.0</marcher.blog.account.client.version>
@@ -58,8 +58,8 @@
     <dependencies>
         <dependency>
             <groupId>xin.marcher</groupId>
-            <artifactId>marcher-framework-util</artifactId>
-            <version>${marcher.util.version}</version>
+            <artifactId>marcher-framework-common</artifactId>
+            <version>${marcher-framework-common.version}</version>
         </dependency>
 
         <!-- test -->
@@ -117,7 +117,7 @@
             <dependency>
                 <groupId>xin.marcher</groupId>
                 <artifactId>marcher-framework-mybatis</artifactId>
-                <version>${marcher.mybatis.version}</version>
+                <version>${marcher-framework-mybatis.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

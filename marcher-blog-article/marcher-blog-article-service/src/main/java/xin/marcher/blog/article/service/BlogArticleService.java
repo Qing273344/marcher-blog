@@ -5,10 +5,10 @@ import xin.marcher.blog.article.client.model.response.BlogArticleDetailsResp;
 import xin.marcher.blog.article.client.model.response.BlogArticleListResp;
 import xin.marcher.blog.article.client.model.response.BlogArticleResp;
 import xin.marcher.blog.article.domain.BlogArticle;
-import xin.marcher.framework.mvc.request.BaseQuery;
-import xin.marcher.framework.mvc.response.BaseResult;
+import xin.marcher.framework.common.mvc.request.BaseQuery;
+import xin.marcher.framework.common.mvc.response.BaseResult;
+import xin.marcher.framework.common.wrapper.PageWO;
 import xin.marcher.framework.mybatis.service.BaseService;
-import xin.marcher.framework.wrapper.PageWO;
 
 /**
  * 博客文章

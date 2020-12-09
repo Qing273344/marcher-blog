@@ -32,17 +32,17 @@
         <dependency>
             <groupId>xin.marcher</groupId>
             <artifactId>marcher-framework-mvc</artifactId>
-            <version>${marcher.mvc.version}</version>
+            <version>${marcher-framework-mvc.version}</version>
         </dependency>
         <dependency>
             <groupId>xin.marcher</groupId>
             <artifactId>marcher-framework-redis</artifactId>
-            <version>${marcher.redis.version}</version>
+            <version>${marcher-framework-redis.version}</version>
         </dependency>
         <dependency>
             <groupId>xin.marcher</groupId>
             <artifactId>marcher-framework-swagger</artifactId>
-            <version>${marcher.swagger.version}</version>
+            <version>${marcher-framework-swagger.version}</version>
         </dependency>
 
         <!-- 构建 Web 服务 -->

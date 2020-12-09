@@ -1,6 +1,6 @@
 package xin.marcher.blog.account.client.exception;
 
-import xin.marcher.framework.core.IEnumNorm;
+import xin.marcher.framework.common.core.IEnumNorm;
 
 /**
  * 账号系统，使用 1-001-000-000 段

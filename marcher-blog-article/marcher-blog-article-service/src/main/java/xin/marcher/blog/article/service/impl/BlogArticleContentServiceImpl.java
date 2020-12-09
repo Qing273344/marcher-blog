@@ -8,10 +8,9 @@ import xin.marcher.blog.article.manager.OssManager;
 import xin.marcher.blog.article.mapper.BlogArticleContentMapper;
 import xin.marcher.blog.article.mq.producer.ImgMoveProducer;
 import xin.marcher.blog.article.service.BlogArticleContentService;
-import xin.marcher.framework.constants.GlobalConstant;
+import xin.marcher.framework.common.util.EmptyUtil;
+import xin.marcher.framework.common.util.RegexUtil;
 import xin.marcher.framework.oss.property.OssProperties;
-import xin.marcher.framework.util.EmptyUtil;
-import xin.marcher.framework.util.RegexUtil;
 
 import java.util.HashMap;
 import java.util.List;

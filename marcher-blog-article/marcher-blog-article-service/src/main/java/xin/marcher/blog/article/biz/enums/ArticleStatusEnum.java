@@ -1,6 +1,7 @@
 package xin.marcher.blog.article.biz.enums;
 
-import xin.marcher.framework.core.IEnumNorm;
+
+import xin.marcher.framework.common.core.IEnumNorm;
 
 /**
  * 文章状态

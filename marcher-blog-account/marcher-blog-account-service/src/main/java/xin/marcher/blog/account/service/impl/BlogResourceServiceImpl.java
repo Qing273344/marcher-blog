@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service;
 import xin.marcher.blog.account.domain.BlogResource;
 import xin.marcher.blog.account.mapper.BlogResourceMapper;
 import xin.marcher.blog.account.service.BlogResourceService;
-import xin.marcher.framework.util.CollectionUtil;
-import xin.marcher.framework.util.EmptyUtil;
+import xin.marcher.framework.common.util.CollectionUtil;
+import xin.marcher.framework.common.util.EmptyUtil;
 
 import java.util.List;
 import java.util.Set;

@@ -6,10 +6,10 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Component;
 import xin.marcher.blog.article.domain.BlogArticle;
-import xin.marcher.framework.mvc.request.BaseQuery;
+import xin.marcher.framework.common.mvc.request.BaseQuery;
+import xin.marcher.framework.common.wrapper.PageWO;
 import xin.marcher.framework.mybatis.mapper.BaseMapper;
 import xin.marcher.framework.mybatis.query.BaseQueryWrapper;
-import xin.marcher.framework.wrapper.PageWO;
 
 /**
  * 博客文章

@@ -17,15 +17,10 @@ import xin.marcher.blog.manage.manage.BlogUserCache;
 import xin.marcher.blog.manage.model.cache.BlogUserCO;
 import xin.marcher.blog.manage.model.vo.PassportVO;
 import xin.marcher.blog.manage.shiro.JwtUtil;
-import xin.marcher.framework.mvc.response.BaseResult;
-import xin.marcher.framework.util.CookieUtil;
-import xin.marcher.framework.util.HttpContextUtil;
-import xin.marcher.framework.util.OrikaMapperUtil;
-import xin.marcher.framework.wrapper.CodeNameWO;
+import xin.marcher.framework.common.mvc.response.BaseResult;
+import xin.marcher.framework.common.util.OrikaMapperUtil;
 
 import javax.validation.Valid;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Passport 通行凭证相关
@@ -80,7 +75,7 @@ public class ManagePassportController {
         BlogUserCO blogUserCo = OrikaMapperUtil.INSTANCE.map(userResp, BlogUserCO.class);
         blogUserCache.saveUserInfoToCache(blogUserCo);
 
-        // 通过用户 id 生成 token, set-cookie 到浏览器, 后续通过 cookie 获取 token 做校验
+        // 通过用户 id 生成 token, 前端获取后设置到请求头中
         String jwtToken = jwtUtil.generateToken(blogUserCo.getUserId());
 
         PassportVO passportVO = new PassportVO();

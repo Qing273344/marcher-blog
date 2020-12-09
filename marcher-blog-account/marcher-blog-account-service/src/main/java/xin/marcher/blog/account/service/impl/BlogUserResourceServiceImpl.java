@@ -7,7 +7,7 @@ import xin.marcher.blog.account.domain.BlogUserResource;
 import xin.marcher.blog.account.mapper.BlogUserResourceMapper;
 import xin.marcher.blog.account.service.BlogResourceService;
 import xin.marcher.blog.account.service.BlogUserResourceService;
-import xin.marcher.framework.util.EmptyUtil;
+import xin.marcher.framework.common.util.EmptyUtil;
 
 import java.util.List;
 import java.util.Set;

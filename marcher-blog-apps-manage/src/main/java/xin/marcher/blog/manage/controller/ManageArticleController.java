@@ -12,12 +12,12 @@ import xin.marcher.blog.article.client.model.request.BlogArticleReqs;
 import xin.marcher.blog.article.client.model.response.BlogArticleListResp;
 import xin.marcher.blog.article.client.model.response.BlogArticleResp;
 import xin.marcher.blog.manage.model.dto.PublishDTO;
-import xin.marcher.framework.mvc.request.BaseQuery;
-import xin.marcher.framework.mvc.response.BaseResult;
-import xin.marcher.framework.mvc.response.PageResult;
-import xin.marcher.framework.util.OrikaMapperUtil;
-import xin.marcher.framework.wrapper.BaseWO;
-import xin.marcher.framework.wrapper.PageWO;
+import xin.marcher.framework.common.mvc.request.BaseQuery;
+import xin.marcher.framework.common.mvc.response.BaseResult;
+import xin.marcher.framework.common.mvc.response.PageResult;
+import xin.marcher.framework.common.util.OrikaMapperUtil;
+import xin.marcher.framework.common.wrapper.BaseWO;
+import xin.marcher.framework.common.wrapper.PageWO;
 
 import javax.validation.Valid;
 

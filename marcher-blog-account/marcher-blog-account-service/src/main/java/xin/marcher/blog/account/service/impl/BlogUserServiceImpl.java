@@ -16,9 +16,9 @@ import xin.marcher.blog.account.exception.RealmAccountException;
 import xin.marcher.blog.account.mapper.BlogUserMapper;
 import xin.marcher.blog.account.service.BlogUserService;
 import xin.marcher.blog.account.utils.CryptoUtil;
-import xin.marcher.framework.constants.GlobalCodeEnum;
-import xin.marcher.framework.util.EmptyUtil;
-import xin.marcher.framework.util.EnumUtil;
+import xin.marcher.framework.common.constants.GlobalCodeEnum;
+import xin.marcher.framework.common.util.EmptyUtil;
+import xin.marcher.framework.common.util.EnumUtil;
 
 /**
  * @author marcher

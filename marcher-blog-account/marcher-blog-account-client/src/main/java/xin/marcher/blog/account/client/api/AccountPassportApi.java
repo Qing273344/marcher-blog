@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import xin.marcher.blog.account.client.model.request.RegisterReqs;
 import xin.marcher.blog.account.client.model.response.BlogUserResp;
-import xin.marcher.framework.mvc.response.BaseResult;
+import xin.marcher.framework.common.mvc.response.BaseResult;
 
 /**
  * account passport feign

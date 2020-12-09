@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.*;
 import xin.marcher.blog.article.client.api.BlogTagApi;
 import xin.marcher.blog.article.client.model.request.BlogTagReqs;
 import xin.marcher.blog.article.client.model.response.BlogTagResp;
-import xin.marcher.framework.mvc.request.BaseQuery;
-import xin.marcher.framework.mvc.response.BaseResult;
-import xin.marcher.framework.mvc.response.PageResult;
-import xin.marcher.framework.wrapper.PageWO;
+import xin.marcher.framework.common.mvc.request.BaseQuery;
+import xin.marcher.framework.common.mvc.response.BaseResult;
+import xin.marcher.framework.common.mvc.response.PageResult;
+import xin.marcher.framework.common.wrapper.PageWO;
 
 import java.util.List;
 

@@ -13,13 +13,13 @@ import xin.marcher.blog.article.client.model.response.BlogArticleListResp;
 import xin.marcher.blog.article.client.model.response.BlogArticleResp;
 import xin.marcher.blog.article.domain.BlogArticle;
 import xin.marcher.blog.article.service.BlogArticleService;
-import xin.marcher.framework.constants.GlobalCodeEnum;
-import xin.marcher.framework.mvc.request.BaseQuery;
-import xin.marcher.framework.mvc.response.BaseResult;
-import xin.marcher.framework.util.Assert;
-import xin.marcher.framework.util.EmptyUtil;
-import xin.marcher.framework.wrapper.BaseWO;
-import xin.marcher.framework.wrapper.PageWO;
+import xin.marcher.framework.common.constants.GlobalCodeEnum;
+import xin.marcher.framework.common.mvc.request.BaseQuery;
+import xin.marcher.framework.common.mvc.response.BaseResult;
+import xin.marcher.framework.common.util.Assert;
+import xin.marcher.framework.common.util.EmptyUtil;
+import xin.marcher.framework.common.wrapper.BaseWO;
+import xin.marcher.framework.common.wrapper.PageWO;
 
 /**
  * 博客类型

@@ -1,6 +1,6 @@
 package xin.marcher.blog.account.client.enums;
 
-import xin.marcher.framework.core.IEnumCodeWithIntro;
+import xin.marcher.framework.common.core.IEnumCodeWithIntro;
 
 import java.util.Arrays;
 

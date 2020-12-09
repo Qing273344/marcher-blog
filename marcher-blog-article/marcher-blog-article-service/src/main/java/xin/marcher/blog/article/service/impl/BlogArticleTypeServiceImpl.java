@@ -6,8 +6,7 @@ import org.springframework.stereotype.Service;
 import xin.marcher.blog.article.domain.BlogArticleType;
 import xin.marcher.blog.article.mapper.BlogArticleTypeMapper;
 import xin.marcher.blog.article.service.BlogArticleTypeService;
-import xin.marcher.framework.constants.GlobalConstant;
-import xin.marcher.framework.util.EmptyUtil;
+import xin.marcher.framework.common.util.EmptyUtil;
 
 /**
  * 博客文章类型关联

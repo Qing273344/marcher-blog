@@ -13,8 +13,8 @@ import xin.marcher.blog.account.client.model.request.RegisterReqs;
 import xin.marcher.blog.account.client.model.response.BlogUserResp;
 import xin.marcher.blog.account.domain.BlogUser;
 import xin.marcher.blog.account.service.BlogUserService;
-import xin.marcher.framework.mvc.response.BaseResult;
-import xin.marcher.framework.util.OrikaMapperUtil;
+import xin.marcher.framework.common.mvc.response.BaseResult;
+import xin.marcher.framework.common.util.OrikaMapperUtil;
 
 /**
  * passport 相关

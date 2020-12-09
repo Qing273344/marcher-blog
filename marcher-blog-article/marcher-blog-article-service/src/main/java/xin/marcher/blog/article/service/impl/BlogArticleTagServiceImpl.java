@@ -6,8 +6,7 @@ import org.springframework.stereotype.Service;
 import xin.marcher.blog.article.domain.BlogArticleTag;
 import xin.marcher.blog.article.mapper.BlogArticleTagMapper;
 import xin.marcher.blog.article.service.BlogArticleTagService;
-import xin.marcher.framework.constants.GlobalConstant;
-import xin.marcher.framework.util.CollectionUtil;
+import xin.marcher.framework.common.util.CollectionUtil;
 
 import java.util.ArrayList;
 import java.util.List;

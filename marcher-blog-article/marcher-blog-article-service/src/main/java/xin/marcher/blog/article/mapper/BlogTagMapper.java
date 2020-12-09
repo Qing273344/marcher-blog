@@ -4,10 +4,10 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 import xin.marcher.blog.article.domain.BlogTag;
-import xin.marcher.framework.mvc.request.BaseQuery;
+import xin.marcher.framework.common.mvc.request.BaseQuery;
+import xin.marcher.framework.common.wrapper.PageWO;
 import xin.marcher.framework.mybatis.mapper.BaseMapper;
 import xin.marcher.framework.mybatis.query.BaseQueryWrapper;
-import xin.marcher.framework.wrapper.PageWO;
 
 /**
  * 标签

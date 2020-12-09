@@ -1,6 +1,7 @@
 package xin.marcher.blog.article.client.exception;
 
-import xin.marcher.framework.core.IEnumNorm;
+
+import xin.marcher.framework.common.core.IEnumNorm;
 
 /**
  * 文章系统，使用 1-002-000-000 段

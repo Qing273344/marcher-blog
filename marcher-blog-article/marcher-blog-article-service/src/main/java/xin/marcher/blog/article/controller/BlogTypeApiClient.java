@@ -9,11 +9,11 @@ import xin.marcher.blog.article.client.api.BlogTypeApi;
 import xin.marcher.blog.article.client.model.request.BlogTypeReqs;
 import xin.marcher.blog.article.client.model.response.BlogArticleTypeResp;
 import xin.marcher.blog.article.service.BlogTypeService;
-import xin.marcher.framework.mvc.request.BaseQuery;
-import xin.marcher.framework.mvc.response.BaseResult;
+import xin.marcher.framework.common.mvc.request.BaseQuery;
+import xin.marcher.framework.common.mvc.response.BaseResult;
+import xin.marcher.framework.common.util.Assert;
+import xin.marcher.framework.common.wrapper.PageWO;
 import xin.marcher.framework.mvc.validation.groups.GroupUpdateOrder;
-import xin.marcher.framework.util.Assert;
-import xin.marcher.framework.wrapper.PageWO;
 
 import java.util.List;
 

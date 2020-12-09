@@ -17,14 +17,14 @@ import xin.marcher.blog.article.service.BlogArticleContentService;
 import xin.marcher.blog.article.service.BlogArticleService;
 import xin.marcher.blog.article.service.BlogArticleTagService;
 import xin.marcher.blog.article.service.BlogArticleTypeService;
-import xin.marcher.framework.constants.GlobalCodeEnum;
-import xin.marcher.framework.constants.GlobalConstant;
-import xin.marcher.framework.exception.BusinessException;
-import xin.marcher.framework.mvc.request.BaseQuery;
-import xin.marcher.framework.mvc.response.BaseResult;
-import xin.marcher.framework.util.EmptyUtil;
-import xin.marcher.framework.util.ObjectUtil;
-import xin.marcher.framework.wrapper.PageWO;
+import xin.marcher.framework.common.constants.GlobalCodeEnum;
+import xin.marcher.framework.common.constants.GlobalConstant;
+import xin.marcher.framework.common.exception.BusinessException;
+import xin.marcher.framework.common.mvc.request.BaseQuery;
+import xin.marcher.framework.common.mvc.response.BaseResult;
+import xin.marcher.framework.common.util.EmptyUtil;
+import xin.marcher.framework.common.util.ObjectUtil;
+import xin.marcher.framework.common.wrapper.PageWO;
 
 import java.util.List;
 

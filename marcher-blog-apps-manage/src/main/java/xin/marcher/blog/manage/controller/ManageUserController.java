@@ -13,8 +13,8 @@ import xin.marcher.blog.manage.manage.BlogUserCache;
 import xin.marcher.blog.manage.model.cache.BlogUserCO;
 import xin.marcher.blog.manage.model.vo.BlogUserVO;
 import xin.marcher.blog.manage.service.UserService;
-import xin.marcher.framework.mvc.response.BaseResult;
-import xin.marcher.framework.util.OrikaMapperUtil;
+import xin.marcher.framework.common.mvc.response.BaseResult;
+import xin.marcher.framework.common.util.OrikaMapperUtil;
 
 /**
  * User

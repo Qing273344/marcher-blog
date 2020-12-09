@@ -1,6 +1,6 @@
 package xin.marcher.blog.manage.exception;
 
-import xin.marcher.framework.core.IEnumNorm;
+import xin.marcher.framework.common.core.IEnumNorm;
 
 /**
  * 管理系统，使用 1-080-000-000 段

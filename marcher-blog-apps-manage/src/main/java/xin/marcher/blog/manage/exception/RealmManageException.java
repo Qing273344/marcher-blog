@@ -1,7 +1,7 @@
 package xin.marcher.blog.manage.exception;
 
-import xin.marcher.framework.core.IEnumNorm;
-import xin.marcher.framework.exception.BusinessException;
+import xin.marcher.framework.common.core.IEnumNorm;
+import xin.marcher.framework.common.exception.BusinessException;
 
 /**
  * realm article exception
