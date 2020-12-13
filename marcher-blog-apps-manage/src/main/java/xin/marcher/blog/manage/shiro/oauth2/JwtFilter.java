@@ -35,12 +35,8 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
     @Override
     protected AuthenticationToken createToken(ServletRequest request, ServletResponse response) {
         // 获取请求 token
-        String token = getRequestToken((HttpServletRequest) request);
+        String token = getRequestToken();
         if (EmptyUtil.isEmpty(token)) {
-            return new JwtToken(null);
-        }
-        token = token.substring(7);
-        if ("null".equals(token)) {
             return new JwtToken(null);
         }
         // 创建 JWT
@@ -49,7 +45,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
 
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
-        String token = getRequestToken((HttpServletRequest) request);
+        String token = getRequestToken();
         if (EmptyUtil.isEmpty(token)) {
             // 业务状态, 用于 Filter 异常拦截返回特定的状态码
             request.setAttribute(GlobalConstant.BUSINESS_STATUS, RealmManageErrorCodeEnum.LOGIN_TOKEN_INVALID.getRealCode());
@@ -63,10 +59,9 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
     /**
      * 获取请求的 token
      */
-    private String getRequestToken(HttpServletRequest request) {
+    private String getRequestToken() {
         // 从 header 中获取 token
-        return request.getHeader("Authorization");
-//        return CookieUtil.getCookieValue(request, "token");
+        return HttpContextUtil.getAuthorization();
     }
 
     /**

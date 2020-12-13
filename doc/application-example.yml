@@ -1,0 +1,58 @@
+server:
+  port: 8080
+  tomcat:
+    uri-encoding: utf-8
+
+spring:
+  application:
+    name: spring-application-name
+  # 环境 dev|test|prod
+  profiles:
+    active: dev
+  http:
+    encoding:
+      charset: UTF-8
+      # 将编码强制到HTTP请求和响应上配置的字符集
+      force: true
+      # 启用http编码支持
+      enabled: true
+      force-response: true
+  # nacos 1-注册中心 2-配置中心
+  cloud:
+    nacos:
+      discovery:
+        # 服务地址, 各环境自行配置
+        server-addr: localhost:8848
+        # 命名空间 id, 默认为 null(public), 各环境自行配置
+        namespace: namespace_id
+        service: ${spring.application.name}
+      config:
+        server-addr: localhost:8848
+        # 命名空间 id, 默认为 null(public), 各环境自行配置
+        namespace: namespace_id
+        # 使用的 Nacos 配置集的 dataId. 默认为 spring.application.name,
+        # file-extension 定义了后缀, 此处不用填写. nacos 配置界面文件名需把后缀写上, 栗子: spring-application-name.yml
+        name: data-id
+        file-extension: yml
+        # 拓展配置集数组，对应 Config 数组
+        extension-configs:
+          - data-id: extension-common.yml
+            refresh: true
+        # 共享配置集数组，对应 Config 数组
+        shared-configs:
+          - data-id: shared-common.yml
+            refresh: true
+
+# actuator 监控
+management:
+  endpoint:
+    health:
+      show-details: always
+
+jwt:
+  expire: 720    # token有效时长, 单位小时 24*30
+  secret: secret # jwt 秘钥
+
+# nacos 注册中心需配置这个, 原因 nacos 有自己的默认日志设置, 找不到就不打印
+logging:
+  config: classpath:logback-spring.xml

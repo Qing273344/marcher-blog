@@ -13,6 +13,16 @@
 - AES(配置信息加密)
 - OSS
 
+#### 端口
+模块 | 端口号
+--- | ---
+marcher-blog-web | 9027
+marcher-blog-manage | 9127
+- | -
+marcher-blog-article-service | 8027
+marcher-blog-account-service | 8127
+
+
 ## 界面
 ![WechatIMG371.png](https://marcher-temp.oss-cn-shenzhen.aliyuncs.com/2019-05-09/e2e82a4cb74346879a2dc2e06230405a.png)  
 

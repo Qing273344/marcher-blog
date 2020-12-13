@@ -1,0 +1,8 @@
+server:
+  port: 9127
+
+spring:
+  application:
+    name: marcher-blog-manage
+  profiles:
+    active: dev

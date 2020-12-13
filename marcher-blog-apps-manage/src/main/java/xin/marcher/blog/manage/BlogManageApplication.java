@@ -21,7 +21,7 @@ import org.springframework.web.context.request.RequestContextListener;
         "xin.marcher.blog.account.client.*",
         "xin.marcher.oss.client.*"
 })
-@ComponentScan(basePackages = {"xin.marcher.framework.*", "xin.marcher.*"})
+@ComponentScan(basePackages = {"xin.marcher.*", "xin.marcher.framework"})
 @SpringBootApplication
 public class BlogManageApplication extends SpringBootServletInitializer {
 

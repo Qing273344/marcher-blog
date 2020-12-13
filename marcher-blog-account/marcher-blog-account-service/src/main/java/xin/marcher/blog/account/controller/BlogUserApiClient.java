@@ -49,6 +49,13 @@ public class BlogUserApiClient implements BlogUserApi {
     }
 
     @Override
+    @GetMapping("getResourceFromUserId")
+    public BaseResult<Set<String>> getResourceFromUserId(Long userId) {
+        BlogUser blogUser = blogUserService.getById(userId);
+        return getResource(blogUser.getUserType());
+    }
+
+    @Override
     @GetMapping("/info")
     public BaseResult<BlogUserResp> getUserInfo(@RequestParam("id") Long id) {
         BlogUser blogUser = blogUserService.getById(id);

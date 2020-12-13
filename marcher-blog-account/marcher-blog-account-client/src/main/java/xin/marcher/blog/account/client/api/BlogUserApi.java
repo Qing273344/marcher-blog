@@ -29,6 +29,16 @@ public interface BlogUserApi {
     BaseResult<Set<String>> getResource(@RequestParam("type") Integer type);
 
     /**
+     * 获取用户权限
+     *
+     * @param userId  用户
+     * @return
+     *      资源
+     */
+    @GetMapping("getResourceFromUserId")
+    BaseResult<Set<String>> getResourceFromUserId(@RequestParam("userId") Long userId);
+
+    /**
      * 获取用户信息
      *
      * @return

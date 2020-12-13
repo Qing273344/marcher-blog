@@ -12,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import xin.marcher.blog.account.client.api.BlogUserApi;
 import xin.marcher.blog.manage.exception.RealmManageErrorCodeEnum;
-import xin.marcher.blog.manage.manage.BlogUserCache;
-import xin.marcher.blog.manage.model.cache.BlogUserCO;
 import xin.marcher.blog.manage.shiro.JwtUtil;
 import xin.marcher.framework.common.mvc.response.BaseResult;
 import xin.marcher.framework.common.util.EmptyUtil;
@@ -33,9 +31,6 @@ public class BlogRealm extends AuthorizingRealm {
 
     @Autowired
     private BlogUserApi blogUserApi;
-    @Autowired
-    private BlogUserCache blogUserCache;
-
 
     @Override
     public boolean supports(AuthenticationToken token) {
@@ -47,10 +42,10 @@ public class BlogRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        BlogUserCO blogUser = (BlogUserCO) principals.getPrimaryPrincipal();
+        Long userId = (Long) principals.getPrimaryPrincipal();
 
         // 通过 user_type 设置对应的权限(博主可访问/粉丝可访问)
-        BaseResult<Set<String>> apiResult = blogUserApi.getResource(blogUser.getUserType());
+        BaseResult<Set<String>> apiResult = blogUserApi.getResourceFromUserId(userId);
 
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
         authorizationInfo.setRoles(apiResult.getData());
@@ -61,7 +56,7 @@ public class BlogRealm extends AuthorizingRealm {
      * 认证(登录时调用)
      */
     @Override
-    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
+    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) {
         String token = (String) authenticationToken.getPrincipal();
 
         // 从 token 中获取 userId
@@ -69,12 +64,8 @@ public class BlogRealm extends AuthorizingRealm {
         if (EmptyUtil.isEmpty(userId)) {
             throw new AuthenticationException(RealmManageErrorCodeEnum.LOGIN_TOKEN_INVALID.getRealDesc());
         }
-        BlogUserCO blogUserCo = blogUserCache.getUserInfoFormCache(userId);
-        if (EmptyUtil.isEmpty(blogUserCo)) {
-            throw new AuthenticationException(RealmManageErrorCodeEnum.LOGIN_TOKEN_INVALID.getRealDesc());
-        }
 
         // --> 若配置了, 此处也可调用自定义的解密 CredentialsMatcher.doCredentialsMatch()
-        return new SimpleAuthenticationInfo(blogUserCo, token, getName());
+        return new SimpleAuthenticationInfo(userId, token, getName());
     }
 }

@@ -2,7 +2,6 @@ package xin.marcher.blog.manage.service;
 
 import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Component;
-import xin.marcher.blog.manage.model.cache.BlogUserCO;
 
 /**
  * user service
@@ -17,7 +16,7 @@ public class UserService {
      * @return
      *      用户信息
      */
-    public static BlogUserCO getUser() {
-        return (BlogUserCO) SecurityUtils.getSubject().getPrincipal();
+    public static Long getUser() {
+        return (Long) SecurityUtils.getSubject().getPrincipal();
     }
 }

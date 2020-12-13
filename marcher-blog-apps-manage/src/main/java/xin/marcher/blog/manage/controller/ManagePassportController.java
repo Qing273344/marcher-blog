@@ -6,10 +6,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import xin.marcher.blog.account.client.api.AccountPassportApi;
 import xin.marcher.blog.account.client.model.request.RegisterReqs;
 import xin.marcher.blog.account.client.model.response.BlogUserResp;
@@ -52,7 +49,7 @@ public class ManagePassportController {
      */
     @PostMapping("/register")
     @ApiOperation(httpMethod = "POST", value = "注册")
-    BaseResult<Boolean> register(@Valid @RequestBody RegisterReqs reqs) {
+    public BaseResult<Boolean> register(@Valid @RequestBody RegisterReqs reqs) {
         return accountPassportApi.register(reqs);
     }
 
@@ -63,20 +60,19 @@ public class ManagePassportController {
      */
     @PostMapping("/login")
     @ApiOperation(httpMethod = "POST", value = "登录")
-    BaseResult<PassportVO> login(@Valid @RequestBody RegisterReqs reqs) {
+    public BaseResult<PassportVO> login(@Valid @RequestBody RegisterReqs reqs) {
         BaseResult<BlogUserResp> apiResult = accountPassportApi.login(reqs);
-        if (apiResult.isFail()) {
+        if (apiResult.hasFail()) {
             return BaseResult.error(apiResult.getMessage());
         }
-
         BlogUserResp userResp = apiResult.getData();
 
         // 登录成功后用户信息存入缓存中
-        BlogUserCO blogUserCo = OrikaMapperUtil.INSTANCE.map(userResp, BlogUserCO.class);
-        blogUserCache.saveUserInfoToCache(blogUserCo);
+//        BlogUserCO blogUserCo = OrikaMapperUtil.INSTANCE.map(userResp, BlogUserCO.class);
+//        blogUserCache.saveUserInfoToCache(blogUserCo);
 
         // 通过用户 id 生成 token, 前端获取后设置到请求头中
-        String jwtToken = jwtUtil.generateToken(blogUserCo.getUserId());
+        String jwtToken = jwtUtil.generateToken(userResp.getUserId());
 
         PassportVO passportVO = new PassportVO();
         passportVO.setToken(jwtToken);
@@ -88,18 +84,23 @@ public class ManagePassportController {
      */
     @PostMapping("/logout")
     @ApiOperation(httpMethod = "POST", value = "退出")
-    BaseResult<Boolean> logout() {
+    public BaseResult<Boolean> logout() {
         Subject subject = SecurityUtils.getSubject();
-        BlogUserCO blogUserCo = (BlogUserCO) subject.getPrincipal();
+//        BlogUserCO blogUserCo = (BlogUserCO) subject.getPrincipal();
         if (subject.isAuthenticated()) {
             // session 会销毁，在 SessionListener 监听 session 销毁，清理权限缓存
             subject.logout();
         }
 
         // 清除缓存数据
-        blogUserCache.remove(blogUserCo.getUserId());
+//        blogUserCache.remove(blogUserCo.getUserId());
 
-        // 清除cookie信息
         return BaseResult.success();
+    }
+
+    @GetMapping("/test")
+    public BaseResult<String> test() {
+        String secret = jwtUtil.getSecret();
+        return BaseResult.success(secret);
     }
 }

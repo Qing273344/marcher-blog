@@ -101,14 +101,6 @@ public class ShiroConfig {
     }
 
 
-    // ---------------------------------------------------------------------------------------------------------------- session-cookie模式使用
-//    @Bean(name = "blogRealm")
-//    public BlogRealm blogRealm() {
-//        BlogRealm blogRealm = new BlogRealm();
-//        blogRealm.setCredentialsMatcher(credentialsMatcher());
-//        return blogRealm;
-//    }
-
     /**
      * 密码凭证匹配
      */
