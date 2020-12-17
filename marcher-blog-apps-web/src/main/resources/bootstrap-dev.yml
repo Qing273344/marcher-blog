@@ -2,17 +2,12 @@ spring:
   cloud:
     # nacos 1-注册中心 2-配置中心
     nacos:
-      discovery:
-        service: ${spring.application.name}
-        # ip, nacos 默认使用内网, 可以在这指定外网
-        ip: 127.0.0.1
       config:
         # 服务地址, 各环境自行配置
         server-addr: localhost:8848
         enabled: true
         # 命名空间 id, 默认为 null(public), 各环境自行配置
-#        namespace: f8ec469e-728d-4afa-a69c-94919d944f58
-        namespace: 0e1a3793-4684-4c5b-b2a0-afc72b3a6337
+        namespace: f8ec469e-728d-4afa-a69c-94919d944f58
         # 使用的 Nacos 配置集的 dataId 的文件后缀名, 同时也是 Nacos 配置集的配置格式, 默认为 properties
         file-extension: yml
         # 使用的 Nacos 配置集的 dataId. 默认为 spring.application.name, file-extension 定义了后缀,此处不用填写

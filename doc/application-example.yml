@@ -9,6 +9,7 @@ spring:
   # 环境 dev|test|prod
   profiles:
     active: dev
+
   http:
     encoding:
       charset: UTF-8
@@ -17,15 +18,18 @@ spring:
       # 启用http编码支持
       enabled: true
       force-response: true
+
   # nacos 1-注册中心 2-配置中心
   cloud:
     nacos:
       discovery:
-        # 服务地址, 各环境自行配置
+        # 服务地址, 各环境自行配置, 可通过 nginx 做转发
         server-addr: localhost:8848
         # 命名空间 id, 默认为 null(public), 各环境自行配置
         namespace: namespace_id
         service: ${spring.application.name}
+        # nacos 默认使用内网, 可以在这指定外网
+        ip: 255.255.255.255
       config:
         server-addr: localhost:8848
         # 命名空间 id, 默认为 null(public), 各环境自行配置
@@ -43,11 +47,58 @@ spring:
           - data-id: shared-common.yml
             refresh: true
 
-# actuator 监控
-management:
-  endpoint:
-    health:
-      show-details: always
+  # 数据库
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/marcher_blog?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: MM@8TLqCgSLP/ldKx2xAGpTnw==
+    druid:
+      # 初始化时建立物理连接的个数
+      initial-size: 5
+      # 最大连接池数量
+      max-active: 10
+      # 最小连接池数量
+      min-idle: 5
+      # 获取连接时最大等待时间，单位毫秒
+      max-wait: 2000
+      # 是否缓存preparedStatement，也就是PSCache。PSCache对支持游标的数据库性能提升巨大，比如说oracle。在mysql下建议关闭。
+      pool-prepared-statements: false
+      # 要启用PSCache，必须配置大于0，当大于0时，poolPreparedStatements自动触发修改为true。
+      max-pool-prepared-statement-per-connection-size: 20
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      time-between-eviction-runs-millis: 60000
+      # 连接保持空闲而不被驱逐的最小时间
+      min-evictable-idle-time-millis: 300000
+      # 用来检测连接是否有效的sql，要求是一个查询语句
+      validation-query: SELECT 1 FROM DUAL
+      # 建议配置为true，不影响性能，并且保证安全性。申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效。
+      test-while-idle: true
+
+  # MQ
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /
+    connection-timeout: 10000ms
+    listener:
+      # 手动ACK 不开启自动ACK模式,目的是防止报错后未正确处理消息丢失 默认为 none
+      simple:
+        acknowledge-mode: manual
+
+# MQ其它配置
+rabbitmq:
+  config:
+    exchange: marcher_blog_exchange
+    queue: blog_content_queue
+    routekey: blog_content_routekey
+
+# 秘钥, 存放在堡垒机中
+crypto:
+  key-url: http://localhost:9020/config/encryption/key
 
 jwt:
   expire: 720    # token有效时长, 单位小时 24*30
@@ -56,3 +107,9 @@ jwt:
 # nacos 注册中心需配置这个, 原因 nacos 有自己的默认日志设置, 找不到就不打印
 logging:
   config: classpath:logback-spring.xml
+
+# actuator 监控
+management:
+  endpoint:
+    health:
+      show-details: always

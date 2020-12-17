@@ -1,0 +1,8 @@
+server:
+  port: 8127
+
+spring:
+  application:
+    name: marcher-blog-account-service
+  profiles:
+    active: dev
