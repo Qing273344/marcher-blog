@@ -23,7 +23,7 @@ import javax.validation.Valid;
  */
 @RestController
 @RequestMapping(value = "/article", produces = MediaType.APPLICATION_JSON_VALUE)
-@Api(value = "WEB - BlogArticleController", produces = MediaType.APPLICATION_JSON_VALUE)
+@Api(value = "WEB - BlogArticleController", tags = "文章", produces = MediaType.APPLICATION_JSON_VALUE)
 public class BlogArticleController {
 
     private final BlogArticleApi blogArticleApi;

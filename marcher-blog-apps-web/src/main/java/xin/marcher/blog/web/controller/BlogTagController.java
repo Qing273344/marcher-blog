@@ -19,7 +19,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(value = "/article/tag", produces = MediaType.APPLICATION_JSON_VALUE)
-@Api(value = "WEB - BlogTagController", produces = MediaType.APPLICATION_JSON_VALUE)
+@Api(value = "WEB - BlogTagController", tags = "标签", produces = MediaType.APPLICATION_JSON_VALUE)
 public class BlogTagController {
 
     private final BlogTagApi blogTagApi;
