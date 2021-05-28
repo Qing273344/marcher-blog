@@ -39,7 +39,7 @@ public class BlogArticleController {
      * @return  result
      */
     @GetMapping("/detail")
-    @ApiOperation("文章详情")
+    @ApiOperation(value = "文章详情", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public BaseResult<BlogArticleDetailsResp> detail(@RequestParam("id") Long id) {
         Assert.isNullOrLtZero(id, "请选择指定文章");
         return blogArticleApi.detail(id);
@@ -51,7 +51,7 @@ public class BlogArticleController {
      * @return  result
      */
     @PostMapping("/query")
-    @ApiOperation("文章列表")
+    @ApiOperation(value = "文章列表", consumes = MediaType.APPLICATION_JSON_VALUE)
     public BaseResult<PageResult<BlogArticleListResp>> query(@Valid @RequestBody BaseQuery query) {
         BaseResult<PageWO<BlogArticleListResp>> result = blogArticleApi.query(query);
         return BaseResult.success(result.getData(), query);
@@ -63,7 +63,7 @@ public class BlogArticleController {
      * @return  result
      */
     @PostMapping("/liked")
-    @ApiOperation("喜欢")
+    @ApiOperation(value = "喜欢", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public BaseResult<Integer> liked(@RequestParam("id") Long id) {
         Assert.isNullOrLtZero(id, "请选择指定文章");
         return blogArticleApi.liked(id);

@@ -1,6 +1,5 @@
 package xin.marcher.blog.article.biz.enums;
 
-
 import xin.marcher.framework.common.core.IEnumNorm;
 
 /**
@@ -11,8 +10,8 @@ import xin.marcher.framework.common.core.IEnumNorm;
 public enum ArticleStatusEnum implements IEnumNorm {
 
     /**  */
-    ARTICLE_STATUS_DRAFT(1, "草稿"),
-    ARTICLE_STATUS_PUBLISH(2, "已发布"),
+    ARTICLE_STATUS_DRAFT(5, "草稿"),
+    ARTICLE_STATUS_PUBLISH(10, "已发布"),
     ;
 
     private final Integer code;

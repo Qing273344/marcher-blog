@@ -45,7 +45,7 @@ public class BlogUserServiceImpl extends ServiceImpl<BlogUserMapper, BlogUser> i
         BlogUser blogUser = new BlogUser();
         blogUser.setUsername(reqs.getUsername());
         blogUser.setPassword(password);
-        blogUser.setUserType(UserTypeEnum.USER_TYPE_MANITO.getRealCode());
+        blogUser.setUserType(UserTypeEnum.USER_TYPE_HIGH.getRealCode());
         blogUser.setSource(UserSourceEnum.USER_SOURCE_PC.getRealCode());
         blogUser.setIsLocked(UserLockedEnum.USER_LOCKED_NORMAL.getRealCode());
         blogUser.setCreateTime(date);

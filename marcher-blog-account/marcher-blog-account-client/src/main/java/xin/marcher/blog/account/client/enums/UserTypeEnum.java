@@ -13,7 +13,7 @@ public enum UserTypeEnum implements IEnumCodeWithIntro {
 
     /**  */
     USER_TYPE_ME(10, "本帅"),
-    USER_TYPE_MANITO(20, "大神"),
+    USER_TYPE_HIGH(20, "大神"),
     ;
 
     public static final String  INTRO = "用户类型";
