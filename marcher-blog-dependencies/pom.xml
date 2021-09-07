@@ -134,7 +134,7 @@
                 <version>${org.mapstruct.version}</version>
             </dependency>
     
-            <!-- 热部署 - 快速重启方式 -->
+            <!-- 热部署 快速重启方式 -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-devtools</artifactId>
