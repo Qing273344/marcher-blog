@@ -64,4 +64,5 @@ public class BlogArticle extends DeletableDO {
 	 */
 	private Integer viewsCount;
 
+
 }

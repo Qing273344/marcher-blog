@@ -49,4 +49,35 @@ public class BlogType extends DeletableDO {
 	 */
 	private Integer available;
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof BlogType)) return false;
+		if (!super.equals(o)) return false;
+
+		BlogType blogType = (BlogType) o;
+
+		if (getTypeId() != null ? !getTypeId().equals(blogType.getTypeId()) : blogType.getTypeId() != null)
+			return false;
+		if (getName() != null ? !getName().equals(blogType.getName()) : blogType.getName() != null) return false;
+		if (getDescription() != null ? !getDescription().equals(blogType.getDescription()) : blogType.getDescription() != null)
+			return false;
+		if (getSort() != null ? !getSort().equals(blogType.getSort()) : blogType.getSort() != null) return false;
+		if (getIcon() != null ? !getIcon().equals(blogType.getIcon()) : blogType.getIcon() != null) return false;
+		return getAvailable() != null ? getAvailable().equals(blogType.getAvailable()) : blogType.getAvailable() == null;
+	}
+
+	@Override
+	public int hashCode() {
+		int result = super.hashCode();
+		result = 31 * result + (getTypeId() != null ? getTypeId().hashCode() : 0);
+		result = 31 * result + (getName() != null ? getName().hashCode() : 0);
+		result = 31 * result + (getDescription() != null ? getDescription().hashCode() : 0);
+		result = 31 * result + (getSort() != null ? getSort().hashCode() : 0);
+		result = 31 * result + (getIcon() != null ? getIcon().hashCode() : 0);
+		result = 31 * result + (getAvailable() != null ? getAvailable().hashCode() : 0);
+		return result;
+	}
+
+
 }

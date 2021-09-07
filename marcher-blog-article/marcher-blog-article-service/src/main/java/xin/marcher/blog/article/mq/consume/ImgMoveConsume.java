@@ -10,7 +10,7 @@ import xin.marcher.blog.article.service.BlogArticleContentService;
 import java.io.IOException;
 
 /**
- * oss图片从临时桶拷贝到正式桶
+ * oss 图片从临时桶拷贝到正式桶
  *
  * @author marcher
  */
@@ -39,11 +39,11 @@ public class ImgMoveConsume {
         try {
             /*
              * 告诉服务器收到这条消息 已经被我消费了 可以在队列删掉 这样以后就不会再发了 否则消息服务器以为这条消息没处理掉 后续还会在发
-             * false: 确认当前一个消息收到, true: 确认所有consumer获得消息
+             * false: 确认当前一个消息收到, true: 确认所有 consumer 获得消息
              */
             channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
         } catch (IOException e) {
-            // ack返回false, 重新回到队列
+            // ack 返回 false, 重新回到队列
             channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, true);
             e.printStackTrace();
         }

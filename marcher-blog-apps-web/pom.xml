@@ -10,7 +10,22 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>marcher-blog-apps-web</artifactId>
-
+    <description>博客前台</description>
+    
+    
+    <dependencyManagement>
+        <dependencies>
+            <!-- marcher-blog 基础 bom 文件  -->
+            <dependency>
+                <groupId>xin.marcher</groupId>
+                <artifactId>marcher-blog-dependencies</artifactId>
+                <version>1.0.0</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    
 
     <dependencies>
         <dependency>
@@ -22,18 +37,22 @@
         <dependency>
             <groupId>xin.marcher</groupId>
             <artifactId>marcher-framework-mvc</artifactId>
-            <version>${marcher-framework-mvc.version}</version>
         </dependency>
         <dependency>
             <groupId>xin.marcher</groupId>
             <artifactId>marcher-framework-swagger</artifactId>
-            <version>${marcher-framework-swagger.version}</version>
         </dependency>
 
         <!-- 构建 Web 服务 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <!-- test -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.alibaba.cloud</groupId>

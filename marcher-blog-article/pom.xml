@@ -11,6 +11,7 @@
 
     <artifactId>marcher-blog-article</artifactId>
     <packaging>pom</packaging>
+    <description>博客文章相关服务</description>
 
 
     <modules>
@@ -19,4 +20,16 @@
     </modules>
 
 
+    <dependencyManagement>
+        <dependencies>
+            <!-- marcher-blog 基础 bom 文件  -->
+            <dependency>
+                <groupId>xin.marcher</groupId>
+                <artifactId>marcher-blog-dependencies</artifactId>
+                <version>1.0.0</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 </project>
