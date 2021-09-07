@@ -18,6 +18,7 @@
         <module>marcher-blog-article-client</module>
         <module>marcher-blog-article-service</module>
     </modules>
+    
 
 
     <dependencyManagement>
