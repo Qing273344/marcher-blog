@@ -33,7 +33,7 @@ public class BlogArticleApplication extends SpringBootServletInitializer {
     }
 
     /**
-     * RequestContextHolder.getRequestAttributes() 为null解决方案
+     * RequestContextHolder.getRequestAttributes() 为 null 解决方案
      */
     @Bean
     public RequestContextListener requestContextListener(){

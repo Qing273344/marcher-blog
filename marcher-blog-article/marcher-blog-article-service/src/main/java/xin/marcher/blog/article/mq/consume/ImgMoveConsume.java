@@ -14,7 +14,7 @@ import java.io.IOException;
  *
  * @author marcher
  */
-@Component
+//@Component
 public class ImgMoveConsume {
 
     @Autowired
@@ -22,7 +22,7 @@ public class ImgMoveConsume {
 
     /**
      * 监听队列
-     * 参数: 可直接写生产者发送的对象
+     * 参数: 可直接写生产者发送的对象DispatcherServlet
      */
     @RabbitListener(
             bindings = @QueueBinding(

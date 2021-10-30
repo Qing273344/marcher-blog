@@ -8,9 +8,8 @@
         <version>1.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
-    <artifactId>marcher-blog-apps-web</artifactId>
-    <description>博客前台</description>
+    
+    <artifactId>marcher-blog-gateway</artifactId>
     
     
     <dependencyManagement>
@@ -28,32 +27,12 @@
     
 
     <dependencies>
+        <!-- 引入 Spring Cloud Gateway 相关依赖，使用它作为网关，并实现对其的自动配置 -->
         <dependency>
-            <groupId>xin.marcher</groupId>
-            <artifactId>marcher-blog-article-client</artifactId>
-            <version>${marcher.blog.article.client.version}</version>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-gateway</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>xin.marcher</groupId>
-            <artifactId>marcher-framework-mvc</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>xin.marcher</groupId>
-            <artifactId>marcher-framework-swagger</artifactId>
-        </dependency>
-
-        <!-- 构建 Web 服务 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <!-- test -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
+    
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
@@ -62,25 +41,23 @@
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
+    
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
     
-        <!-- 热部署 快速重启方式 -->
+        <!-- common 中依赖了 spring-boot-starter-web, 会导致 gateway 启动报错 -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
+            <groupId>xin.marcher</groupId>
+            <artifactId>marcher-framework-common</artifactId>
+            <version>${marcher-framework-common.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-web</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
-
-    <build>
-        <finalName>${project.artifactId}</finalName>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 </project>

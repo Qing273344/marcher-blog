@@ -37,6 +37,13 @@ public class BlogTagApiClient implements BlogTagApi {
     @GetMapping("/getHotTag")
     public BaseResult<List<String>> getHotTag() {
         List<String> hotTagList = blogTagService.getHotTag();
+
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            System.out.println("超时 5s");
+        }
+
         return BaseResult.success(hotTagList);
     }
 

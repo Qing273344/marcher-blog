@@ -29,7 +29,7 @@ public class BlogMqConfig {
     /**
      * 初始化队列
      */
-    @PostConstruct
+//    @PostConstruct
     public void init () {
         RabbitAdmin rabbitAdmin = new RabbitAdmin(connectionFactory);
         // 创建direct模式交换器

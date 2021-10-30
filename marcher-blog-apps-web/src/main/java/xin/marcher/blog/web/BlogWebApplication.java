@@ -26,7 +26,7 @@ public class BlogWebApplication extends SpringBootServletInitializer {
     public static void main(String[] args) {
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> start <<<<<<<<<<<<<<<<<<<<<<<<<<");
         SpringApplication.run(BlogWebApplication.class, args);
-        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> started <<<<<<<<<<<<<<<<<<<<<<<<<<");
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>> started <<<<<<<<<<<<<<<<<<<<<<<<<<");
     }
 
     @Override

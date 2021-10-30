@@ -22,6 +22,7 @@
         <module>marcher-blog-account</module>
         <module>marcher-blog-article</module>
         <module>marcher-blog-dependencies</module>
+        <module>marcher-blog-gateway</module>
     </modules>
     
     

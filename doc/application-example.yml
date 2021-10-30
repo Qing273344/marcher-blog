@@ -47,6 +47,34 @@ spring:
           - data-id: shared-common.yml
             refresh: true
 
+    # Spring Cloud Gateway 配置项，对应 GatewayProperties 类
+    gateway:
+      # 配置网关发现机制, 与 Spring Cloud 注册中心的集成，对应 DiscoveryLocatorProperties 类
+      discovery:
+        # 配置处理机制
+        locator:
+          # 只要请求地址符合规则: http://gatewayIP:gatewayPort/服务名称/服务请求地址
+          # 网关自动映射, 把请求转发到 http://服务名称/服务请求地址
+          # 生产中, enabled 一般不设置, 使用默认值 false. 避免不必要的自动转发规则, 使用下面的 routes 路由转发请求
+          enabled: false # 开启网关自动映射处理逻辑，默认为 false 关闭
+          url-expression: "'lb://' + serviceId" # 路由的目标地址的表达式，默认为 "'lb://' + serviceId"
+      # 路由配置项，包括命名 地址 谓词集合(规则) 过滤器集合，对应 RouteDefinition 数组
+      routes:
+        - id: manage  # 路由编号, 唯一即可
+          # uri: lb://marcher-blog-manage 或 http://www.xxx.com # lb - 代表 loadbalance
+          uri: lb://marcher-blog-manage # 路由到的目标服务
+          predicates: # 断言, 作为路由匹配条件, 格式: 谓词名字=参数, 对应 RouteDefinition 数组
+            - Path=/manage/**
+          filters:    # 过滤器，对请求进行拦截，实现自定义的功能，对应 FilterDefinition 数组 DiscoveryLocatorProperties
+            # 过滤转发地址前缀, 栗子: 过滤 1 节, http://localhost:8888/manage/get --> http://marcher-blog-manage/get
+            - StripPrefix=0
+        - id: article
+          uri: lb://marcher-blog-web
+          predicates:
+            - Path=/article/**
+          filters:
+            - StripPrefix=0
+
   # 数据库
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
