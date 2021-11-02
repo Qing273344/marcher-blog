@@ -2,8 +2,9 @@
 > 嘿嘿嘿... 暂时不想说些什么
 
 #### 技术
-- Spring Cloud Alibaba 2.x
 - Spring Boot 2.x
+- Spring Cloud (Hoxton.SR3)
+- Spring Cloud Alibaba 2.x
 - MyBatis-Plus 3.x
 - Nacos 注册中心/配置中心
 - Redis
