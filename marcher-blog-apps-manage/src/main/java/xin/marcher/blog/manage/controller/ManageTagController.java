@@ -30,7 +30,6 @@ public class ManageTagController {
 
     private final BlogTagApi blogTagApi;
 
-    @Autowired
     public ManageTagController(BlogTagApi blogTagApi) {
         this.blogTagApi = blogTagApi;
     }

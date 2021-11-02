@@ -34,7 +34,6 @@ public class ManageCommonController {
     private final OssApi ossApi;
     private final RedisService redisService;
 
-    @Autowired
     public ManageCommonController(OssApi ossApi, RedisService redisService) {
         this.ossApi = ossApi;
         this.redisService = redisService;

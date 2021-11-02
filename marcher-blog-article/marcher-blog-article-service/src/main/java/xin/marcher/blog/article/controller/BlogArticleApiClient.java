@@ -34,7 +34,6 @@ public class BlogArticleApiClient implements BlogArticleApi {
 
     private final BlogArticleService blogArticleService;
 
-    @Autowired
     public BlogArticleApiClient(BlogArticleService blogArticleService) {
         this.blogArticleService = blogArticleService;
     }

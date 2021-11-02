@@ -33,8 +33,11 @@ import javax.validation.Valid;
 @Api(value = "WEB - ManagerArticleController", tags = "文章", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ManageArticleController {
 
-    @Autowired
-    private BlogArticleApi blogArticleApi;
+    private final BlogArticleApi blogArticleApi;
+
+    public ManageArticleController(BlogArticleApi blogArticleApi) {
+        this.blogArticleApi = blogArticleApi;
+    }
 
     /**
      * 查询文章

@@ -28,7 +28,6 @@ public class ManageUserController {
 
     private final BlogUserApi blogUserApi;
 
-    @Autowired
     public ManageUserController(BlogUserApi blogUserApi) {
         this.blogUserApi = blogUserApi;
     }

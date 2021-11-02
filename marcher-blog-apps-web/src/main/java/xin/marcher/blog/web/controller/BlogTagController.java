@@ -24,7 +24,6 @@ public class BlogTagController {
 
     private final BlogTagApi blogTagApi;
 
-    @Autowired
     public BlogTagController(BlogTagApi blogTagApi) {
         this.blogTagApi = blogTagApi;
     }

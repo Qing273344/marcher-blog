@@ -29,7 +29,6 @@ public class BlogTypeApiClient implements BlogTypeApi {
 
     private final BlogTypeService blogTypeService;
 
-    @Autowired
     public BlogTypeApiClient(BlogTypeService blogTypeService) {
         this.blogTypeService = blogTypeService;
     }

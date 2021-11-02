@@ -28,7 +28,6 @@ public class AccountPassportApiClient implements AccountPassportApi {
 
     private final BlogUserService blogUserService;
 
-    @Autowired
     public AccountPassportApiClient(BlogUserService blogUserService) {
         this.blogUserService = blogUserService;
     }

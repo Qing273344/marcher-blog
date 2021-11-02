@@ -28,7 +28,6 @@ public class BlogArticleController {
 
     private final BlogArticleApi blogArticleApi;
 
-    @Autowired
     public BlogArticleController(BlogArticleApi blogArticleApi) {
         this.blogArticleApi = blogArticleApi;
     }

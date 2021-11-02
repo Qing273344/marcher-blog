@@ -30,7 +30,6 @@ public class ManageTypeController {
 
     private final BlogTypeApi blogTypeApi;
 
-    @Autowired
     public ManageTypeController(BlogTypeApi blogTypeApi) {
         this.blogTypeApi = blogTypeApi;
     }

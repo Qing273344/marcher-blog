@@ -21,6 +21,9 @@ marcher-blog-manage | 9127
 z | z
 marcher-blog-article-service | 8027
 marcher-blog-account-service | 8127
+z | z
+marcher-blog-dependencies | 统一管理依赖包版本
+marcher-blog-gateway | 8888
 
 
 ## 界面

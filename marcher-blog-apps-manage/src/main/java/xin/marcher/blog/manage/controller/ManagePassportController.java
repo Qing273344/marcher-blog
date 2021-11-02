@@ -33,7 +33,6 @@ public class ManagePassportController {
     private final BlogUserCache blogUserCache;
     private final JwtUtil jwtUtil;
 
-    @Autowired
     public ManagePassportController(AccountPassportApi accountPassportApi,
                                     BlogUserCache blogUserCache,
                                     JwtUtil jwtUtil) {

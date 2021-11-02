@@ -28,7 +28,6 @@ public class BlogTagApiClient implements BlogTagApi {
 
     private final BlogTagService blogTagService;
 
-    @Autowired
     public BlogTagApiClient(BlogTagService blogTagService) {
         this.blogTagService = blogTagService;
     }
